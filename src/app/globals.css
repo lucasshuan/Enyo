@@ -91,6 +91,7 @@ button:hover {
   background-position: 0 0, 0 0;
   background-size: 42px 42px;
   animation: grid-drift 5s linear infinite;
+  animation-delay: -2.5s;
   will-change: background-position;
 }
 

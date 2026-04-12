@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { signIn } from "next-auth/react";
 import { LoaderCircle, X } from "lucide-react";
+import { SiDiscord } from "react-icons/si";
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -11,29 +13,39 @@ type AuthModalProps = {
 };
 
 export function AuthModal({ isOpen, onClose, isPending }: AuthModalProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      dialogRef.current?.showModal();
-    } else {
-      dialogRef.current?.close();
-    }
-  }, [isOpen]);
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === modalRef.current) {
       onClose();
     }
   };
 
-  return (
-    <dialog
-      ref={dialogRef}
+  if (!isOpen) return null;
+
+  const modalContent = (
+    <div
+      ref={modalRef}
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 backdrop:bg-black/50 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
     >
-      <div className="glass-panel w-full max-w-sm rounded-[1.8rem] p-8">
+      <div className="glass-panel w-full max-w-sm rounded-[1.8rem] p-8 mx-4 animate-in fade-in-0 zoom-in-95 duration-200">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-semibold tracking-[-0.04em]">
@@ -42,7 +54,7 @@ export function AuthModal({ isOpen, onClose, isPending }: AuthModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-2 hover:bg-white/8 transition"
+            className="rounded-full p-2 hover:bg-white/8 transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="size-5" />
@@ -55,27 +67,19 @@ export function AuthModal({ isOpen, onClose, isPending }: AuthModalProps) {
               signIn("discord", { callbackUrl: "/" })
             }
             disabled={isPending}
-            className="w-full flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 hover:border-primary/40 hover:bg-white/8 transition px-6 py-3 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 rounded-full border border-[#5865F2] bg-[#5865F2] text-white hover:bg-[#4752C4] transition-all px-6 py-3 font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isPending ? (
               <LoaderCircle className="size-5 animate-spin" />
             ) : (
-              <svg
-                className="size-5"
-                viewBox="0 0 127.14 96.36"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill="currentColor"
-                  d="M107.7,8.07A105.15,105.15,0,0,0,62.16,0h-.07a105.56,105.56,0,0,0-45.51,8.07A97.51,97.51,0,0,0,.8,77.65a104.56,104.56,0,0,0,16.25,12.7q4,2.7,8.06,5.36a48.38,48.38,0,0,0,5.03,3.79,104.82,104.82,0,0,0,8.88,2.23A85.85,85.85,0,0,0,62.16,96.36q26.66,0,42.16-13.38a93.1,93.1,0,0,0,26.2-29.9A108.57,108.57,0,0,0,127.14,8.07ZM42.89,65.69c-7.8,0-14-7.2-14-16s6.2-16,14-16c7.89,0,14.1,7.2,14,16S50.78,65.69,42.89,65.69Zm40.4,0c-7.8,0-14-7.2-14-16s6.2-16,14-16c7.89,0,14.1,7.2,14,16S91.17,65.69,83.29,65.69Z"
-                  transform="translate(0 0)"
-                />
-              </svg>
+              <SiDiscord className="size-5" />
             )}
             {isPending ? "Signing in..." : "Continue with Discord"}
           </button>
         </div>
       </div>
-    </dialog>
+    </div>
   );
+
+  return createPortal(modalContent, document.body);
 }

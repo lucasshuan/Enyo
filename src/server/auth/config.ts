@@ -48,6 +48,9 @@ export const authOptions = {
       verificationTokensTable: verificationTokens,
     } as never,
   ) as Adapter,
+  pages: {
+    error: "/?error=Callback",
+  },
   providers,
   callbacks: {
     async session({ session, user }) {
