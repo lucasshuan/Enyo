@@ -89,7 +89,9 @@
     "noRankingsDescription": "As soon as rankings are inserted, this page will list players in Elo order.",
     "sidebarDescription": "Track rankings and player performance for this game.",
     "sidebarPlayers": "Players",
-    "playOnSteam": "Play on Steam"
+    "playOnSteam": "Play on Steam",
+    "clickToViewFullRanking": "Click to view full ranking",
+    "viewGame": "View game"
   },
   "SiteFooter": {
     "copyright": "Ares © 2026"
@@ -99,5 +101,58 @@
     "close": "Close",
     "signingIn": "Signing in...",
     "continueWithDiscord": "Continue with Discord"
+  },
+  "Admin": {
+    "panel": "Administrative Panel",
+    "editGame": {
+      "trigger": "Edit game",
+      "title": "Modify Game",
+      "description": "Update the information and images of this platform.",
+      "nameLabel": "Game Name",
+      "namePlaceholder": "Enter game name...",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Game description...",
+      "backgroundImageLabel": "Background Image URL",
+      "thumbnailImageLabel": "Thumbnail Image URL",
+      "steamUrlLabel": "Steam URL",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "success": "Game updated successfully!",
+      "error": "Error updating game."
+    },
+    "addRanking": {
+      "trigger": "Add ranking",
+      "title": "Add Ranking",
+      "description": "Create a new ranking category for this game (e.g., Blitz, Rapid, Competitive).",
+      "nameLabel": "Ranking Name",
+      "namePlaceholder": "e.g., Blitz, Rapid, Daily...",
+      "slugLabel": "Ranking Link",
+      "slugPlaceholder": "ranking-identifier",
+      "slugDescription": "Personalizes the URL for this ranking (e.g., /rankings/blitz).",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe this ranking...",
+      "submit": "Create Ranking",
+      "submitting": "Creating...",
+      "success": "Ranking added successfully!",
+      "error": "Error adding ranking."
+    },
+    "addPlayer": {
+      "trigger": "Add player",
+      "title": "Add Player",
+      "description": "Create or link a player to this game.",
+      "linkUserLabel": "Link to User (Optional)",
+      "searchUserPlaceholder": "Search for name or @username...",
+      "isSearching": "Searching...",
+      "removeLink": "Remove",
+      "usernameLabel": "Username (In-game)",
+      "usernamePlaceholder": "Enter player's nick...",
+      "countryLabel": "Country",
+      "unknownCountry": "Unknown",
+      "submit": "Confirm Player",
+      "submitting": "Adding...",
+      "success": "Player added successfully!",
+      "successExisting": "The user already has a registration for this game. The new username has been attached to the existing player.",
+      "error": "Error adding player."
+    }
   }
 }

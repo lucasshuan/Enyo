@@ -13,7 +13,7 @@ export default async function ProfileLoading() {
           <div className="space-y-2">
             <div className="border-b-[3px] border-white/10">
               <nav className="-mb-[3px] flex space-x-8" aria-label="Tabs">
-                <span className="border-primary text-primary flex items-center gap-2.5 border-b-[3px] pb-2 pt-4 text-base font-medium whitespace-nowrap transition-all">
+                <span className="border-primary text-primary flex items-center gap-2.5 border-b-[3px] pt-4 pb-2 text-base font-medium whitespace-nowrap transition-all">
                   <Gamepad2 className="size-5" />
                   {t("playedGamesTab")}
                 </span>
@@ -42,8 +42,8 @@ export default async function ProfileLoading() {
               {/* Bio Skeleton */}
               <div className="mt-6 w-full max-w-[280px] space-y-2">
                 <div className="h-3 w-full animate-pulse rounded bg-white/5" />
-                <div className="h-3 w-5/6 animate-pulse rounded bg-white/5 mx-auto" />
-                <div className="h-3 w-4/6 animate-pulse rounded bg-white/5 mx-auto" />
+                <div className="mx-auto h-3 w-5/6 animate-pulse rounded bg-white/5" />
+                <div className="mx-auto h-3 w-4/6 animate-pulse rounded bg-white/5" />
               </div>
             </div>
           </div>

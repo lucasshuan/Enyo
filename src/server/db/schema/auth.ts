@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTable,
@@ -24,6 +25,7 @@ export const users = pgTable(
     }),
     image: text("image"),
     bio: text("bio"),
+    isAdmin: boolean("is_admin").default(false).notNull(),
     ...timestamps,
   },
   (table) => ({

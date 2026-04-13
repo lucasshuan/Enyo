@@ -26,17 +26,16 @@
     }
   },
   "GamesPage": {
-      "title": "Jogos",
-      "description": "Escolha um jogo para visualizar seus rankings, histórico de desempenho e tabelas.",
-      "cardFallbackDescription": "Abra a página do jogo para inspecionar os rankings atuais.",
-      "noGamesTitle": "Nenhum jogo disponível",
-      "noGamesDescription": "Adicione jogos ao banco de dados ou reconecte o banco atual para carregar a lista aqui.",
-      "searchPlaceholder": "Pesquisar por um jogo...",
-      "sortPopular": "Mais Populares",
-      "sortAlphabetical": "Alfabética (A-Z)",
-      "noGamesFound": "Nenhum jogo encontrado para esta pesquisa",
-      "noGamesFoundDescription": "Tente pesquisar por outro título de jogo ou verifique se há erros ortográficos."
-    
+    "title": "Jogos",
+    "description": "Escolha um jogo para visualizar seus rankings, histórico de desempenho e tabelas.",
+    "cardFallbackDescription": "Abra a página do jogo para inspecionar os rankings atuais.",
+    "noGamesTitle": "Nenhum jogo disponível",
+    "noGamesDescription": "Adicione jogos ao banco de dados ou reconecte o banco atual para carregar a lista aqui.",
+    "searchPlaceholder": "Pesquisar por um jogo...",
+    "sortPopular": "Mais Populares",
+    "sortAlphabetical": "Alfabética (A-Z)",
+    "noGamesFound": "Nenhum jogo encontrado para esta pesquisa",
+    "noGamesFoundDescription": "Tente pesquisar por outro título de jogo ou verifique se há erros ortográficos."
   },
   "ProfilePage": {
     "headerTitle": "Perfil do Usuário",
@@ -88,7 +87,9 @@
     "noRankingsDescription": "Assim que as classificações forem inseridas, esta página listará os jogadores na ordem de Elo.",
     "sidebarDescription": "Acompanhe classificações e desempenho de jogadores para este jogo.",
     "sidebarPlayers": "Jogadores",
-    "playOnSteam": "Jogar na Steam"
+    "playOnSteam": "Jogar na Steam",
+    "clickToViewFullRanking": "Clique para ver o ranking completo",
+    "viewGame": "Ver jogo"
   },
   "SiteFooter": {
     "copyright": "Ares © 2026"
@@ -98,5 +99,58 @@
     "close": "Fechar",
     "signingIn": "Entrando...",
     "continueWithDiscord": "Continuar com Discord"
+  },
+  "Admin": {
+    "panel": "Painel Administrativo",
+    "editGame": {
+      "trigger": "Modificar jogo",
+      "title": "Modificar Jogo",
+      "description": "Atualize as informações e imagens desta plataforma.",
+      "nameLabel": "Nome do Jogo",
+      "namePlaceholder": "Digite o nome do jogo...",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descrição do jogo...",
+      "backgroundImageLabel": "URL da Imagem de Fundo",
+      "thumbnailImageLabel": "URL da Imagem de Thumbnail",
+      "steamUrlLabel": "URL da Steam",
+      "saveChanges": "Salvar Alterações",
+      "saving": "Salvando...",
+      "success": "Jogo atualizado com sucesso!",
+      "error": "Erro ao atualizar o jogo."
+    },
+    "addRanking": {
+      "trigger": "Adicionar classificação",
+      "title": "Adicionar Classificação",
+      "description": "Crie uma nova categoria de ranking para este jogo (ex: Blitz, Rapid, Competitivo).",
+      "nameLabel": "Nome do Ranking",
+      "namePlaceholder": "Ex: Blitz, Rapid, Diário...",
+      "slugLabel": "Link do Ranking",
+      "slugPlaceholder": "identificador-do-ranking",
+      "slugDescription": "Personaliza a URL deste ranking (ex: /rankings/blitz).",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descreva este ranking...",
+      "submit": "Criar Ranking",
+      "submitting": "Criando...",
+      "success": "Classificação adicionada com sucesso!",
+      "error": "Erro ao adicionar classificação."
+    },
+    "addPlayer": {
+      "trigger": "Adicionar jogador",
+      "title": "Adicionar Jogador",
+      "description": "Crie ou vincule um jogador a este jogo.",
+      "linkUserLabel": "Vincular a Usuário (Opcional)",
+      "searchUserPlaceholder": "Buscar por nome ou @username...",
+      "isSearching": "Buscando...",
+      "removeLink": "Remover",
+      "usernameLabel": "Nome de Usuário (In-game)",
+      "usernamePlaceholder": "Digite o nick do jogador...",
+      "countryLabel": "País",
+      "unknownCountry": "Desconhecido",
+      "submit": "Confirmar Jogador",
+      "submitting": "Adicionando...",
+      "success": "Jogador adicionado com sucesso!",
+      "successExisting": "O usuário já tinha um cadastro para este jogo. O novo nome de usuário foi anexado ao player existente.",
+      "error": "Erro ao adicionar jogador."
+    }
   }
 }

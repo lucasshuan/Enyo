@@ -105,12 +105,18 @@ export const rankings = pgTable(
       .notNull()
       .references(() => games.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
+    slug: text("slug").notNull(),
+    description: text("description"),
     ...timestamps,
   },
   (table) => ({
     rankingsGameNameIdx: uniqueIndex("rankings_game_name_idx").on(
       table.gameId,
       table.name,
+    ),
+    rankingsGameSlugIdx: uniqueIndex("rankings_game_slug_idx").on(
+      table.gameId,
+      table.slug,
     ),
     rankingsGameIdIdx: index("rankings_game_id_idx").on(table.gameId),
   }),

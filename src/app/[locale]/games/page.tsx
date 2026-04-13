@@ -14,9 +14,7 @@ interface GamesPageProps {
   searchParams: Promise<{ search?: string; sort?: string }>;
 }
 
-export default async function GamesPage({
-  searchParams,
-}: GamesPageProps) {
+export default async function GamesPage({ searchParams }: GamesPageProps) {
   const { search, sort } = await searchParams;
 
   return (
@@ -38,7 +36,7 @@ async function GamesPageContent({
   const t = await getTranslations("GamesPage");
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pt-28 pb-12 sm:px-10 lg:px-12">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeader title={t("title")} description={t("description")} />
@@ -90,7 +88,7 @@ async function GamesPageContent({
 
 function GamesPageSkeleton() {
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pt-28 pb-12 sm:px-10 lg:px-12">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="space-y-4">

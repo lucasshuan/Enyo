@@ -198,7 +198,7 @@ export function EditProfileModal({
             <button
               type="submit"
               disabled={isPending}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-8 py-3 text-sm font-semibold text-black transition-all hover:bg-white/90 focus:ring-4 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-white px-8 py-3 text-sm font-semibold text-black transition-all hover:bg-white/90 focus:ring-4 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending && <LoaderCircle className="size-4 animate-spin" />}
               {t("saveChanges")}

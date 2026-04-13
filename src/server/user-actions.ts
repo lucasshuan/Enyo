@@ -50,6 +50,6 @@ export async function updateProfile(formData: FormData) {
   revalidatePath("/");
   revalidatePath(`/profile/${session.user.id}`);
   revalidatePath(`/profile/${username}`);
-  
+
   return { success: true, slug: username };
 }

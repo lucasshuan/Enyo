@@ -43,7 +43,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <div className="relative min-h-screen overflow-x-hidden">
+            <div className="relative min-h-screen">
               <div className="grid-surface pointer-events-none fixed inset-0 -z-50" />
               <SiteHeader />
               <div className="min-h-[calc(100vh-137px)]">{children}</div>

@@ -14,8 +14,8 @@ import {
   users,
 } from "@/server/db/schema";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { EditProfileTrigger } from "@/components/profile/edit-profile-modal";
+import { ActionButton } from "@/components/ui/action-button";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -111,7 +111,7 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
 
   return (
     <main>
-      <div className="mx-auto mt-10 flex w-full max-w-7xl flex-col-reverse gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-col-reverse gap-8 px-6 pt-24 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
         {/* Main Content */}
         <div className="min-w-0 flex-1 space-y-6">
           <div className="space-y-2">
@@ -258,15 +258,7 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
 
             {isOwnProfile && (
               <EditProfileTrigger user={targetUser}>
-                <div
-                  className={cn(
-                    buttonVariants({ intent: "secondary" }),
-                    "w-full rounded-2xl py-6 font-medium shadow-sm transition-all hover:border-white/20 hover:bg-white/5",
-                  )}
-                >
-                  <Edit2 className="mr-2 size-4" />
-                  {t("editProfileTitle")}
-                </div>
+                <ActionButton icon={Edit2} label={t("editProfileTitle")} />
               </EditProfileTrigger>
             )}
           </div>

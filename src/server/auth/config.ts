@@ -4,7 +4,9 @@ import { eq } from "drizzle-orm";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import type { NextAuthOptions } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider, {
+  type DiscordProfile,
+} from "next-auth/providers/discord";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
@@ -15,6 +17,7 @@ import {
   userPermissions,
   users,
   verificationTokens,
+  type User,
 } from "@/server/db/schema";
 
 export const hasDiscordAuth =
@@ -32,14 +35,19 @@ if (hasDiscordAuth) {
     DiscordProvider({
       clientId,
       clientSecret,
-      profile: async (profile) => {
+      profile: async (profile: DiscordProfile) => {
         const username = await generateUniqueUsername(profile.username);
+        const avatarUrl = profile.avatar
+          ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${profile.avatar.startsWith("a_") ? "gif" : "png"}`
+          : `https://cdn.discordapp.com/embed/avatars/${parseInt(profile.discriminator || "0") % 5}.png`;
+
         return {
           id: profile.id,
           name: profile.global_name ?? profile.username,
           email: profile.email,
-          image: profile.image_url,
+          image: avatarUrl,
           username,
+          isAdmin: false,
         };
       },
     }),
@@ -63,11 +71,7 @@ export const authOptions = {
   providers,
   callbacks: {
     async session({ session, user }) {
-      const dbUser = user as typeof user & {
-        username: string;
-        name: string;
-        bio?: string | null;
-      };
+      const dbUser = user as User;
 
       if (session.user) {
         const permissionRows = await db
@@ -87,6 +91,7 @@ export const authOptions = {
         session.user.username = dbUser.username;
         session.user.name = dbUser.name;
         session.user.bio = dbUser.bio ?? null;
+        session.user.isAdmin = dbUser.isAdmin;
         session.user.permissions = permissionRows;
       }
 

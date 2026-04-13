@@ -8,6 +8,7 @@ declare module "next-auth" {
       username: string;
       name: string;
       bio: string | null;
+      isAdmin: boolean;
       permissions: Array<{
         id: string;
         key: PermissionKey;
@@ -18,5 +19,6 @@ declare module "next-auth" {
 
   interface User {
     username: string;
+    isAdmin: boolean;
   }
 }

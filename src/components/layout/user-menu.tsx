@@ -21,7 +21,10 @@ export function UserMenu({ user }: { user: UserProps }) {
 
   return (
     <div className="group relative z-50">
-      <Link href={`/profile/${user.username ?? user.id}`} className="flex cursor-pointer items-center justify-center overflow-hidden rounded-full border border-white/10 transition-colors hover:border-white/20">
+      <Link
+        href={`/profile/${user.username ?? user.id}`}
+        className="flex cursor-pointer items-center justify-center overflow-hidden rounded-full border border-white/10 transition-colors hover:border-white/20"
+      >
         {user?.image ? (
           <Image
             src={user.image}
@@ -54,7 +57,7 @@ export function UserMenu({ user }: { user: UserProps }) {
               </div>
             )}
             <div className="flex min-w-0 flex-col">
-              <span className="truncate text-sm font-medium text-white leading-tight">
+              <span className="truncate text-sm leading-tight font-medium text-white">
                 {user.username ?? user.name ?? "User"}
               </span>
               <span className="truncate text-xs text-white/50">
@@ -66,20 +69,20 @@ export function UserMenu({ user }: { user: UserProps }) {
           <div className="flex flex-col gap-0.5 border-b border-white/10 p-1.5">
             <Link
               href={`/profile/${user.username ?? user.id}`}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white group"
+              className="group flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
             >
               <UserIcon className="size-4 shrink-0 transition-colors group-hover:text-white" />
               <span className="leading-none">{t("viewProfile")}</span>
             </Link>
             <EditProfileTrigger user={user}>
-              <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white group w-full cursor-pointer">
+              <button className="group flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white">
                 <Edit2 className="size-4 shrink-0 transition-colors group-hover:text-white" />
                 <span className="leading-none">{t("editProfile")}</span>
-              </div>
+              </button>
             </EditProfileTrigger>
             <Link
               href="#"
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white group"
+              className="group flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Settings className="size-4 shrink-0 transition-colors group-hover:text-white" />
               <span className="leading-none">{t("editAccount")}</span>

@@ -9,12 +9,15 @@ export const buttonVariants = cva(
   {
     variants: {
       intent: {
-        primary:
-          "border-primary/70 bg-primary text-white hover:bg-primary/90",
+        primary: "border-primary/70 bg-primary text-white hover:bg-primary/90",
         secondary:
           "border-white/10 bg-white/5 text-foreground hover:border-primary/40 hover:bg-white/8",
         ghost:
           "border-white/10 bg-transparent text-foreground hover:border-primary/50 hover:bg-primary/8",
+        danger:
+          "border-red-500/50 bg-red-500/10 text-red-500 hover:bg-red-500/20 hover:border-red-500",
+        outline:
+          "border-white/20 bg-transparent text-white hover:border-white/40 hover:bg-white/5",
       },
       size: {
         sm: "h-10 px-4",

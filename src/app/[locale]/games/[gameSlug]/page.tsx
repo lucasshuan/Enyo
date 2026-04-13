@@ -5,6 +5,10 @@ import { Suspense } from "react";
 import { getGamePageData } from "@/server/db/queries/public";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getTranslations } from "next-intl/server";
+import { getServerAuthSession } from "@/server/auth";
+import { hasPermission } from "@/lib/permissions";
+import { GameAdminActions } from "@/components/game/admin/game-admin-actions";
+import { RankingCard } from "@/components/game/ranking-card";
 
 type GamePageProps = {
   params: Promise<{
@@ -52,6 +56,12 @@ export default async function GamePage({ params }: GamePageProps) {
 async function GamePageContent({ gameSlug }: { gameSlug: string }) {
   const data = await getGamePageData(gameSlug);
   const t = await getTranslations("GamePage");
+  const session = await getServerAuthSession();
+
+  const isEditor =
+    hasPermission(session, "manage_games") ||
+    hasPermission(session, "manage_players") ||
+    hasPermission(session, "manage_rankings");
 
   if (!data) {
     notFound();
@@ -77,124 +87,40 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
   );
 
   return (
-    <>
-      <section className="relative min-h-[230px] w-full overflow-hidden">
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: game.backgroundImageUrl
-              ? `linear-gradient(180deg, rgba(11,8,15,0.4) 0%, rgba(11,8,15,0) 100%), url(${game.backgroundImageUrl})`
-              : "linear-gradient(135deg, color-mix(in srgb, var(--primary) 32%, transparent), rgba(11,8,15,0.94))",
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            maskImage:
-              "linear-gradient(to bottom, black 60%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 60%, transparent 100%)",
-          }}
-        />
-      </section>
+    <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
+      {/* Main Content */}
+      <div className="min-w-0 flex-1 space-y-6">
+        <section className="space-y-6">
+          <SectionHeader
+            title={t("rankingsTitle")}
+            description={t("rankingsDescription", { gameName: game.name })}
+          />
 
-      <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
-        {/* Main Content */}
-        <div className="min-w-0 flex-1 space-y-6">
-          <section className="space-y-6">
-            <SectionHeader
-              title={t("rankingsTitle")}
-              description={t("rankingsDescription", { gameName: game.name })}
-            />
+          {rankings.length > 0 ? (
+            <div className="grid gap-5 xl:grid-cols-2">
+              {rankings.map((ranking) => (
+                <RankingCard
+                  key={ranking.id}
+                  ranking={ranking}
+                  gameSlug={gameSlug}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="glass-panel rounded-4xl p-6">
+              <p className="text-base font-medium">{t("noRankings")}</p>
+              <p className="text-muted mt-2 text-sm leading-7">
+                {t("noRankingsDescription")}
+              </p>
+            </div>
+          )}
+        </section>
+      </div>
 
-            {rankings.length > 0 ? (
-              <div className="grid gap-5 xl:grid-cols-2">
-                {rankings.map((ranking) => (
-                  <section
-                    key={ranking.id}
-                    className="glass-panel rounded-4xl p-6"
-                  >
-                    <div className="mb-5 flex items-center justify-between gap-4">
-                      <div>
-                        <p className="text-primary font-mono text-xs tracking-[0.24em] uppercase">
-                          {t("ranking")}
-                        </p>
-                        <h3 className="mt-2 text-2xl font-semibold">
-                          {ranking.name}
-                        </h3>
-                      </div>
-                      <div className="border-primary/25 bg-primary/10 text-secondary rounded-full border px-3 py-1 text-xs font-medium">
-                        {ranking.entries.length} {t("playersCount")}
-                      </div>
-                    </div>
-
-                    {ranking.entries.length > 0 ? (
-                      <div className="space-y-3">
-                        {ranking.entries.map((entry) => (
-                          <article
-                            key={entry.id}
-                            className="rounded-3xl border border-white/8 bg-white/4 px-4 py-4"
-                          >
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-3">
-                                  <span className="text-primary font-mono text-xs tracking-[0.24em] uppercase">
-                                    #{entry.position}
-                                  </span>
-                                  <h4 className="truncate text-lg font-semibold">
-                                    {entry.displayName}
-                                  </h4>
-                                </div>
-
-                                <div className="mt-2 flex flex-wrap gap-2">
-                                  {entry.usernames.map((username) => (
-                                    <span
-                                      key={`${entry.id}-${username}`}
-                                      className="text-muted rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs"
-                                    >
-                                      {username}
-                                    </span>
-                                  ))}
-                                </div>
-
-                                {entry.country ? (
-                                  <p className="text-muted mt-3 text-xs tracking-[0.22em] uppercase">
-                                    {entry.country}
-                                  </p>
-                                ) : null}
-                              </div>
-
-                              <div className="border-primary/22 bg-primary/10 rounded-2xl border px-4 py-3 text-right">
-                                <p className="text-secondary font-mono text-[11px] tracking-[0.22em] uppercase">
-                                  {t("elo")}
-                                </p>
-                                <p className="mt-1 text-2xl font-semibold">
-                                  {entry.currentElo}
-                                </p>
-                              </div>
-                            </div>
-                          </article>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-muted rounded-3xl border border-white/8 bg-white/4 px-4 py-5 text-sm leading-7">
-                        {t("noPlayers")}
-                      </div>
-                    )}
-                  </section>
-                ))}
-              </div>
-            ) : (
-              <div className="glass-panel rounded-4xl p-6">
-                <p className="text-base font-medium">{t("noRankings")}</p>
-                <p className="text-muted mt-2 text-sm leading-7">
-                  {t("noRankingsDescription")}
-                </p>
-              </div>
-            )}
-          </section>
-        </div>
-
-        {/* Sidebar */}
-        <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
-          <div className="glass-panel sticky top-8 overflow-hidden rounded-4xl">
+      {/* Sidebar */}
+      <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
+        <div className="sticky top-28 space-y-6">
+          <div className="glass-panel overflow-hidden rounded-4xl">
             {game.thumbnailImageUrl ? (
               <div
                 className="aspect-368/178 w-full bg-cover bg-center"
@@ -252,19 +178,17 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
               )}
             </div>
           </div>
-        </aside>
-      </div>
-    </>
+
+          {isEditor && <GameAdminActions game={game} />}
+        </div>
+      </aside>
+    </div>
   );
 }
 
 function GamePageSkeleton() {
   return (
     <>
-      <section className="relative min-h-[230px] w-full overflow-hidden">
-        <div className="absolute inset-0 z-0 animate-pulse bg-white/5" />
-      </section>
-
       <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
         <div className="min-w-0 flex-1 space-y-6">
           <section className="space-y-6">

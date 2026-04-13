@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.discordapp.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "shared.fastly.steamstatic.com",
+        pathname: "/**",
+      },
     ],
   },
   experimental: {

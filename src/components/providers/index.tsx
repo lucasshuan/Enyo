@@ -2,7 +2,10 @@
 
 import { createContext, useContext, ReactNode } from "react";
 import { type Session } from "next-auth";
-import { SessionProvider as NextAuthSessionProvider, useSession } from "next-auth/react";
+import {
+  SessionProvider as NextAuthSessionProvider,
+  useSession,
+} from "next-auth/react";
 import { Toaster } from "sonner";
 
 type UserContextType = {

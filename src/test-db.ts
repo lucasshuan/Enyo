@@ -7,4 +7,6 @@ async function main() {
   await db.delete(permissions);
   console.log("Truncated");
 }
-main().catch(console.error).then(() => process.exit(0));
+main()
+  .catch(console.error)
+  .then(() => process.exit(0));
