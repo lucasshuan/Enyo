@@ -10,8 +10,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { cn } from "@/lib/utils";
 import { GameCard, GameCardSkeleton } from "@/components/brand/game-card";
 import { getTranslations } from "next-intl/server";
-import { getServerAuthSession } from "@/server/auth";
-import { canManageGames } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 

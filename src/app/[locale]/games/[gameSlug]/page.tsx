@@ -6,6 +6,7 @@ import { getGamePageData } from "@/server/db/queries/rankings";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getTranslations } from "next-intl/server";
 import { getServerAuthSession } from "@/server/auth";
+import Image from "next/image";
 import {
   canEditGame,
   canManageGames,
@@ -17,8 +18,6 @@ import { RankingCard } from "@/components/game/ranking-card";
 import { AlertCircle, ChevronLeft } from "lucide-react";
 import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
-import { cn } from "@/lib/utils";
-
 type GamePageProps = {
   params: Promise<{
     gameSlug: string;
@@ -106,25 +105,8 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
   );
 
   return (
-    <div className="relative min-h-screen">
-      {/* Hero Background */}
-      {game.backgroundImageUrl && (
-        <div className="absolute inset-0 -z-10 h-[500px] w-full overflow-hidden opacity-30">
-          <Image
-            src={game.backgroundImageUrl}
-            alt=""
-            fill
-            priority
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
-            sizes="100vw"
-            quality={90}
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#0b080f]" />
-        </div>
-      )}
-
-      <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
-        {/* Sidebar */}
+    <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
+      {/* Sidebar */}
         <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
           <div className="sticky top-28 space-y-6">
             <Link

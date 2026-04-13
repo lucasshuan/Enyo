@@ -125,6 +125,7 @@
     "player": "Player",
     "country": "Country",
     "register": "Register",
+    "loginToRegister": "Log in to join",
     "alreadyRegistered": "Already registered",
     "registerConfirmTitle": "Confirm Registration",
     "registerConfirmDescription": "You will start with {elo} Elo points. Do you want to continue?",

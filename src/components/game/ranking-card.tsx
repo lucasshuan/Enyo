@@ -9,7 +9,6 @@ interface RankingCardProps {
 
 export function RankingCard({ ranking, game }: RankingCardProps) {
   const t = useTranslations("GamePage");
-  const topEntries = ranking.entries.slice(0, 4);
 
   return (
     <Link
@@ -33,7 +32,7 @@ export function RankingCard({ ranking, game }: RankingCardProps) {
       <div className="relative flex flex-1 flex-col justify-center">
         {ranking.entries.length > 0 ? (
           <div className="space-y-1">
-            {ranking.entries.slice(0, 5).map((entry, index) => (
+            {ranking.entries.slice(0, 5).map((entry) => (
               <div
                 key={entry.id}
                 className="flex items-center gap-3 border-b border-white/5 py-1.5 last:border-0"

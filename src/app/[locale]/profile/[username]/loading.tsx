@@ -1,4 +1,3 @@
-import { GameCardSkeleton } from "@/components/brand/game-card";
 import { Gamepad2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 

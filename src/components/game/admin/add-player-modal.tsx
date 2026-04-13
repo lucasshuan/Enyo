@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { ActionButton } from "@/components/ui/action-button";
-import { addPlayerToGame, searchPlayersByGame } from "@/server/actions/game";
+import { addPlayerToGame } from "@/server/actions/game";
 import { searchUsers } from "@/server/actions/user-search";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

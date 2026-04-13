@@ -1,6 +1,6 @@
 import type { Route } from "next";
 import { Link } from "@/i18n/routing";
-import { AlertCircle, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { PublicGame } from "@/server/db/queries/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";

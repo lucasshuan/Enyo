@@ -32,13 +32,13 @@ export function GameAdminActions({ game }: GameAdminActionsProps) {
     (game.status === "pending" && canApproveGame) ||
     (game.status === "approved" && (canManageRankings || canManagePlayers));
 
-  if (!hasAnyAction) return null;
-
   const t = useTranslations("Admin");
   const [isEditGameOpen, setIsEditGameOpen] = useState(false);
   const [isAddRankingOpen, setIsAddRankingOpen] = useState(false);
   const [isAddPlayerOpen, setIsAddPlayerOpen] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
+
+  if (!hasAnyAction) return null;
 
   return (
     <div className="mt-8 space-y-3">

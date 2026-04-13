@@ -8,6 +8,7 @@ import { ActionButton } from "@/components/ui/action-button";
 import { registerSelfToRanking } from "@/server/actions/game";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { SignInButton } from "@/components/auth/sign-in-button";
 
 interface RankingRegistrationProps {
   rankingId: string;
@@ -26,14 +27,6 @@ export function RankingRegistration({
   const [isPending, startTransition] = useTransition();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
-  const handleRegister = () => {
-    if (!isLoggedIn) {
-      toast.error("Please login to register in rankings");
-      return;
-    }
-    setIsConfirmOpen(true);
-  };
-
   const onConfirm = () => {
     startTransition(async () => {
       try {
@@ -42,7 +35,7 @@ export function RankingRegistration({
           toast.success(t("registerConfirmTitle"));
           setIsConfirmOpen(false);
         }
-      } catch (err) {
+      } catch {
         toast.error("Error registering.");
       }
     });
@@ -60,6 +53,17 @@ export function RankingRegistration({
     );
   }
 
+  if (!isLoggedIn) {
+    return (
+      <SignInButton
+        label={t("loginToRegister")}
+        className="mt-4 w-full"
+        size="lg"
+        intent="primary"
+      />
+    );
+  }
+
   return (
     <>
       <PrimaryAction
@@ -67,7 +71,7 @@ export function RankingRegistration({
         icon={Trophy}
         label={t("register")}
         className="mt-4"
-        onClick={handleRegister}
+        onClick={() => setIsConfirmOpen(true)}
         disabled={isPending}
       />
 

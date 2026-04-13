@@ -8,11 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AddGameModal } from "./add-game-modal";
 
-import { useUser } from "@/components/providers";
-
 export function AddGameTrigger() {
-  const { user, canManageGames } = useUser();
-  const isLoggedIn = !!user;
   const t = useTranslations("GamesPage.addGame");
   const [isOpen, setIsOpen] = useState(false);
 

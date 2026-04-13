@@ -19,11 +19,11 @@ export function RankingAdminActions({ ranking }: RankingAdminActionsProps) {
 
   const hasAnyAction = canManageRankings || canManagePlayers;
 
-  if (!hasAnyAction) return null;
-
   const t = useTranslations("Admin");
   const [isEditRankingOpen, setIsEditRankingOpen] = useState(false);
   const [isAddPlayerOpen, setIsAddPlayerOpen] = useState(false);
+
+  if (!hasAnyAction) return null;
 
   return (
     <div className="mt-8 space-y-3">

@@ -124,6 +124,7 @@
     "player": "Jogador",
     "country": "País",
     "register": "Registrar-se",
+    "loginToRegister": "Faça login para participar",
     "alreadyRegistered": "Já registrado",
     "registerConfirmTitle": "Confirmar Inscrição",
     "registerConfirmDescription": "Você iniciará no ranking com {elo} pontos Elo. Deseja continuar?",
