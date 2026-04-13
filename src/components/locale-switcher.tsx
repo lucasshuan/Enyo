@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 
@@ -27,12 +26,14 @@ export function LocaleSwitcher() {
         className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-white/10"
         aria-label={t("label")}
       >
-        <span className={`fi ${flags[locale]} w-5 h-3.5 rounded-sm transition-opacity opacity-80 group-hover:opacity-100`} />
+        <span
+          className={`fi ${flags[locale]} h-3.5 w-5 rounded-sm opacity-80 transition-opacity group-hover:opacity-100`}
+        />
       </button>
 
-      <div className="invisible absolute right-0 top-full pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
-        <div className="flex flex-col overflow-hidden w-48 rounded-xl border border-white/10 bg-[#0a0a0a] shadow-xl">
-          <div className="px-4 py-3 text-sm font-semibold text-white/70 border-b border-white/10">
+      <div className="invisible absolute top-full right-0 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+        <div className="flex w-48 flex-col overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] shadow-xl">
+          <div className="border-b border-white/10 px-4 py-3 text-sm font-semibold text-white/70">
             {t("label")}
           </div>
           <div className="flex flex-col gap-0.5 p-1.5">
@@ -44,7 +45,9 @@ export function LocaleSwitcher() {
                   locale === key ? "bg-white/10 text-white" : "text-white/80"
                 }`}
               >
-                <span className={`fi ${flagClass} w-5 h-3.5 rounded-sm flex-shrink-0`} />
+                <span
+                  className={`fi ${flagClass} h-3.5 w-5 shrink-0 rounded-sm`}
+                />
                 <span>{t(key)}</span>
               </button>
             ))}

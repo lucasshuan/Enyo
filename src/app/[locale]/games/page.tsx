@@ -18,70 +18,101 @@ export default async function GamesPage({
   params,
   searchParams,
 }: GamesPageProps) {
-  const t = await getTranslations("GamesPage");
   const { search, sort } = await searchParams;
 
   return (
     <main>
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <SectionHeader title={t("title")} description={t("description")} />
-            <SearchInput
-              defaultValue={search}
-              placeholder={t("searchPlaceholder")}
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-          <Link
-            href={
-              sort !== "name"
-                ? "#"
-                : `?${new URLSearchParams({ ...(search ? { search } : {}), sort: "popular" })}`
-            }
-            className={cn(
-              "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
-              sort !== "name"
-                ? "bg-primary/20 text-primary border-primary/20 border shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)]"
-                : "border border-white/5 text-white/40 hover:border-white/10 hover:text-white/60",
-            )}
-          >
-            <Trophy className="size-4" />
-            {t("sortPopular")}
-          </Link>
-          <Link
-            href={
-              sort === "name"
-                ? "#"
-                : `?${new URLSearchParams({ ...(search ? { search } : {}), sort: "name" })}`
-            }
-            className={cn(
-              "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
-              sort === "name"
-                ? "bg-primary/20 text-primary border-primary/20 border shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)]"
-                : "border border-white/5 text-white/40 hover:border-white/10 hover:text-white/60",
-            )}
-          >
-            {t("sortAlphabetical")}
-          </Link>
-        </div>
-
-        <Suspense
-          key={`${search}-${sort}`}
-          fallback={
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                <GameCardSkeleton key={i} />
-              ))}
-            </div>
-          }
-        >
-          <GamesGrid search={search} sort={sort} />
-        </Suspense>
-      </div>
+      <Suspense key={`${search}-${sort}`} fallback={<GamesPageSkeleton />}>
+        <GamesPageContent search={search} sort={sort} />
+      </Suspense>
     </main>
+  );
+}
+
+async function GamesPageContent({
+  search,
+  sort,
+}: {
+  search?: string;
+  sort?: string;
+}) {
+  const t = await getTranslations("GamesPage");
+
+  return (
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <SectionHeader title={t("title")} description={t("description")} />
+          <SearchInput
+            defaultValue={search}
+            placeholder={t("searchPlaceholder")}
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+        <Link
+          href={
+            sort !== "name"
+              ? "#"
+              : `?${new URLSearchParams({ ...(search ? { search } : {}), sort: "popular" })}`
+          }
+          className={cn(
+            "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
+            sort !== "name"
+              ? "bg-primary/20 text-primary border-primary/20 border shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)]"
+              : "border border-white/5 text-white/40 hover:border-white/10 hover:text-white/60",
+          )}
+        >
+          <Trophy className="size-4" />
+          {t("sortPopular")}
+        </Link>
+        <Link
+          href={
+            sort === "name"
+              ? "#"
+              : `?${new URLSearchParams({ ...(search ? { search } : {}), sort: "name" })}`
+          }
+          className={cn(
+            "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
+            sort === "name"
+              ? "bg-primary/20 text-primary border-primary/20 border shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)]"
+              : "border border-white/5 text-white/40 hover:border-white/10 hover:text-white/60",
+          )}
+        >
+          {t("sortAlphabetical")}
+        </Link>
+      </div>
+
+      <GamesGrid search={search} sort={sort} />
+    </div>
+  );
+}
+
+function GamesPageSkeleton() {
+  return (
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-4">
+            <div className="bg-primary/20 h-10 w-48 animate-pulse rounded-full lg:h-12 lg:w-64" />
+            <div className="h-6 w-full max-w-md animate-pulse rounded-full bg-white/5" />
+          </div>
+          <div className="h-12 w-full animate-pulse rounded-2xl bg-white/5 md:w-80" />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+        <div className="h-9 w-32 animate-pulse rounded-full bg-white/5" />
+        <div className="h-9 w-32 animate-pulse rounded-full bg-white/5" />
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <GameCardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
   );
 }
 

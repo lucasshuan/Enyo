@@ -15,11 +15,11 @@ import "flag-icons/css/flag-icons.min.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Enyo",
-    template: "%s | Enyo",
+    default: "Ares",
+    template: "%s | Ares",
   },
   description:
-    "Base inicial do Enyo: plataforma de ranking e torneios para jogos com Next.js, Auth.js e Drizzle.",
+    "Base inicial do Ares: plataforma de ranking e torneios para jogos com Next.js, Auth.js e Drizzle.",
 };
 
 export default async function RootLayout({

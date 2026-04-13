@@ -11,13 +11,13 @@ export async function updateProfile(formData: FormData) {
   if (!session?.user) throw new Error("Unauthorized");
 
   const bio = formData.get("bio") as string;
-  const username = formData.get("username") as string;
+  const name = formData.get("name") as string;
 
   await db
     .update(users)
     .set({
       bio,
-      username: username.toLowerCase().replace(/[^a-z0-9]/g, ""),
+      name,
     })
     .where(eq(users.id, session.user.id));
 

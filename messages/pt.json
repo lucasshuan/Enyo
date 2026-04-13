@@ -54,10 +54,20 @@
     "noGamesDescriptionOther": "Este usuário não está participando do ranking de nenhum jogo.",
     "playedGamesTab": "Jogos Jogados"
   },
+  "EditProfilePage": {
+    "editProfileTitle": "Editar Perfil",
+    "editProfileDescription": "Atualize suas informações pessoais e biografia.",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite um apelido",
+    "bioLabel": "Biografia",
+    "bioPlaceholder": "Conte-nos um pouco sobre você...",
+    "saveChanges": "Salvar Alterações",
+    "backButton": "Voltar"
+  },
   "GamePage": {
     "metaTitleNotFound": "Jogo não encontrado",
     "metaTitleDbUnavailable": "Banco de dados indisponível",
-    "metaDescriptionFallback": "Classificações para {gameName} no Enyo.",
+    "metaDescriptionFallback": "Classificações para {gameName} no Ares.",
     "backToGames": "Voltar aos jogos",
     "dbUnavailable": "Banco de dados indisponível no desenvolvimento local.",
     "dbUnavailableDescription": "Inicie sua instância do Postgres ou atualize `.env` com uma string de conexão alcançável para ver a página deste jogo.",
@@ -74,7 +84,7 @@
     "playOnSteam": "Jogar na Steam"
   },
   "SiteFooter": {
-    "copyright": "Enyo © 2026"
+    "copyright": "Ares © 2026"
   },
   "AuthModal": {
     "title": "Entrar ou criar conta",

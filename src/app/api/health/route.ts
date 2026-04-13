@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export function GET() {
   return NextResponse.json({
-    name: "enyo",
+    name: "ares",
     status: "ok",
     timestamp: new Date().toISOString(),
   });

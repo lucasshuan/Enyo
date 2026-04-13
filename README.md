@@ -1,4 +1,4 @@
-# Enyo
+# Ares
 
 Base inicial em `Next.js` para um produto de ranking e torneios, com front e API no mesmo projeto.
 

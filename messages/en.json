@@ -55,10 +55,20 @@
     "noGamesDescriptionOther": "This user is not participating in any game rankings.",
     "playedGamesTab": "Played Games"
   },
+  "EditProfilePage": {
+    "editProfileTitle": "Edit Profile",
+    "editProfileDescription": "Update your personal information and biography.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter a nickname",
+    "bioLabel": "Biography",
+    "bioPlaceholder": "Enter your biography",
+    "saveChanges": "Save Changes",
+    "backButton": "Back"
+  },
   "GamePage": {
     "metaTitleNotFound": "Game not found",
     "metaTitleDbUnavailable": "Database unavailable",
-    "metaDescriptionFallback": "Rankings for {gameName} on Enyo.",
+    "metaDescriptionFallback": "Rankings for {gameName} on Ares.",
     "backToGames": "Back to games",
     "dbUnavailable": "Database unavailable in local development.",
     "dbUnavailableDescription": "Start your Postgres instance or update `.env` with a reachable connection string to view this game page.",
@@ -75,7 +85,7 @@
     "playOnSteam": "Play on Steam"
   },
   "SiteFooter": {
-    "copyright": "Enyo © 2026"
+    "copyright": "Ares © 2026"
   },
   "AuthModal": {
     "title": "Sign in or sign up",

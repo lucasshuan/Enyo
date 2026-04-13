@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import { User as UserIcon, Medal, Gamepad2 } from "lucide-react";
+import { User as UserIcon, Medal, Gamepad2, Edit2 } from "lucide-react";
 import { eq, or, sql, inArray } from "drizzle-orm";
 import { cache } from "react";
 
@@ -14,6 +14,7 @@ import {
   users,
 } from "@/server/db/schema";
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: ProfilePageProps) {
   if (!targetUser) return { title: "User not found" };
 
   return {
-    title: `${targetUser.username ?? targetUser.name} | ${t("headerTitle")}`,
+    title: `${targetUser.name ?? targetUser.username} | ${t("headerTitle")}`,
   };
 }
 
@@ -217,40 +218,55 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
 
         {/* Sidebar */}
         <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
-          <div className="glass-panel sticky top-28 overflow-hidden rounded-[2rem]">
-            {/* Subtle gradient background decoration inside sidebar */}
-            <div className="bg-primary/20 pointer-events-none absolute -top-10 -right-10 size-40 rounded-full blur-[50px]" />
-            <div className="bg-secondary/10 pointer-events-none absolute -bottom-10 -left-10 size-40 rounded-full blur-[50px]" />
+          <div className="sticky top-28 flex flex-col gap-4">
+            <div className="glass-panel overflow-hidden rounded-[2rem]">
+              {/* Subtle gradient background decoration inside sidebar */}
+              <div className="bg-primary/20 pointer-events-none absolute -top-10 -right-10 size-40 rounded-full blur-[50px]" />
+              <div className="bg-secondary/10 pointer-events-none absolute -bottom-10 -left-10 size-40 rounded-full blur-[50px]" />
 
-            <div className="relative z-10 flex flex-col items-center p-8 text-center">
-              {targetUser.image ? (
-                <Image
-                  src={targetUser.image}
-                  alt={targetUser.username ?? targetUser.name ?? "Avatar"}
-                  width={140}
-                  height={140}
-                  className="size-32 rounded-full border-4 border-white/10 object-cover shadow-xl"
-                />
-              ) : (
-                <div className="flex size-32 items-center justify-center rounded-full border-4 border-white/10 bg-white/5 shadow-xl">
-                  <UserIcon className="size-14 text-white/50" />
-                </div>
-              )}
+              <div className="relative z-10 flex flex-col items-center p-8 text-center">
+                {targetUser.image ? (
+                  <Image
+                    src={targetUser.image}
+                    alt={targetUser.name ?? targetUser.username ?? "Avatar"}
+                    width={140}
+                    height={140}
+                    className="size-32 rounded-full border-4 border-white/10 object-cover shadow-xl"
+                  />
+                ) : (
+                  <div className="flex size-32 items-center justify-center rounded-full border-4 border-white/10 bg-white/5 shadow-xl">
+                    <UserIcon className="size-14 text-white/50" />
+                  </div>
+                )}
 
-              <h1 className="mt-6 text-2xl font-bold tracking-tight">
-                {targetUser.username ?? targetUser.name ?? t("fallbackUser")}
-              </h1>
+                <h1 className="mt-6 text-2xl font-bold tracking-tight">
+                  {targetUser.name ?? targetUser.username ?? t("fallbackUser")}
+                </h1>
 
-              {targetUser.bio ? (
-                <p className="mt-6 max-w-[280px] text-sm leading-relaxed text-white/60">
-                  {targetUser.bio}
-                </p>
-              ) : isOwnProfile ? (
-                <p className="mt-6 text-xs text-white/30 italic">
-                  Você ainda não definiu uma biografia.
-                </p>
-              ) : null}
+                {targetUser.bio ? (
+                  <p className="mt-6 max-w-[280px] text-sm leading-relaxed text-white/60">
+                    {targetUser.bio}
+                  </p>
+                ) : isOwnProfile ? (
+                  <p className="mt-6 text-xs text-white/30 italic">
+                    Você ainda não definiu uma biografia.
+                  </p>
+                ) : null}
+              </div>
             </div>
+
+            {isOwnProfile && (
+              <Link
+                href="/profile/edit"
+                className={cn(
+                  buttonVariants({ intent: "secondary" }),
+                  "w-full rounded-2xl py-6 font-medium shadow-sm transition-all hover:border-white/20 hover:bg-white/5",
+                )}
+              >
+                <Edit2 className="mr-2 size-4" />
+                {t("editProfileTitle")}
+              </Link>
+            )}
           </div>
         </aside>
       </div>

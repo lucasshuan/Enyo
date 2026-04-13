@@ -36,10 +36,10 @@ export default async function HomePage() {
                 maskPosition: "center",
                 WebkitMaskPosition: "center",
               }}
-              aria-label="Enyo icon"
+              aria-label="Ares icon"
               role="img"
             />
-            Enyo
+            Ares
           </h1>
           <p className="text-muted max-w-2xl text-base leading-8 sm:text-lg">
             {t("heroSubtitle")}

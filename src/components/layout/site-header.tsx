@@ -29,11 +29,11 @@ export async function SiteHeader() {
               maskPosition: "center",
               WebkitMaskPosition: "center",
             }}
-            aria-label="Enyo icon"
+            aria-label="Ares icon"
             role="img"
           />
           <p className="text-primary text-lg font-semibold tracking-[-0.04em]">
-            Enyo
+            Ares
           </p>
         </Link>
 
