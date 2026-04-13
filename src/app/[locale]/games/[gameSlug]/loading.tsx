@@ -1,6 +1,6 @@
 export default function GameLoading() {
   return (
-    <main className="grid-surface">
+    <main>
       <section className="relative min-h-[230px] w-full overflow-hidden">
         <div className="absolute inset-0 z-0 animate-pulse bg-white/5" />
       </section>

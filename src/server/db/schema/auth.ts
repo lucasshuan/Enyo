@@ -23,6 +23,7 @@ export const users = pgTable(
       withTimezone: true,
     }),
     image: text("image"),
+    bio: text("bio"),
     ...timestamps,
   },
   (table) => ({

@@ -2,6 +2,7 @@ import type { Route } from "next";
 import { Link } from "@/i18n/routing";
 import { ChevronRight } from "lucide-react";
 import type { PublicGame } from "@/server/db/queries/public";
+import { cn } from "@/lib/utils";
 
 interface GameCardProps {
   game: PublicGame;
@@ -42,21 +43,55 @@ export function GameCard({ game, fallbackDescription }: GameCardProps) {
   );
 }
 
-export function GameCardSkeleton({ title, description }: { title: string; description: string }) {
+export function GameCardSkeleton({
+  title,
+  description,
+}: {
+  title?: string;
+  description?: string;
+}) {
+  const isFallbackState = !!title;
+
   return (
     <div
       aria-disabled="true"
-      className="glass-panel w-full overflow-hidden rounded-[1.8rem] opacity-80"
+      className={cn(
+        "glass-panel flex w-full flex-col overflow-hidden rounded-[2.2rem]",
+        isFallbackState && "opacity-80",
+      )}
     >
-      <div className="from-primary/22 via-primary/8 flex aspect-[368/178] w-full items-center justify-center bg-gradient-to-br to-transparent">
-        <div className="h-16 w-16 rounded-[1.4rem] border border-white/8 bg-white/5" />
+      <div className="relative aspect-[368/178] w-full overflow-hidden">
+        {isFallbackState ? (
+          <div className="from-primary/22 via-primary/8 flex h-full w-full items-center justify-center bg-gradient-to-br to-transparent">
+            <div className="h-16 w-16 rounded-[1.4rem] border border-white/8 bg-white/5" />
+          </div>
+        ) : (
+          <div className="h-full w-full animate-pulse bg-white/5" />
+        )}
       </div>
 
-      <div className="space-y-2 p-5">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-muted text-xs leading-4">
-          {description}
-        </p>
+      <div className="flex items-center justify-between gap-4 p-5">
+        <div className="w-full min-w-0">
+          {isFallbackState ? (
+            <>
+              <h3 className="truncate text-lg font-semibold">{title}</h3>
+              <p className="text-muted mt-1.5 line-clamp-2 text-xs leading-4">
+                {description}
+              </p>
+            </>
+          ) : (
+            <div className="space-y-3">
+              <div className="h-5 w-32 animate-pulse rounded bg-white/10" />
+              <div className="space-y-1.5">
+                <div className="h-3 w-full animate-pulse rounded bg-white/5" />
+                <div className="h-3 w-3/4 animate-pulse rounded bg-white/5" />
+              </div>
+            </div>
+          )}
+        </div>
+        {!isFallbackState && (
+          <div className="size-5 shrink-0 animate-pulse rounded bg-white/5" />
+        )}
       </div>
     </div>
   );

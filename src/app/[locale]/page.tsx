@@ -1,5 +1,6 @@
 import type { Route } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ChevronRight, Compass } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -15,14 +16,9 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const t = await getTranslations("HomePage");
-  const { games: gameList, isDatabaseUnavailable } = await getPublicGames({
-    limit: 4,
-    orderBy: "popular",
-  });
-  const showFallbackCard = isDatabaseUnavailable || gameList.length === 0;
 
   return (
-    <main className="grid-surface">
+    <main>
       <LoginErrorHandler />
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-12 sm:px-10 lg:px-12 lg:py-16">
         <section className="relative flex flex-col items-center space-y-4 text-center">
@@ -73,41 +69,79 @@ export default async function HomePage() {
             description={t("games.description")}
           />
 
-          {!showFallbackCard ? (
-            <div className="space-y-8">
+          <Suspense
+            fallback={
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {gameList.map((game) => (
-                  <GameCard
-                    key={game.id}
-                    game={game}
-                    fallbackDescription={t("games.cardFallbackDescription")}
-                  />
-                ))}
+                <GameCardSkeleton />
+                <GameCardSkeleton />
+                <GameCardSkeleton />
+                <GameCardSkeleton />
               </div>
+            }
+          >
+            <PublicGamesList
+              fallbackDescription={t("games.cardFallbackDescription")}
+              noGamesTitle={t("games.noGamesTitle")}
+              noGamesDescription={t("games.noGamesDescription")}
+            />
+          </Suspense>
 
-              <div className="flex justify-center">
-                <Link
-                  href="/games"
-                  className={cn(
-                    buttonVariants({ intent: "secondary", size: "lg" }),
-                    "group rounded-full border-white/10 px-12 transition-all duration-300 hover:border-white/25",
-                  )}
-                >
-                  {t("games.viewAll")}
-                  <ChevronRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <GameCardSkeleton
-                title={t("games.noGamesTitle")}
-                description={t("games.noGamesDescription")}
-              />
-            </div>
-          )}
+          <div className="flex justify-center pt-2">
+            <Link
+              href="/games"
+              className={cn(
+                buttonVariants({ intent: "secondary", size: "lg" }),
+                "group rounded-full border-white/10 px-12 transition-all duration-300 hover:border-white/25",
+              )}
+            >
+              {t("games.viewAll")}
+              <ChevronRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </section>
       </div>
     </main>
+  );
+}
+
+interface PublicGamesListProps {
+  fallbackDescription: string;
+  noGamesTitle: string;
+  noGamesDescription: string;
+}
+
+async function PublicGamesList({
+  fallbackDescription,
+  noGamesTitle,
+  noGamesDescription,
+}: PublicGamesListProps) {
+  const { games: gameList, isDatabaseUnavailable } = await getPublicGames({
+    limit: 4,
+    orderBy: "popular",
+  });
+
+  const showFallbackCard = isDatabaseUnavailable || gameList.length === 0;
+
+  if (showFallbackCard) {
+    return (
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <GameCardSkeleton
+          title={noGamesTitle}
+          description={noGamesDescription}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {gameList.map((game) => (
+        <GameCard
+          key={game.id}
+          game={game}
+          fallbackDescription={fallbackDescription}
+        />
+      ))}
+    </div>
   );
 }

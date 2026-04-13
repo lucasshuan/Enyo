@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/routing";
-import { ChevronLeft, Trophy } from "lucide-react";
+import { Trophy } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getPublicGames } from "@/server/db/queries/public";
 import { GameCard, GameCardSkeleton } from "@/components/brand/game-card";
@@ -7,6 +7,7 @@ import { SearchInput } from "@/components/ui/search-input";
 import { SectionHeader } from "@/components/ui/section-header";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { Suspense } from "react";
 
 interface GamesPageProps {
   params: Promise<{ locale: string }>;
@@ -20,27 +21,10 @@ export default async function GamesPage({
   const t = await getTranslations("GamesPage");
   const { search, sort } = await searchParams;
 
-  const { games: gameList, isDatabaseUnavailable } = await getPublicGames({
-    search,
-    orderBy: sort === "name" ? "name" : "popular",
-  });
-
-  const showEmptySearch = gameList.length === 0 && !!search;
-  const showNoGames = gameList.length === 0 && !search;
-  const showFallbackCard = isDatabaseUnavailable || showNoGames;
-
   return (
-    <main className="grid-surface min-h-screen">
+    <main>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-12">
         <div className="flex flex-col gap-6">
-          <Link
-            href="/"
-            className="text-muted hover:text-primary flex items-center gap-2 text-sm transition-colors"
-          >
-            <ChevronLeft className="size-4" />
-            {t("backToHome")}
-          </Link>
-
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <SectionHeader title={t("title")} description={t("description")} />
             <SearchInput
@@ -84,43 +68,71 @@ export default async function GamesPage({
           </Link>
         </div>
 
-        {!isDatabaseUnavailable && gameList.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {gameList.map((game) => (
-              <GameCard
-                key={game.id}
-                game={game}
-                fallbackDescription={t("cardFallbackDescription")}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="glass-panel mb-6 flex size-20 items-center justify-center rounded-3xl">
-              <Trophy className="size-10 text-white/10" />
+        <Suspense
+          key={`${search}-${sort}`}
+          fallback={
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <GameCardSkeleton key={i} />
+              ))}
             </div>
-            <h3 className="text-xl font-semibold">
-              {showEmptySearch ? t("noGamesFound") : t("noGamesTitle")}
-            </h3>
-            <p className="text-muted mt-2 max-w-sm">
-              {showEmptySearch
-                ? t("noGamesFoundDescription")
-                : t("noGamesDescription")}
-            </p>
-            {showEmptySearch && (
-              <Link
-                href="/games"
-                className={cn(
-                  buttonVariants({ intent: "secondary", size: "sm" }),
-                  "mt-6",
-                )}
-              >
-                {t("clearSearch")}
-              </Link>
-            )}
-          </div>
-        )}
+          }
+        >
+          <GamesGrid search={search} sort={sort} />
+        </Suspense>
       </div>
     </main>
+  );
+}
+
+async function GamesGrid({ search, sort }: { search?: string; sort?: string }) {
+  const t = await getTranslations("GamesPage");
+  const { games: gameList, isDatabaseUnavailable } = await getPublicGames({
+    search,
+    orderBy: sort === "name" ? "name" : "popular",
+  });
+
+  const showEmptySearch = gameList.length === 0 && !!search;
+  const showNoGames = gameList.length === 0 && !search;
+
+  if (!isDatabaseUnavailable && gameList.length > 0) {
+    return (
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {gameList.map((game) => (
+          <GameCard
+            key={game.id}
+            game={game}
+            fallbackDescription={t("cardFallbackDescription")}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="glass-panel mb-6 flex size-20 items-center justify-center rounded-3xl">
+        <Trophy className="size-10 text-white/10" />
+      </div>
+      <h3 className="text-xl font-semibold">
+        {showEmptySearch ? t("noGamesFound") : t("noGamesTitle")}
+      </h3>
+      <p className="text-muted mt-2 max-w-sm">
+        {showEmptySearch
+          ? t("noGamesFoundDescription")
+          : t("noGamesDescription")}
+      </p>
+      {showEmptySearch && (
+        <Link
+          href="/games"
+          className={cn(
+            buttonVariants({ intent: "secondary", size: "sm" }),
+            "mt-6",
+          )}
+        >
+          {t("clearSearch")}
+        </Link>
+      )}
+    </div>
   );
 }
