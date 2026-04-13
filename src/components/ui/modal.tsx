@@ -54,7 +54,7 @@ export function Modal({
     >
       <div
         className={cn(
-          "glass-panel animate-in fade-in-0 zoom-in-95 w-full max-w-md rounded-4xl p-8 duration-200",
+          "glass-panel animate-in fade-in-0 zoom-in-95 w-full max-w-[95%] sm:max-w-3xl lg:max-w-4xl max-h-[95dvh] overflow-y-auto rounded-4xl p-8 duration-200 flex flex-col custom-scrollbar",
           className,
         )}
       >

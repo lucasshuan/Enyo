@@ -1,9 +1,9 @@
-﻿import { Link } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 
-import { SignInButton } from "@/components/auth/sign-in-button";
+import { SignInButton } from "@/components/triggers/auth/sign-in-button";
 import { UserMenu } from "@/components/layout/user-menu";
 import { getTranslations } from "next-intl/server";
-import { LocaleSwitcher } from "@/components/locale-switcher";
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { getServerAuthSession } from "@/server/auth";
 import { hasDiscordAuth } from "@/server/auth/config";
 

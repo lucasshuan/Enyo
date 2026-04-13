@@ -1,8 +1,8 @@
-﻿import { Link } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { Trophy } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getPublicGames } from "@/server/db/queries/games";
-import { GameCard, GameCardSkeleton } from "@/components/brand/game-card";
+import { GameCard, GameCardSkeleton } from "@/components/cards/game-card";
 import { SearchInput } from "@/components/ui/search-input";
 import { SectionHeader } from "@/components/ui/section-header";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Suspense } from "react";
 import { getServerAuthSession } from "@/server/auth";
 import { canManageGames } from "@/lib/permissions";
-import { AddGameTrigger } from "@/components/game/admin/add-game-trigger";
+import { AddGameTrigger } from "@/components/triggers/game/add-game-trigger";
 
 interface GamesPageProps {
   params: Promise<{ locale: string }>;

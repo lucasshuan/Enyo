@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AddGameModal } from "./add-game-modal";
+import { AddGameModal } from "@/components/modals/game/add-game-modal";
 
 export function AddGameTrigger() {
   const t = useTranslations("GamesPage.addGame");

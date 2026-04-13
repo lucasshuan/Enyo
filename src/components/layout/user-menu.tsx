@@ -5,7 +5,7 @@ import { LogOut, Settings, User as UserIcon, Edit2 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { EditProfileTrigger } from "@/components/profile/edit-profile-modal";
+import { EditProfileTrigger } from "@/components/triggers/profile/edit-profile-trigger";
 
 type UserProps = {
   id: string;

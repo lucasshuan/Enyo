@@ -3,22 +3,19 @@
 import { useState } from "react";
 import { Settings2, UserPlus } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
-import { EditRankingModal } from "./edit-ranking-modal";
-import { AddPlayerToRankingModal } from "./add-player-to-ranking-modal";
+import { EditRankingModal } from "@/components/modals/ranking/edit-ranking-modal";
+import { AddPlayerToRankingModal } from "@/components/modals/ranking/add-player-to-ranking-modal";
 import { type Ranking } from "@/server/db/schema";
 import { useTranslations } from "next-intl";
-
 import { useUser } from "@/components/providers";
 
-interface RankingAdminActionsProps {
+interface RankingAdminPanelProps {
   ranking: Ranking;
 }
 
-export function RankingAdminActions({ ranking }: RankingAdminActionsProps) {
+export function RankingAdminPanel({ ranking }: RankingAdminPanelProps) {
   const { canManageRankings, canManagePlayers } = useUser();
-
   const hasAnyAction = canManageRankings || canManagePlayers;
-
   const t = useTranslations("Admin");
   const [isEditRankingOpen, setIsEditRankingOpen] = useState(false);
   const [isAddPlayerOpen, setIsAddPlayerOpen] = useState(false);

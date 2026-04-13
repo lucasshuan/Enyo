@@ -6,7 +6,7 @@ import { LogIn } from "lucide-react";
 import type { VariantProps } from "class-variance-authority";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { AuthModal } from "@/components/modals/auth/auth-modal";
 import { cn } from "@/lib/utils";
 
 type SignInButtonProps = {

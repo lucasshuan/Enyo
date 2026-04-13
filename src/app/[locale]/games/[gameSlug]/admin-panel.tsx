@@ -3,20 +3,19 @@
 import { useState } from "react";
 import { CheckCheck, Settings2, Trophy, UserPlus } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
-import { EditGameModal } from "./edit-game-modal";
-import { AddRankingModal } from "./add-ranking-modal";
-import { AddPlayerModal } from "./add-player-modal";
+import { EditGameModal } from "@/components/modals/game/edit-game-modal";
+import { AddRankingModal } from "@/components/modals/ranking/add-ranking-modal";
+import { AddPlayerModal } from "@/components/modals/game/add-player-modal";
+import { ApproveGameModal } from "@/components/modals/game/approve-game-modal";
 import { type Game } from "@/server/db/schema";
 import { useTranslations } from "next-intl";
-import { ApproveGameModal } from "./approve-game-modal";
-
 import { useUser } from "@/components/providers";
 
-interface GameAdminActionsProps {
+interface GameAdminPanelProps {
   game: Game;
 }
 
-export function GameAdminActions({ game }: GameAdminActionsProps) {
+export function GameAdminPanel({ game }: GameAdminPanelProps) {
   const {
     canManageGames,
     canManagePlayers,

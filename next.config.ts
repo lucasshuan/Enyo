@@ -21,7 +21,14 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ["date-fns", "lucide-react"],
+    optimizePackageImports: [
+      "date-fns",
+      "lucide-react",
+      "react-icons",
+      "react-hook-form",
+      "@hookform/resolvers",
+      "zod",
+    ],
   },
 };
 

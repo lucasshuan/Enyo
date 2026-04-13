@@ -57,7 +57,7 @@ export function EditRankingModal({
       title={tEdit("title")}
       description={tEdit("description")}
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label
             htmlFor="rank_name"
@@ -97,7 +97,7 @@ export function EditRankingModal({
           </p>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="col-span-full flex flex-col gap-2">
           <label
             htmlFor="rank_description"
             className="ml-1 text-sm font-medium text-white/70"
@@ -113,49 +113,50 @@ export function EditRankingModal({
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="rank_initial_elo"
-              className="ml-1 text-sm font-medium text-white/70"
-            >
-              {t("initialEloLabel")}
-            </label>
-            <input
-              id="rank_initial_elo"
-              type="number"
-              required
-              value={initialElo}
-              onChange={(e) => setInitialElo(Number(e.target.value))}
-              className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all focus:bg-white/[0.07] focus:ring-4"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="rank_system"
-              className="ml-1 text-sm font-medium text-white/70"
-            >
-              {t("ratingSystemLabel")}
-            </label>
-            <select
-              id="rank_system"
-              value={ratingSystem}
-              onChange={(e) => setRatingSystem(e.target.value)}
-              className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all focus:bg-white/[0.07] focus:ring-4"
-            >
-              <option value="elo">{t("ratingSystemElo")}</option>
-            </select>
-          </div>
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor="rank_initial_elo"
+            className="ml-1 text-sm font-medium text-white/70"
+          >
+            {t("initialEloLabel")}
+          </label>
+          <input
+            id="rank_initial_elo"
+            type="number"
+            required
+            value={initialElo}
+            onChange={(e) => setInitialElo(Number(e.target.value))}
+            className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all focus:bg-white/[0.07] focus:ring-4"
+          />
         </div>
 
-        <ActionButton
-          type="submit"
-          intent="primary"
-          icon={Plus}
-          label={isPending ? t("submitting") : t("submit")}
-          disabled={isPending || !name || !slug}
-        />
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor="rank_system"
+            className="ml-1 text-sm font-medium text-white/70"
+          >
+            {t("ratingSystemLabel")}
+          </label>
+          <select
+            id="rank_system"
+            value={ratingSystem}
+            onChange={(e) => setRatingSystem(e.target.value)}
+            className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all focus:bg-white/[0.07] focus:ring-4"
+          >
+            <option value="elo">{t("ratingSystemElo")}</option>
+          </select>
+        </div>
+
+        <div className="col-span-full mt-2">
+          <ActionButton
+            type="submit"
+            intent="primary"
+            icon={Plus}
+            label={isPending ? t("submitting") : t("submit")}
+            disabled={isPending || !name || !slug}
+            className="w-full"
+          />
+        </div>
       </form>
     </Modal>
   );

@@ -142,157 +142,156 @@ export function AddPlayerModal({
       title={t("title")}
       description={t("description")}
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-4">
-          {/* Username Input */}
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="p_username"
-              className="ml-1 text-sm font-medium text-white/70"
-            >
-              {t("usernameLabel")}
-            </label>
-            <input
-              id="p_username"
-              type="text"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder={t("usernamePlaceholder")}
-              className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4"
-            />
-          </div>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        {/* Username Input */}
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor="p_username"
+            className="ml-1 text-sm font-medium text-white/70"
+          >
+            {t("usernameLabel")}
+          </label>
+          <input
+            id="p_username"
+            type="text"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder={t("usernamePlaceholder")}
+            className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4"
+          />
+        </div>
 
-          {/* Country Selection - NEW SEARCHABLE DROPDOWN */}
-          <div className="flex flex-col gap-2">
-            <label className="ml-1 text-sm font-medium text-white/70">
-              {t("countryLabel")}
-            </label>
-            <div className="relative" ref={dropdownRef}>
-              <button
-                type="button"
-                onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                className="focus:border-primary/50 focus:ring-primary/10 flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all hover:bg-white/[0.07] focus:ring-4"
-              >
-                <div className="flex items-center gap-3">
-                  {country ? (
-                    <>
-                      <div className="flex size-5 items-center justify-center overflow-hidden rounded-sm">
-                        <span
-                          className={cn(
-                            "fi",
-                            `fi-${country.toLowerCase()} fis`,
-                            "h-full w-full object-cover",
-                          )}
-                        />
-                      </div>
-                      <span className="font-medium text-white">
-                        {selectedCountryData?.name}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Globe className="size-5 text-white/30" />
-                      <span className="text-white/30">
-                        {t("unknownCountry")}
-                      </span>
-                    </>
+        {/* Country Selection - NEW SEARCHABLE DROPDOWN */}
+        <div className="flex flex-col gap-2">
+          <label className="ml-1 text-sm font-medium text-white/70">
+            {t("countryLabel")}
+          </label>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+              className="focus:border-primary/50 focus:ring-primary/10 flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white outline-hidden transition-all hover:bg-white/[0.07] focus:ring-4"
+            >
+              <div className="flex items-center gap-3">
+                {country ? (
+                  <>
+                    <div className="flex size-5 items-center justify-center overflow-hidden rounded-sm">
+                      <span
+                        className={cn(
+                          "fi",
+                          `fi-${country.toLowerCase()} fis`,
+                          "h-full w-full object-cover",
+                        )}
+                      />
+                    </div>
+                    <span className="font-medium text-white">
+                      {selectedCountryData?.name}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Globe className="size-5 text-white/30" />
+                    <span className="text-white/30">
+                      {t("unknownCountry")}
+                    </span>
+                  </>
+                )}
+              </div>
+              <ChevronDown
+                className={cn(
+                  "size-4 text-white/30 transition-transform",
+                  isCountryDropdownOpen && "rotate-180",
+                )}
+              />
+            </button>
+
+            {isCountryDropdownOpen && (
+              <div className="glass-panel absolute bottom-full left-0 z-30 mb-2 flex max-h-[250px] w-full flex-col overflow-hidden rounded-2xl shadow-2xl">
+                {/* Search inside dropdown */}
+                <div className="relative border-b border-white/10 p-2">
+                  <Search className="absolute top-5 left-5 size-4 text-white/30" />
+                  <input
+                    autoFocus
+                    type="text"
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    placeholder="Search country..."
+                    className="w-full rounded-xl border-none bg-white/5 py-3 pr-4 pl-10 text-sm text-white outline-hidden focus:bg-white/10"
+                  />
+                  {countrySearch && (
+                    <button
+                      onClick={() => setCountrySearch("")}
+                      className="absolute top-5 right-5 text-white/30 hover:text-white"
+                    >
+                      <X className="size-4" />
+                    </button>
                   )}
                 </div>
-                <ChevronDown
-                  className={cn(
-                    "size-4 text-white/30 transition-transform",
-                    isCountryDropdownOpen && "rotate-180",
-                  )}
-                />
-              </button>
 
-              {isCountryDropdownOpen && (
-                <div className="glass-panel absolute bottom-full left-0 z-30 mb-2 flex max-h-[250px] w-full flex-col overflow-hidden rounded-2xl shadow-2xl">
-                  {/* Search inside dropdown */}
-                  <div className="relative border-b border-white/10 p-2">
-                    <Search className="absolute top-5 left-5 size-4 text-white/30" />
-                    <input
-                      autoFocus
-                      type="text"
-                      value={countrySearch}
-                      onChange={(e) => setCountrySearch(e.target.value)}
-                      placeholder="Search country..."
-                      className="w-full rounded-xl border-none bg-white/5 py-3 pr-4 pl-10 text-sm text-white outline-hidden focus:bg-white/10"
-                    />
-                    {countrySearch && (
-                      <button
-                        onClick={() => setCountrySearch("")}
-                        className="absolute top-5 right-5 text-white/30 hover:text-white"
-                      >
-                        <X className="size-4" />
-                      </button>
+                {/* Results list */}
+                <div className="overflow-y-auto px-1 py-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCountry(null);
+                      setIsCountryDropdownOpen(false);
+                      setCountrySearch("");
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/10",
+                      country === null && "bg-white/5",
                     )}
-                  </div>
+                  >
+                    <Globe className="size-5 text-white/30" />
+                    <span className="text-sm text-white">
+                      {t("unknownCountry")}
+                    </span>
+                  </button>
 
-                  {/* Results list */}
-                  <div className="overflow-y-auto px-1 py-1">
+                  {filteredCountries.map((c) => (
                     <button
+                      key={c.code}
                       type="button"
                       onClick={() => {
-                        setCountry(null);
+                        setCountry(c.code);
                         setIsCountryDropdownOpen(false);
                         setCountrySearch("");
                       }}
                       className={cn(
                         "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/10",
-                        country === null && "bg-white/5",
+                        country === c.code && "bg-white/5",
                       )}
                     >
-                      <Globe className="size-5 text-white/30" />
-                      <span className="text-sm text-white">
-                        {t("unknownCountry")}
+                      <div className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-sm">
+                        <span
+                          className={cn(
+                            "fi",
+                            `fi-${c.code.toLowerCase()} fis`,
+                            "h-full w-full object-cover",
+                          )}
+                        />
+                      </div>
+                      <span className="truncate text-sm text-white">
+                        {c.name}
                       </span>
+                      {country === c.code && (
+                        <Check className="text-primary ml-auto size-4" />
+                      )}
                     </button>
-
-                    {filteredCountries.map((c) => (
-                      <button
-                        key={c.code}
-                        type="button"
-                        onClick={() => {
-                          setCountry(c.code);
-                          setIsCountryDropdownOpen(false);
-                          setCountrySearch("");
-                        }}
-                        className={cn(
-                          "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/10",
-                          country === c.code && "bg-white/5",
-                        )}
-                      >
-                        <div className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-sm">
-                          <span
-                            className={cn(
-                              "fi",
-                              `fi-${c.code.toLowerCase()} fis`,
-                              "h-full w-full object-cover",
-                            )}
-                          />
-                        </div>
-                        <span className="truncate text-sm text-white">
-                          {c.name}
-                        </span>
-                        {country === c.code && (
-                          <Check className="text-primary ml-auto size-4" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
+        </div>
 
-          {/* Autocomplete User Link */}
-          <div className="flex flex-col gap-2">
-            <label className="ml-1 text-sm font-medium text-white/70">
-              {t("linkUserLabel")}
-            </label>
-            <div className="relative">
+        {/* Autocomplete User Link */}
+        <div className="col-span-full flex flex-col gap-2">
+          <label className="ml-1 text-sm font-medium text-white/70">
+            {t("linkUserLabel")}
+          </label>
+          <div className="relative">
               {!selectedUser ? (
                 <>
                   <Search className="absolute top-3 left-4 size-4 text-white/30" />
@@ -386,15 +385,16 @@ export function AddPlayerModal({
               )}
             </div>
           </div>
+        <div className="col-span-full mt-2">
+          <ActionButton
+            type="submit"
+            intent="primary"
+            icon={UserPlus}
+            label={isPending ? t("submitting") : t("submit")}
+            disabled={isPending || !username}
+            className="w-full"
+          />
         </div>
-
-        <ActionButton
-          type="submit"
-          intent="primary"
-          icon={UserPlus}
-          label={isPending ? t("submitting") : t("submit")}
-          disabled={isPending || !username}
-        />
       </form>
     </Modal>
   );

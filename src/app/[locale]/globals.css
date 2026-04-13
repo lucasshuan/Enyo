@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -82,35 +82,27 @@ body {
   overflow-y: overlay;
 }
 
-.app-scroll-shell::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+.app-scroll-shell::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
   background-color: transparent;
 }
 
-.app-scroll-shell::-webkit-scrollbar-track {
+.app-scroll-shell::-webkit-scrollbar-track,
+.custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.app-scroll-shell::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-
-.app-scroll-shell::-webkit-scrollbar-track-piece:start {
-  background: transparent var(--transparent-scrollbar-image) repeat-y !important;
-}
-
-.app-scroll-shell::-webkit-scrollbar-track-piece:end {
-  background: transparent var(--transparent-scrollbar-image) repeat-y !important;
-}
-
-.app-scroll-shell::-webkit-scrollbar-thumb {
+.app-scroll-shell::-webkit-scrollbar-thumb,
+.custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--primary);
-  border: 3px solid transparent;
   border-radius: 999px;
+  border: 1px solid transparent;
 }
 
-.app-scroll-shell::-webkit-scrollbar-corner {
+.app-scroll-shell::-webkit-scrollbar-corner,
+.custom-scrollbar::-webkit-scrollbar-corner {
   background: transparent;
 }
 

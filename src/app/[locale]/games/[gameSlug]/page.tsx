@@ -13,11 +13,14 @@ import {
   canManagePlayers,
   canManageRankings,
 } from "@/lib/permissions";
-import { GameAdminActions } from "@/components/game/admin/game-admin-actions";
-import { RankingCard } from "@/components/game/ranking-card";
+import { RankingCard } from "@/components/cards/ranking-card";
 import { AlertCircle, ChevronLeft } from "lucide-react";
 import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
+
+// Client-side Admin Panel (migrated from GameAdminActions)
+import { GameAdminPanel } from "./admin-panel";
+import { type Game } from "@/server/db/schema";
 type GamePageProps = {
   params: Promise<{
     gameSlug: string;
@@ -204,7 +207,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
           )}
 
           {canSeeAdminActions && (
-            <GameAdminActions game={game} />
+            <GameAdminPanel game={game as Game} />
           )}
         </div>
       </aside>

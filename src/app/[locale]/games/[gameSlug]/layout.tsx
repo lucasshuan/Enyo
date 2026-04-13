@@ -31,7 +31,7 @@ export default async function GameLayout({
 
   return (
     <>
-      <section className="relative min-h-[320px] w-full overflow-hidden">
+      <section className="relative min-h-64 w-full overflow-hidden">
         <div
           className="absolute inset-0 z-0"
           style={{

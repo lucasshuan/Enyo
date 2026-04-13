@@ -49,8 +49,8 @@ export function EditGameModal({ game, isOpen, onClose }: EditGameModalProps) {
       title={t("title")}
       description={t("description")}
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
+        <div className="col-span-full flex flex-col gap-2">
           <label
             htmlFor="name"
             className="ml-1 text-sm font-medium text-white/70"
@@ -68,7 +68,7 @@ export function EditGameModal({ game, isOpen, onClose }: EditGameModalProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="col-span-full flex flex-col gap-2">
           <label
             htmlFor="description"
             className="ml-1 text-sm font-medium text-white/70"
@@ -85,7 +85,7 @@ export function EditGameModal({ game, isOpen, onClose }: EditGameModalProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="col-span-full flex flex-col gap-2">
           <label
             htmlFor="backgroundImage"
             className="ml-1 text-sm font-medium text-white/70"
@@ -133,13 +133,14 @@ export function EditGameModal({ game, isOpen, onClose }: EditGameModalProps) {
           />
         </div>
 
-        <div className="pt-2">
+        <div className="col-span-full mt-2">
           <ActionButton
             type="submit"
             intent="primary"
             icon={Save}
             label={isPending ? t("saving") : t("saveChanges")}
             disabled={isPending}
+            className="w-full"
           />
         </div>
       </form>

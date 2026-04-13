@@ -9,10 +9,14 @@ import { getRankingData } from "@/server/db/queries/rankings";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getServerAuthSession } from "@/server/auth";
 import { canManageGames, canManageRankings } from "@/lib/permissions";
-import { RankingAdminActions } from "@/components/game/admin/ranking-admin-actions";
-import { RankingRegistration } from "@/components/game/ranking-registration";
+import { RankingRegistrationTrigger } from "@/components/triggers/ranking/ranking-registration-trigger";
 import { getLocale } from "next-intl/server";
 import { formatDate } from "@/lib/date-utils";
+import { RegisterConfirmModal } from "@/components/modals/ranking/registration-confirm-modal";
+
+// Client-side Admin Panel (migrated from RankingAdminActions)
+import { RankingAdminPanel } from "./admin-panel";
+import { type Ranking } from "@/server/db/schema";
 
 interface RankingPageProps {
   params: Promise<{
@@ -137,7 +141,7 @@ async function RankingPageContent({
           </div>
 
           {game.status === "approved" && (
-            <RankingRegistration
+            <RankingRegistrationTrigger
               rankingId={ranking.id}
               initialElo={ranking.initialElo}
               isRegistered={isUserRegistered}
@@ -146,7 +150,7 @@ async function RankingPageContent({
           )}
 
           {game.status === "approved" && isEditor && (
-            <RankingAdminActions ranking={ranking} />
+            <RankingAdminPanel ranking={ranking as Ranking} />
           )}
         </div>
       </aside>

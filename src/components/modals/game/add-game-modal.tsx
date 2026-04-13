@@ -5,7 +5,7 @@ import { AlertTriangle, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-import { SignInButton } from "@/components/auth/sign-in-button";
+import { SignInButton } from "@/components/triggers/auth/sign-in-button";
 import { ActionButton } from "@/components/ui/action-button";
 import { Modal } from "@/components/ui/modal";
 import { createGame } from "@/server/actions/game";
@@ -96,9 +96,9 @@ export function AddGameModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           />
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
           {!canManageGames && (
-            <div className="rounded-3xl border border-amber-400/25 bg-amber-500/12 p-4 text-amber-50 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+            <div className="col-span-full rounded-3xl border border-amber-400/25 bg-amber-500/12 p-4 text-amber-50 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
               <div className="flex items-start gap-3">
                 <div className="mt-0.5 rounded-2xl bg-amber-400/20 p-2 text-amber-200">
                   <AlertTriangle className="size-4" />
@@ -163,7 +163,7 @@ export function AddGameModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </p>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="col-span-full flex flex-col gap-2">
             <label
               htmlFor="game_description"
               className="ml-1 text-sm font-medium text-white/70"
@@ -180,7 +180,7 @@ export function AddGameModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="col-span-full flex flex-col gap-2">
             <label
               htmlFor="game_background_image"
               className="ml-1 text-sm font-medium text-white/70"
@@ -228,13 +228,16 @@ export function AddGameModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             />
           </div>
 
-          <ActionButton
-            type="submit"
-            intent="primary"
-            icon={Plus}
-            label={isPending ? t("submitting") : t("submit")}
-            disabled={isPending || !name.trim() || !slug.trim()}
-          />
+          <div className="col-span-full mt-2">
+            <ActionButton
+              type="submit"
+              intent="primary"
+              icon={Plus}
+              label={isPending ? t("submitting") : t("submit")}
+              disabled={isPending || !name.trim() || !slug.trim()}
+              className="w-full"
+            />
+          </div>
         </form>
       )}
     </Modal>
