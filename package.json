@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "turbo run lint --parallel",
-    "format": "turbo run format --parallel || true",
-    "typecheck": "turbo run typecheck --parallel",
+    "lint": "turbo run lint",
+    "format": "turbo run format || true",
+    "typecheck": "turbo run typecheck",
     "prepare": "husky"
   },
   "devDependencies": {
