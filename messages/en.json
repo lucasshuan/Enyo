@@ -80,8 +80,8 @@
     "playersCount": "players",
     "elo": "Points",
     "noPlayers": "This ranking doesn't have players yet.",
-    "noRankings": "No rankings created for this game.",
-    "noRankingsDescription": "Once rankings are entered, this page will list players in order of points.",
+    "noEvents": "No events created for this game.",
+    "noEventsDescription": "Once events are entered, this page will list rankings and tournaments.",
     "sidebarDescription": "Track player rankings and performance for this game.",
     "sidebarPlayers": "Players",
     "playOnSteam": "Play on Steam",
@@ -229,7 +229,7 @@
     "ApproveGame": {
       "trigger": "Approve game",
       "title": "Confirm Approval",
-      "description": "Are you sure you want to approve '{gameName}'? It will be visible to all users immediately.",
+      "description": "Are you sure you want to approve {gameName}? It will be visible to all users immediately.",
       "submit": "Yes, Approve",
       "submitting": "Approving...",
       "cancel": "Cancel",
@@ -240,6 +240,10 @@
       "trigger": "Add event",
       "title": "Add Ranking",
       "description": "Fill in the details for the new event or competition.",
+      "types": {
+        "ranking": "New Ranking",
+        "tournament": "New Tournament"
+      },
       "sections": {
         "general": "General Data",
         "dates": "Dates",

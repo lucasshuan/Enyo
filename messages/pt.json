@@ -78,9 +78,9 @@
     "ranking": "Ranking",
     "playersCount": "jogadores",
     "elo": "Pontos",
-    "noPlayers": "Este ranking ainda não tem jogadores.",
-    "noRankings": "Nenhum ranking criada para este jogo.",
-    "noRankingsDescription": "Assim que as classificações forem inseridas, esta página listará os jogadores na ordem de Elo.",
+    "noPlayers": "Este evento ainda não tem jogadores.",
+    "noEvents": "Nenhum evento criado para este jogo.",
+    "noEventsDescription": "Assim que eventos forem inseridos, esta página listará rankings e torneios.",
     "sidebarDescription": "Acompanhe classificações e desempenho de jogadores para este jogo.",
     "sidebarPlayers": "Jogadores",
     "playOnSteam": "Jogar na Steam",
@@ -228,7 +228,7 @@
     "ApproveGame": {
       "trigger": "Aprovar jogo",
       "title": "Confirmar Aprovação",
-      "description": "Tem certeza que deseja aprovar '{gameName}'? Ele ficará visível para todos os usuários imediatamente.",
+      "description": "Tem certeza que deseja aprovar {gameName}? Ele ficará visível para todos os usuários imediatamente.",
       "submit": "Sim, Aprovar",
       "submitting": "Aprovando...",
       "cancel": "Cancelar",
@@ -239,6 +239,10 @@
       "trigger": "Adicionar evento",
       "title": "Adicionar Ranking",
       "description": "Preencha os dados de uma nova competição.",
+      "types": {
+        "ranking": "Novo Ranking",
+        "tournament": "Novo Torneio"
+      },
       "sections": {
         "general": "Dados Gerais",
         "dates": "Datas",

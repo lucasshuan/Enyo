@@ -161,7 +161,9 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
                       {t("events")}
                     </p>
                     <p className="text-secondary mt-0.5 text-lg font-bold">
-                      {formatCompactNumber((game.rankingCount || 0) + (game.tourneyCount || 0))}
+                      {formatCompactNumber(
+                        (game.rankingCount || 0) + (game.tourneyCount || 0),
+                      )}
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/5 bg-white/5 px-3 py-2.5 transition-colors hover:bg-white/10">
@@ -214,10 +216,8 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
             </div>
           )}
 
+          <AddEventButton gameId={game.id} />
           {canSeeAdminActions && <GameAdminPanel game={game as Game} />}
-          <div className="mt-4">
-            <AddEventButton gameId={game.id} />
-          </div>
         </div>
       </aside>
 
@@ -241,9 +241,9 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
             </div>
           ) : (
             <div className="glass-panel rounded-4xl p-6">
-              <p className="text-base font-medium">{t("noRankings")}</p>
+              <p className="text-base font-medium">{t("noEvents")}</p>
               <p className="text-muted mt-2 text-sm leading-7">
-                {t("noRankingsDescription")}
+                {t("noEventsDescription")}
               </p>
             </div>
           )}
