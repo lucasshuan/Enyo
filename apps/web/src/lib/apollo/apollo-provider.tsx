@@ -1,7 +1,7 @@
 "use client";
 
-import { HttpLink, from } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { HttpLink, ApolloLink } from "@apollo/client";
+import { SetContextLink } from "@apollo/client/link/context";
 import {
   ApolloNextAppProvider,
   ApolloClient,
@@ -16,7 +16,7 @@ function makeClient() {
     fetchOptions: { cache: "no-store" },
   });
 
-  const authLink = setContext(async (_, { headers }) => {
+  const authLink = new SetContextLink(async ({ headers }) => {
     const session = await getSession();
     const token = session?.user?.accessToken;
 
@@ -28,10 +28,15 @@ function makeClient() {
     };
   });
 
-  return new ApolloClient({
+  const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: from([authLink, httpLink]),
+    link: ApolloLink.from([authLink, httpLink]),
+    devtools: {
+      enabled: true,
+    },
   });
+
+  return client;
 }
 
 export function ApolloWrapper({ children }: React.PropsWithChildren) {

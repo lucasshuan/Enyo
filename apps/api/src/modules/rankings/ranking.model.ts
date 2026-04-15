@@ -25,6 +25,9 @@ export class Ranking {
   ratingSystem: string;
 
   @Field()
+  type: string;
+
+  @Field()
   isApproved: boolean;
 
   @Field({ nullable: true })

@@ -323,9 +323,9 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
   - arquivos afetados: `apps/web/src/actions/*`
   - dificuldade: média | impacto: médio
 
-- [ ] **3.3 Cleanup Técnico**
-  - [ ] Remover permanentemente `drizzle-orm` e pacotes `postgres` redundantes da API.
-  - [ ] Padronizar as versões das dependências comuns no monorepo.
+- [x] **3.3 Cleanup Técnico**
+  - [x] Remover permanentemente `drizzle-orm` e pacotes `postgres` redundantes da API.
+  - [x] Padronizar as versões das dependências comuns no monorepo.
   - arquivos afetados: `apps/api/package.json`, `pnpm-lock.yaml`
   - dificuldade: baixa | impacto: baixo
 

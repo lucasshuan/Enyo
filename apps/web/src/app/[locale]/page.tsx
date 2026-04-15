@@ -147,11 +147,12 @@ async function PublicGamesList({
 
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {gameList.map((game) => (
+      {gameList.map((game, index) => (
         <GameCard
           key={game.id}
           game={game}
           fallbackDescription={fallbackDescription}
+          priority={index < 4}
         />
       ))}
     </div>

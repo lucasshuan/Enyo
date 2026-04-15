@@ -12,6 +12,7 @@ function mapRankingWithEvent<
       name: string;
       slug: string;
       description: string | null;
+      type: string;
       startDate: Date | null;
       endDate: Date | null;
       approvedAt?: Date | null;
@@ -26,6 +27,7 @@ function mapRankingWithEvent<
     gameId: ranking.event.gameId,
     name: ranking.event.name,
     slug: ranking.event.slug,
+    type: ranking.event.type,
     description: ranking.event.description,
     startDate: ranking.event.startDate,
     endDate: ranking.event.endDate,

@@ -72,11 +72,11 @@ export function Modal({
     <div
       ref={modalContainerRef}
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+      className="animate-modal-overlay fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4 [will-change:opacity,backdrop-filter]"
     >
       <div
         className={cn(
-          "glass-panel animate-in fade-in-0 zoom-in-95 flex max-h-[95dvh] w-full flex-col overflow-hidden rounded-4xl bg-[#0a080f] duration-200",
+          "glass-panel animate-modal-content flex max-h-[95dvh] w-full flex-col overflow-hidden rounded-4xl bg-[#0a080f] [will-change:transform,opacity]",
           className,
         )}
       >

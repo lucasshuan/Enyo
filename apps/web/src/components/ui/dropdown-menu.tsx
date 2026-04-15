@@ -8,12 +8,16 @@ interface DropdownMenuProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   side?: "bottom" | "right";
+  align?: "start" | "center" | "end";
+  width?: number;
 }
 
 export function DropdownMenu({
   trigger,
   children,
   side = "bottom",
+  align = "start",
+  width: customWidth,
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +52,7 @@ export function DropdownMenu({
   const toggleDropdown = () => {
     if (!isOpen && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      const dropdownWidth = 180; // Estimated
+      const dropdownWidth = customWidth ?? Math.max(rect.width, 240);
 
       let finalSide = side;
       if (
@@ -66,10 +70,18 @@ export function DropdownMenu({
           actualSide: "right",
         });
       } else {
+        let left = rect.left + window.scrollX;
+        if (align === "center") {
+          left =
+            rect.left + window.scrollX + rect.width / 2 - dropdownWidth / 2;
+        } else if (align === "end") {
+          left = rect.left + window.scrollX + rect.width - dropdownWidth;
+        }
+
         setCoords({
           top: rect.bottom + window.scrollY + 8,
-          left: rect.left + window.scrollX,
-          width: rect.width,
+          left: Math.max(12, left), // Keep away from screen edges
+          width: dropdownWidth,
           actualSide: "bottom",
         });
       }
@@ -78,8 +90,8 @@ export function DropdownMenu({
   };
 
   return (
-    <div className="relative w-full" ref={containerRef}>
-      <div onClick={toggleDropdown} className="w-full cursor-pointer">
+    <div className="relative w-fit" ref={containerRef}>
+      <div onClick={toggleDropdown} className="w-fit cursor-pointer">
         {trigger}
       </div>
 
@@ -95,7 +107,7 @@ export function DropdownMenu({
               zIndex: 1000,
             }}
             className={cn(
-              "animate-in fade-in zoom-in-95 glass-panel min-w-[160px] overflow-hidden rounded-2xl bg-[#0d0a14] p-1.5 shadow-2xl ring-1 ring-white/10",
+              "animate-in fade-in zoom-in-95 glass-panel min-w-[200px] overflow-hidden rounded-2xl bg-[#0d0a14] p-1.5 shadow-2xl ring-1 ring-white/10",
               coords.actualSide === "right"
                 ? "slide-in-from-left-2"
                 : "slide-in-from-top-2",
@@ -126,7 +138,7 @@ export function DropdownItem({
     <button
       onClick={onClick}
       className={cn(
-        "flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-white/70 transition-all hover:bg-white/5 hover:text-white active:scale-[0.98]",
+        "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold whitespace-nowrap text-white/70 transition-all hover:bg-white/10 hover:text-white active:scale-[0.98]",
         className,
       )}
     >

@@ -14,8 +14,24 @@ export const metadata: Metadata = {
     default: "Ares",
     template: "%s | Ares",
   },
-  description:
-    "Base inicial do Ares: plataforma de ranking e torneios para jogos com Next.js, Auth.js e Drizzle.",
+  description: "Plataforma de ranking e torneios para jogos.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "Ares",
+    description: "Plataforma de ranking e torneios para jogos.",
+    images: [
+      {
+        url: "/icon.svg",
+        alt: "Ares",
+        width: 120,
+        height: 120,
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default async function AppLayout({

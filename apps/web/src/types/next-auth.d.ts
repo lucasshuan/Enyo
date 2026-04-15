@@ -1,5 +1,4 @@
 import type { DefaultSession } from "next-auth";
-type PermissionKey = string;
 
 declare module "next-auth" {
   interface Session {
@@ -7,19 +6,31 @@ declare module "next-auth" {
       id: string;
       username: string;
       name: string;
-      bio: string | null;
-      profileColor: string | null;
+      bio?: string | null;
+      profileColor?: string | null;
       isAdmin: boolean;
-      permissions: Array<{
-        id: string;
-        key: PermissionKey;
-        name: string;
-      }>;
+      accessToken?: string;
+      permissions: string[];
     };
   }
 
   interface User {
+    id: string;
     username: string;
     isAdmin: boolean;
+    image?: string | null;
+    accessToken?: string;
+    permissions: string[];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    username: string;
+    image?: string | null;
+    isAdmin: boolean;
+    accessToken?: string;
+    permissions: string[];
   }
 }

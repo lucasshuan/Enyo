@@ -12,7 +12,7 @@ import {
   canManageRankings,
 } from "@/lib/permissions";
 import { RankingCard } from "@/components/cards/ranking-card";
-import { AlertCircle, ChevronLeft } from "lucide-react";
+import { AlertCircle, ChevronLeft, Ghost } from "lucide-react";
 import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
 import { formatCompactNumber } from "@/lib/utils";
@@ -214,7 +214,6 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
             </div>
           )}
 
-          <AddEventButton gameId={game.id} />
           {canSeeAdminActions && <GameAdminPanel game={game as Game} />}
         </div>
       </aside>
@@ -225,6 +224,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
           <SectionHeader
             title={t("eventsTitle")}
             description={t("eventsDescription", { gameName: game.name })}
+            actions={<AddEventButton gameId={game.id} variant="header" />}
           />
 
           {rankings.length > 0 ? (
@@ -238,9 +238,12 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
               ))}
             </div>
           ) : (
-            <div className="glass-panel rounded-4xl p-6">
+            <div className="glass-panel flex flex-col items-center justify-center rounded-4xl p-12 text-center">
+              <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-white/5">
+                <Ghost className="size-8 text-white/20" />
+              </div>
               <p className="text-base font-medium">{t("noEvents")}</p>
-              <p className="text-muted mt-2 text-sm leading-7">
+              <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
                 {t("noEventsDescription")}
               </p>
             </div>

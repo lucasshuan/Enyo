@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { LogOut, Settings, User as UserIcon, Edit2 } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { EditProfileTrigger } from "@/components/triggers/profile/edit-profile-trigger";
@@ -16,8 +16,12 @@ type UserProps = {
   bio?: string | null;
 };
 
-export function UserMenu({ user }: { user: UserProps }) {
+export function UserMenu({ user: initialUser }: { user: UserProps }) {
   const t = useTranslations("Navbar");
+  const { data: session } = useSession();
+
+  // Use session user if available, fallback to initialUser from SSR
+  const user = (session?.user as unknown as UserProps) || initialUser;
 
   return (
     <div className="group relative z-50">

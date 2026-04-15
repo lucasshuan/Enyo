@@ -9,12 +9,14 @@ interface GameCardProps {
   game: Game;
   fallbackDescription?: string;
   pendingLabel?: string;
+  priority?: boolean;
 }
 
 export function GameCard({
   game,
   fallbackDescription,
   pendingLabel,
+  priority = false,
 }: GameCardProps) {
   return (
     <Link
@@ -27,6 +29,7 @@ export function GameCard({
             src={game.thumbnailImageUrl}
             alt={game.name}
             fill
+            priority={priority}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
             quality={75}
@@ -38,7 +41,7 @@ export function GameCard({
         <div className="absolute inset-0 bg-linear-to-b from-[#0b080f]/0 to-[#0b080f]/80 transition-opacity duration-500 group-hover:opacity-40" />
       </div>
 
-      <div className="flex min-h-[6.5rem] flex-col px-5 pt-5 pb-8">
+      <div className="flex min-h-26 flex-col px-5 pt-5 pb-8">
         <div className="mb-2 flex items-start justify-between gap-2">
           <h3 className="line-clamp-2 flex-1 text-lg leading-tight font-semibold">
             {game.name}

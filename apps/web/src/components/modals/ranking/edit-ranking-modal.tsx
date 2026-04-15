@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { Slider } from "@/components/ui/slider";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
+import { NumberInput } from "@/components/ui/number-input";
 import { type Ranking } from "@/lib/apollo/types";
 import { cn } from "@/lib/utils";
 
@@ -241,11 +242,10 @@ export function EditRankingModal({
                   <div className="grid gap-6">
                     <div className="flex flex-col gap-2">
                       <LabelTooltip label={t("initialElo.label")} />
-                      <input
-                        type="number"
+                      <NumberInput
                         value={initialElo}
-                        onChange={(e) => setInitialElo(Number(e.target.value))}
-                        className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none focus:bg-white/[0.07] focus:ring-4"
+                        onChange={setInitialElo}
+                        step={100}
                       />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -253,11 +253,11 @@ export function EditRankingModal({
                         label={t("kFactor.label")}
                         tooltip={t("kFactor.tooltip")}
                       />
-                      <input
-                        type="number"
+                      <NumberInput
                         value={kFactor}
-                        onChange={(e) => setKFactor(Number(e.target.value))}
-                        className="focus:border-primary/50 focus:ring-primary/10 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none focus:bg-white/[0.07] focus:ring-4"
+                        onChange={setKFactor}
+                        min={1}
+                        max={100}
                       />
                     </div>
                     <div className="flex flex-col gap-3">
@@ -282,13 +282,11 @@ export function EditRankingModal({
                       <label className="text-xs font-bold tracking-wider text-white/40 uppercase">
                         {t("pointsPerWin.label")}
                       </label>
-                      <input
-                        type="number"
+                      <NumberInput
                         value={pointsPerWin}
-                        onChange={(e) =>
-                          setPointsPerWin(Number(e.target.value))
-                        }
-                        className="w-20 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center text-sm text-white"
+                        onChange={setPointsPerWin}
+                        className="w-32"
+                        min={0}
                       />
                     </div>
                     {allowDraw && (
@@ -296,13 +294,11 @@ export function EditRankingModal({
                         <label className="text-xs font-bold tracking-wider text-white/40 uppercase">
                           {t("pointsPerDraw.label")}
                         </label>
-                        <input
-                          type="number"
+                        <NumberInput
                           value={pointsPerDraw}
-                          onChange={(e) =>
-                            setPointsPerDraw(Number(e.target.value))
-                          }
-                          className="w-20 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center text-sm text-white"
+                          onChange={setPointsPerDraw}
+                          className="w-32"
+                          min={0}
                         />
                       </div>
                     )}
@@ -310,13 +306,11 @@ export function EditRankingModal({
                       <label className="text-xs font-bold tracking-wider text-white/40 uppercase">
                         {t("pointsPerLoss.label")}
                       </label>
-                      <input
-                        type="number"
+                      <NumberInput
                         value={pointsPerLoss}
-                        onChange={(e) =>
-                          setPointsPerLoss(Number(e.target.value))
-                        }
-                        className="w-20 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center text-sm text-white"
+                        onChange={setPointsPerLoss}
+                        className="w-32"
+                        min={0}
                       />
                     </div>
                   </div>
@@ -342,13 +336,10 @@ export function EditRankingModal({
                         tooltip={t("inactivityDecay.tooltip")}
                         className="gap-1! opacity-60"
                       />
-                      <input
-                        type="number"
+                      <NumberInput
                         value={inactivityDecay}
-                        onChange={(e) =>
-                          setInactivityDecay(Number(e.target.value))
-                        }
-                        className="w-full rounded-xl border border-white/10 bg-white/5 p-2 text-center text-sm text-white"
+                        onChange={setInactivityDecay}
+                        min={0}
                       />
                     </div>
                     {inactivityDecay > 0 && (
@@ -358,13 +349,11 @@ export function EditRankingModal({
                           tooltip={t("inactivityThreshold.tooltip")}
                           className="gap-1! opacity-60"
                         />
-                        <input
-                          type="number"
+                        <NumberInput
                           value={inactivityThresholdHours}
-                          onChange={(e) =>
-                            setInactivityThresholdHours(Number(e.target.value))
-                          }
-                          className="w-full rounded-xl border border-white/10 bg-white/5 p-2 text-center text-sm text-white"
+                          onChange={setInactivityThresholdHours}
+                          min={1}
+                          unit="h"
                         />
                       </div>
                     )}
@@ -374,13 +363,11 @@ export function EditRankingModal({
                         tooltip={t("inactivityFloor.tooltip")}
                         className="gap-1! opacity-60"
                       />
-                      <input
-                        type="number"
+                      <NumberInput
                         value={inactivityDecayFloor}
-                        onChange={(e) =>
-                          setInactivityDecayFloor(Number(e.target.value))
-                        }
-                        className="w-full rounded-xl border border-white/10 bg-white/5 p-2 text-sm text-white transition-all focus:bg-white/10"
+                        onChange={setInactivityDecayFloor}
+                        step={100}
+                        min={0}
                       />
                     </div>
                   </div>

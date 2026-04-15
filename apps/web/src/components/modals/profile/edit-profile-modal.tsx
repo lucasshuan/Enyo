@@ -7,6 +7,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { updateProfile } from "@/actions/user";
 import { useRouter, usePathname } from "@/i18n/routing";
+import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
 import { COUNTRIES } from "@/lib/countries";
 import { cn } from "@/lib/utils";
@@ -48,6 +49,7 @@ export function EditProfileModal({
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const [selectedColor, setSelectedColor] = useState(
@@ -139,6 +141,12 @@ export function EditProfileModal({
         }
 
         toast.success(t("success"));
+
+        // Refresh session
+        await update({
+          username: formData.get("username") as string,
+          name: formData.get("name") as string,
+        });
 
         if (result.success && result.slug) {
           const isProfilePage = pathname.includes("/profile/");

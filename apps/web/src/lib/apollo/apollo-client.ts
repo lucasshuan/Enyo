@@ -1,5 +1,5 @@
-import { HttpLink, from } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { HttpLink, ApolloLink } from "@apollo/client";
+import { SetContextLink } from "@apollo/client/link/context";
 import {
   registerApolloClient,
   ApolloClient,
@@ -14,7 +14,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     uri: env.NEXT_PUBLIC_API_URL,
   });
 
-  const authLink = setContext(async (_, { headers }) => {
+  const authLink = new SetContextLink(async ({ headers }) => {
     const session = await getServerSession(authOptions);
     const token = session?.user?.accessToken;
 
@@ -28,6 +28,9 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
 
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: from([authLink, httpLink]),
+    link: ApolloLink.from([authLink, httpLink]),
+    devtools: {
+      enabled: true,
+    },
   });
 });

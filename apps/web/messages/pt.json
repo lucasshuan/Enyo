@@ -237,6 +237,7 @@
     },
     "AddRanking": {
       "trigger": "Adicionar evento",
+      "headerTrigger": "Novo Evento",
       "title": "Adicionar Ranking",
       "description": "Preencha os dados de uma nova competição.",
       "types": {
@@ -336,7 +337,7 @@
       "cancel": "Cancelar",
       "success": "Evento sugerido com sucesso!",
       "error": "Erro ao adicionar ranking.",
-      "soon": "Breve"
+      "soon": "Em breve"
     },
     "AddPlayer": {
       "trigger": "Adicionar jogador",

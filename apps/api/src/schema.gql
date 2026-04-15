@@ -10,6 +10,7 @@ type Ranking {
   description: String
   initialElo: Int!
   ratingSystem: String!
+  type: String!
   isApproved: Boolean!
   startDate: DateTime
   endDate: DateTime

@@ -40,6 +40,7 @@ export interface Ranking {
   gameId: string;
   name: string;
   slug: string;
+  type: "RANKING" | "TOURNAMENT";
   description: string | null;
   initialElo: number;
   ratingSystem: string;

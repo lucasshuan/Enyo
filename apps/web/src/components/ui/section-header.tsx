@@ -17,22 +17,22 @@ export function SectionHeader({
   className,
 }: SectionHeaderProps) {
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-6 md:flex-row md:items-end md:justify-between",
-        className,
-      )}
-    >
+    <div className={cn("w-full", className)}>
       <div className="space-y-3">
         {eyebrow && (
           <p className="text-primary/90 font-mono text-xs font-medium tracking-[0.35em] uppercase">
             {eyebrow}
           </p>
         )}
-        <div className="space-y-1">
-          <h2 className="text-primary font-mono text-2xl font-bold tracking-tight uppercase sm:text-3xl lg:text-4xl">
-            {title}
-          </h2>
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <h2 className="text-primary font-mono text-2xl font-bold tracking-tight uppercase sm:text-3xl lg:text-4xl">
+              {title}
+            </h2>
+            {actions && (
+              <div className="flex shrink-0 items-center gap-4">{actions}</div>
+            )}
+          </div>
           {description && (
             <div className="text-muted sm:text-md max-w-3xl text-base leading-relaxed">
               {description}
@@ -40,9 +40,6 @@ export function SectionHeader({
           )}
         </div>
       </div>
-      {actions && (
-        <div className="flex shrink-0 items-center gap-4">{actions}</div>
-      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { env } from "@/env";
 type BackendJwtPayload = {
   sub: string;
   username: string;
+  image?: string | null;
   isAdmin: boolean;
   permissions?: string[];
 };
@@ -61,6 +62,7 @@ export const authOptions = {
             id: payload.sub,
             username: payload.username,
             name: payload.username,
+            image: payload.image,
             isAdmin: payload.isAdmin || false,
             permissions: payload.permissions || [],
             accessToken: credentials.token,
@@ -72,15 +74,22 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.image = user.image;
         token.isAdmin = user.isAdmin;
         token.permissions = user.permissions ?? [];
         if (user.accessToken) {
           token.accessToken = user.accessToken;
         }
+      }
+
+      if (trigger === "update" && session) {
+        if (session.username) token.username = session.username;
+        if (session.image) token.image = session.image;
+        if (session.name) token.name = session.name;
       }
 
       return token;
@@ -89,6 +98,7 @@ export const authOptions = {
       if (token && session.user) {
         session.user.id = token.id;
         session.user.username = token.username;
+        session.user.image = token.image;
         session.user.isAdmin = token.isAdmin;
         session.user.accessToken = token.accessToken;
         session.user.permissions = token.permissions ?? [];

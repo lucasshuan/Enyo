@@ -9,6 +9,7 @@ export const GET_RANKING = gql`
       description
       initialElo
       ratingSystem
+      type
       createdAt
       game {
         id

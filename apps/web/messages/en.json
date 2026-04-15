@@ -238,6 +238,7 @@
     },
     "AddRanking": {
       "trigger": "Add event",
+      "headerTrigger": "New Event",
       "title": "Add Ranking",
       "description": "Fill in the details for the new event or competition.",
       "types": {
