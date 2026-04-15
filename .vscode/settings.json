@@ -1,0 +1,15 @@
+{
+  "i18n-ally.localesPaths": [
+    "apps/web/messages",
+    "apps/mobile/messages",
+    "packages/shared/i18n"
+  ],
+  "i18n-ally.enabledFrameworks": [
+    "react",
+    "next-translate",
+    "next-intl",
+    "i18next",
+    "react-i18next"
+  ],
+  "i18n-ally.keystyle": "nested"
+}

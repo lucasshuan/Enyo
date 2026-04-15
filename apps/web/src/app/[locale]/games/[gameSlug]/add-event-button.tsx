@@ -59,7 +59,7 @@ export function AddEventButton({ gameId }: { gameId: string }) {
             <div className="flex flex-1 items-center justify-between">
               <span>{t("types.tournament")}</span>
               <span className="text-[10px] font-bold tracking-widest text-white/20 uppercase">
-                Soon
+                {t("soon")}
               </span>
             </div>
           </DropdownItem>

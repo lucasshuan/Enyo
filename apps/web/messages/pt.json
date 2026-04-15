@@ -335,7 +335,8 @@
       "submitting": "Criando...",
       "cancel": "Cancelar",
       "success": "Evento sugerido com sucesso!",
-      "error": "Erro ao adicionar ranking."
+      "error": "Erro ao adicionar ranking.",
+      "soon": "Breve"
     },
     "AddPlayer": {
       "trigger": "Adicionar jogador",
