@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { createContext, useContext, ReactNode } from "react";
 import { type Session } from "next-auth";
@@ -58,9 +58,15 @@ export function useUser() {
   return context;
 }
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({
+  children,
+  session,
+}: {
+  children: ReactNode;
+  session?: Session | null;
+}) {
   return (
-    <NextAuthSessionProvider>
+    <NextAuthSessionProvider session={session}>
       <UserProvider>
         {children}
         <Toaster theme="dark" position="top-center" richColors closeButton />

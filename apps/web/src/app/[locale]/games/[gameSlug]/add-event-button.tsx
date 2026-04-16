@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { Trophy, Swords, ChevronRight, Plus } from "lucide-react";
@@ -18,12 +18,14 @@ export function AddEventButton({
   variant = "sidebar",
 }: AddEventButtonProps) {
   const t = useTranslations("Modals.AddLeague");
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isAddLeagueOpen, setIsAddLeagueOpen] = useState(false);
   const [isPending] = useTransition();
 
   const handleTriggerClick = () => {
+    if (isLoading) return;
+
     if (!user) {
       setIsAuthModalOpen(true);
     }

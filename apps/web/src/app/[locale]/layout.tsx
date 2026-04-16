@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 
 import { Providers } from "@/components/providers";
 import { ApolloWrapper } from "@/lib/apollo/apollo-provider";
+import { getServerAuthSession } from "@/auth";
 
 export default async function RootLayout({
   children,
@@ -17,6 +18,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  const session = await getServerAuthSession();
 
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
@@ -28,7 +30,7 @@ export default async function RootLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <ApolloWrapper>
-        <Providers>
+        <Providers session={session}>
           <div className="app-scroll-shell relative h-screen">
             <div className="grid-surface pointer-events-none fixed inset-0 -z-50" />
             <SiteNavbar />
