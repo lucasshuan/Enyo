@@ -18,11 +18,12 @@ import {
 } from "lucide-react";
 import { updateLeague } from "@/actions/game";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Slider } from "@/components/ui/slider";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { NumberInput } from "@/components/ui/number-input";
 import { type League } from "@/lib/apollo/generated/graphql";
+import { formatHoursDuration } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 
 interface EditLeagueFormProps {
@@ -41,6 +42,7 @@ export function EditLeagueForm({
   formId,
 }: EditLeagueFormProps) {
   const t = useTranslations("Modals");
+  const locale = useLocale();
   const schema = useEditLeagueSchema();
   const [isPending, startTransition] = useTransition();
 
@@ -73,6 +75,8 @@ export function EditLeagueForm({
 
   const ratingSystem = useWatch({ control, name: "ratingSystem" });
   const allowDraw = useWatch({ control, name: "allowDraw" });
+  const initialElo = useWatch({ control, name: "initialElo" }) || 0;
+  const kFactor = useWatch({ control, name: "kFactor" }) || 0;
   const inactivityDecay = useWatch({ control, name: "inactivityDecay" }) || 0;
   const inactivityThresholdHours =
     useWatch({ control, name: "inactivityThresholdHours" }) || 0;
@@ -83,6 +87,10 @@ export function EditLeagueForm({
   const pointsPerDraw = useWatch({ control, name: "pointsPerDraw" }) || 0;
   const pointsPerLoss = useWatch({ control, name: "pointsPerLoss" }) || 0;
   const name = useWatch({ control, name: "name" }) || "";
+  const formattedInactivityWindow = formatHoursDuration(
+    inactivityThresholdHours,
+    locale,
+  );
 
   const [isSlugModified, setIsSlugModified] = useState(false);
 
@@ -516,6 +524,17 @@ export function EditLeagueForm({
                     {ratingSystem === "elo" ? (
                       <>
                         <div className="flex items-center gap-3">
+                          <div className="text-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/5">
+                            <Trophy className="size-3" />
+                          </div>
+                          <span>
+                            {t("AddLeague.explanation.elo.initial_settings", {
+                              initialElo,
+                              kFactor,
+                            })}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3">
                           <div
                             className={cn(
                               "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/5",
@@ -599,9 +618,9 @@ export function EditLeagueForm({
                             </div>
                             <span>
                               {t("AddLeague.explanation.elo.decay", {
-                                amount: inactivityDecay || 0,
-                                hours: inactivityThresholdHours || 0,
-                                floor: inactivityDecayFloor || 0,
+                                amount: inactivityDecay,
+                                window: formattedInactivityWindow,
+                                floor: inactivityDecayFloor,
                               })}
                             </span>
                           </div>

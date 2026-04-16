@@ -295,9 +295,10 @@
           "relevance_3": "Win margin has moderate impact on performance.",
           "relevance_4": "Win margin is highly relevant for point gains.",
           "relevance_5": "Win margin is the primary factor; crushing victories grant massive bonuses.",
+          "initial_settings": "Players start with {initialElo} pts and a K-factor of {kFactor}; higher K values make the league more volatile.",
           "draws_enabled": "Draws are permitted.",
           "draws_disabled": "Matches must have a winner.",
-          "decay": "Inactive players lose {amount} points daily after {hours}h (Floor: {floor}).",
+          "decay": "Inactive players lose {amount} points daily after {window} without playing (Floor: {floor}).",
           "thresholds": "Win Margin Impact:",
           "win_margin": "Win by {margin}"
         },
@@ -338,6 +339,12 @@
       "next": "Next Step",
       "back": "Back",
       "submit": "Create League",
+      "confirm": {
+        "title": "Confirm Creation",
+        "description": "Do you want to create this league with the current settings?",
+        "submit": "Confirm Creation",
+        "cancel": "Cancel"
+      },
       "submitting": "Creating...",
       "cancel": "Cancel",
       "success": "League created successfully!",

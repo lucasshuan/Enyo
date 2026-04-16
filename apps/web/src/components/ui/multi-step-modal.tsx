@@ -30,6 +30,7 @@ interface MultiStepModalProps {
   nextText?: string;
   backText?: string;
   cancelText?: string;
+  submitOnConfirm?: boolean;
 }
 
 export function MultiStepModal({
@@ -51,6 +52,7 @@ export function MultiStepModal({
   nextText = "Next",
   backText = "Back",
   cancelText = "Cancel",
+  submitOnConfirm = true,
 }: MultiStepModalProps) {
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const isLastStep = currentStep === steps.length - 1;
@@ -103,6 +105,7 @@ export function MultiStepModal({
             </div>
             <button
               onClick={onClose}
+              type="button"
               className="cursor-pointer rounded-full p-2 text-white/70 transition-colors hover:bg-white/10"
             >
               <X className="size-5" />
@@ -169,6 +172,7 @@ export function MultiStepModal({
           <div>
             {!isFirstStep && (
               <Button
+                type="button"
                 intent="ghost"
                 onClick={onBack}
                 disabled={isPending}
@@ -180,6 +184,7 @@ export function MultiStepModal({
             )}
             {isFirstStep && (
               <Button
+                type="button"
                 intent="ghost"
                 onClick={onClose}
                 disabled={isPending}
@@ -193,6 +198,8 @@ export function MultiStepModal({
           <div className="flex items-center gap-3">
             {!isLastStep ? (
               <Button
+                key="next-step"
+                type="button"
                 onClick={onNext}
                 disabled={disabledNext || isPending}
                 intent="primary"
@@ -203,8 +210,9 @@ export function MultiStepModal({
               </Button>
             ) : (
               <Button
-                type={formId ? "submit" : "button"}
-                form={formId}
+                key="confirm-step"
+                type={formId && submitOnConfirm ? "submit" : "button"}
+                form={submitOnConfirm ? formId : undefined}
                 onClick={onConfirm}
                 disabled={disabledNext || isPending}
                 intent="primary"

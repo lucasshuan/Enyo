@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { getServerAuthSession } from "@/auth";
 import { canManageLeagues } from "@/lib/permissions";
 import { LeagueTemplate } from "@/components/templates/events/league";
@@ -20,15 +19,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
   return (
     <main>
-      <Suspense
-        fallback={
-          <div className="animate-pulse p-12 text-center text-white/20">
-            Loading...
-          </div>
-        }
-      >
-        <EventPageContent gameSlug={gameSlug} eventSlug={eventSlug} />
-      </Suspense>
+      <EventPageContent gameSlug={gameSlug} eventSlug={eventSlug} />
     </main>
   );
 }

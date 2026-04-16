@@ -18,6 +18,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Equal,
+  Activity,
   TrendingUp,
   Search,
   LoaderCircle,
@@ -27,11 +28,12 @@ import {
 import { addLeague } from "@/actions/game";
 import { getGamesSimple, type SimpleGame } from "@/actions/get-games";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Slider } from "@/components/ui/slider";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { DateInput } from "@/components/ui/date-input";
 import { NumberInput } from "@/components/ui/number-input";
+import { formatHoursDuration } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 
 interface AddLeagueFormProps {
@@ -56,6 +58,7 @@ export function AddLeagueForm({
   initialGame,
 }: AddLeagueFormProps) {
   const t = useTranslations("Modals.AddLeague");
+  const locale = useLocale();
   const schema = useAddLeagueSchema();
   const [isPending, startTransition] = useTransition();
 
@@ -100,11 +103,21 @@ export function AddLeagueForm({
   const watchStartDate = useWatch({ control, name: "startDate" }) || "";
   const ratingSystem = useWatch({ control, name: "ratingSystem" });
   const allowDraw = useWatch({ control, name: "allowDraw" });
+  const initialElo = useWatch({ control, name: "initialElo" }) || 0;
+  const kFactor = useWatch({ control, name: "kFactor" }) || 0;
   const inactivityDecay = useWatch({ control, name: "inactivityDecay" }) || 0;
+  const inactivityThresholdHours =
+    useWatch({ control, name: "inactivityThresholdHours" }) || 0;
+  const inactivityDecayFloor =
+    useWatch({ control, name: "inactivityDecayFloor" }) || 0;
   const scoreRelevance = useWatch({ control, name: "scoreRelevance" }) || 0;
   const pointsPerWin = useWatch({ control, name: "pointsPerWin" }) || 0;
   const pointsPerDraw = useWatch({ control, name: "pointsPerDraw" }) || 0;
   const pointsPerLoss = useWatch({ control, name: "pointsPerLoss" }) || 0;
+  const formattedInactivityWindow = formatHoursDuration(
+    inactivityThresholdHours,
+    locale,
+  );
 
   const [isSlugModified, setIsSlugModified] = useState(false);
   const [games, setGames] = useState<SimpleGame[]>([]);
@@ -844,6 +857,17 @@ export function AddLeagueForm({
                       {ratingSystem === "elo" ? (
                         <>
                           <div className="flex items-center gap-3">
+                            <div className="text-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/5">
+                              <Trophy className="size-3" />
+                            </div>
+                            <span>
+                              {t("explanation.elo.initial_settings", {
+                                initialElo,
+                                kFactor,
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3">
                             <div
                               className={cn(
                                 "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/5",
@@ -912,6 +936,20 @@ export function AddLeagueForm({
                                 : t("explanation.elo.draws_disabled")}
                             </span>
                           </div>
+                          {inactivityDecay > 0 && (
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/5 text-red-500/50">
+                                <Activity className="size-3" />
+                              </div>
+                              <span>
+                                {t("explanation.elo.decay", {
+                                  amount: inactivityDecay,
+                                  window: formattedInactivityWindow,
+                                  floor: inactivityDecayFloor,
+                                })}
+                              </span>
+                            </div>
+                          )}
                         </>
                       ) : (
                         <div className="grid gap-3">

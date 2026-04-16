@@ -294,9 +294,10 @@
           "relevance_3": "A margem de vitória tem impacto moderado no desempenho.",
           "relevance_4": "A margem de vitória é altamente relevante para o ganho de pontos.",
           "relevance_5": "A margem de vitória é o fator primário; vitórias esmagadoras dão bônus massivos.",
+          "initial_settings": "Pontuação inicial de {initialElo} pts e Fator K de {kFactor}; valores maiores de K deixam a liga mais volátil.",
           "draws_enabled": "Empates são permitidos.",
           "draws_disabled": "Partidas devem ter um vencedor.",
-          "decay": "Inativos perdem {amount} pts por dia após {hours}h (Piso: {floor}).",
+          "decay": "Inativos perdem {amount} pts por dia após {window} sem jogar (Piso: {floor}).",
           "thresholds": "Impacto da Margem de Vitória:",
           "win_margin": "Vitória por {margin}"
         },
@@ -337,6 +338,12 @@
       "next": "Próxima Etapa",
       "back": "Voltar",
       "submit": "Criar Liga",
+      "confirm": {
+        "title": "Confirmar Criação",
+        "description": "Deseja criar esta liga com as configurações definidas?",
+        "submit": "Confirmar Criação",
+        "cancel": "Cancelar"
+      },
       "submitting": "Criando...",
       "cancel": "Cancelar",
       "success": "Liga criada com sucesso!",
