@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev codegen:watch",
     "dev:web": "turbo run dev --filter @ares/web",
     "dev:api": "turbo run dev --filter @ares/api",
     "build": "turbo run build",
@@ -20,6 +20,9 @@
     "turbo": "^2.9.6"
   },
   "lint-staged": {
+    "apps/web/src/lib/apollo/queries/**/*.ts": [
+      "pnpm -C apps/web codegen"
+    ],
     "apps/web/**/*.{ts,tsx}": [
       "pnpm -C apps/web exec eslint --fix",
       "prettier --write"

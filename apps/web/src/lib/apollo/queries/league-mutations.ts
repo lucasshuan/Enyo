@@ -1,4 +1,4 @@
-﻿import { gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const CREATE_LEAGUE = gql`
   mutation CreateLeague($input: CreateLeagueInput!) {
@@ -24,8 +24,8 @@ export const ADD_PLAYER_TO_LEAGUE = gql`
 `;
 
 export const REGISTER_SELF_TO_LEAGUE = gql`
-  mutation RegisterSelfToLeague($leagueId: ID!, $userId: ID!) {
-    registerSelfToLeague(leagueId: $leagueId, userId: $userId) {
+  mutation RegisterSelfToLeague($leagueId: ID!) {
+    registerSelfToLeague(leagueId: $leagueId) {
       id
     }
   }

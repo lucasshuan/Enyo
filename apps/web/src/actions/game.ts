@@ -7,7 +7,17 @@ import {
   CREATE_GAME,
   UPDATE_GAME,
 } from "@/lib/apollo/queries/game-mutations";
-import { Game, Player } from "@/lib/apollo/types";
+import {
+  GetGameQuery,
+  UpdateGameMutation,
+  CreateGameMutation,
+  ApproveGameMutation,
+  CreateLeagueMutation,
+  AddPlayerToGameMutation,
+  UpdateLeagueMutation,
+  SearchPlayersQuery,
+  RegisterSelfToLeagueMutation,
+} from "@/lib/apollo/generated/graphql";
 import { getServerAuthSession } from "@/auth";
 import {
   canEditGame,
@@ -28,12 +38,11 @@ import {
   ADD_PLAYER_TO_GAME,
   SEARCH_PLAYERS,
 } from "@/lib/apollo/queries/player-mutations";
-import { League } from "@/lib/apollo/types";
 
 async function getGameRecord(gameIdOrSlug: string) {
-  const { data } = await getClient().query<{ game: Game }>({
+  const { data } = await getClient().query<GetGameQuery>({
     query: GET_GAME,
-    variables: { slug: gameIdOrSlug }, // The query usually takes slug, but let's assume it works for both or name it accordingly
+    variables: { slug: gameIdOrSlug },
   });
   return data?.game;
 }
@@ -55,9 +64,9 @@ export async function updateGame(
   },
 ) {
   const session = await getServerAuthSession();
-  const { data: gameData } = await getClient().query<{ game: Game }>({
+  const { data: gameData } = await getClient().query<GetGameQuery>({
     query: GET_GAME,
-    variables: { slug: gameId }, // Assuming gameId can be used to find the game if slug is same or we have a getById
+    variables: { slug: gameId },
   });
   const game = gameData?.game;
 
@@ -69,7 +78,7 @@ export async function updateGame(
     throw new Error("Unauthorized");
   }
 
-  const { data: result } = await getClient().mutate<{ updateGame: Game }>({
+  const { data: result } = await getClient().mutate<UpdateGameMutation>({
     mutation: UPDATE_GAME,
     variables: {
       id: game.id,
@@ -110,7 +119,7 @@ export async function createGame(data: {
     throw new Error("Invalid game data");
   }
 
-  const { data: result } = await getClient().mutate<{ createGame: Game }>({
+  const { data: result } = await getClient().mutate<CreateGameMutation>({
     mutation: CREATE_GAME,
     variables: {
       input: {
@@ -143,7 +152,7 @@ export async function approveGame(gameId: string) {
     throw new Error("Unauthorized");
   }
 
-  const { data: result } = await getClient().mutate<{ approveGame: Game }>({
+  const { data: result } = await getClient().mutate<ApproveGameMutation>({
     mutation: APPROVE_GAME,
     variables: { id: gameId },
   });
@@ -187,7 +196,7 @@ export async function addLeague(data: {
     game = await getGameRecord(data.gameId);
   }
 
-  await getClient().mutate({
+  await getClient().mutate<CreateLeagueMutation>({
     mutation: CREATE_LEAGUE,
     variables: {
       input: {
@@ -220,18 +229,17 @@ export async function addPlayerToGame(
   const game = await getGameRecord(gameId);
   if (!game) throw new Error("Game not found");
 
-  const { data: resultData } = await getClient().mutate<{
-    addPlayerToGame: Player;
-  }>({
-    mutation: ADD_PLAYER_TO_GAME,
-    variables: {
-      input: {
-        gameId,
-        username: data.username,
-        userId: data.userId,
+  const { data: resultData } =
+    await getClient().mutate<AddPlayerToGameMutation>({
+      mutation: ADD_PLAYER_TO_GAME,
+      variables: {
+        input: {
+          gameId,
+          username: data.username,
+          userId: data.userId,
+        },
       },
-    },
-  });
+    });
 
   revalidateGamePaths(game);
   return { success: true, playerId: resultData?.addPlayerToGame.id };
@@ -276,7 +284,7 @@ export async function updateLeague(
   const session = await getServerAuthSession();
   if (!canManageLeagues(session)) throw new Error("Unauthorized");
 
-  await getClient().mutate<{ updateLeague: League }>({
+  await getClient().mutate<UpdateLeagueMutation>({
     mutation: UPDATE_LEAGUE,
     variables: { id: leagueId, input: data },
   });
@@ -286,31 +294,22 @@ export async function updateLeague(
   return { success: true };
 }
 
-interface SearchResult {
-  username: string;
-  player: {
-    id: string;
-    user: {
-      id: string;
-      country: string | null;
-    } | null;
-  };
-}
-
 export async function searchPlayersByGame(gameId: string, query: string) {
   const session = await getServerAuthSession();
   if (!canManagePlayers(session)) throw new Error("Unauthorized");
 
-  const { data } = await getClient().query<{ searchPlayers: SearchResult[] }>({
+  const { data } = await getClient().query<SearchPlayersQuery>({
     query: SEARCH_PLAYERS,
     variables: { gameId, query },
   });
 
-  return (data?.searchPlayers || []).map((r) => ({
-    id: r.player.id,
-    username: r.username,
-    country: r.player.user?.country ?? null,
-  }));
+  return (data?.searchPlayers.nodes || [])
+    .filter((r) => !!r.player?.id)
+    .map((r) => ({
+      id: r.player!.id,
+      username: r.username,
+      country: r.player?.user?.country ?? null,
+    }));
 }
 
 export async function addPlayerToLeague(
@@ -334,9 +333,9 @@ export async function registerSelfToLeague(leagueId: string) {
   const session = await getServerAuthSession();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  await getClient().mutate({
+  await getClient().mutate<RegisterSelfToLeagueMutation>({
     mutation: REGISTER_SELF_TO_LEAGUE,
-    variables: { leagueId, userId: session.user.id },
+    variables: { leagueId },
   });
 
   revalidatePath("/");

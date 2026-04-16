@@ -11,6 +11,15 @@ type League {
   initialElo: Int!
   ratingSystem: String!
   type: String!
+  allowDraw: Boolean!
+  kFactor: Int!
+  scoreRelevance: Float!
+  inactivityDecay: Int!
+  inactivityThresholdHours: Int!
+  inactivityDecayFloor: Int!
+  pointsPerWin: Int!
+  pointsPerDraw: Int!
+  pointsPerLoss: Int!
   isApproved: Boolean!
   startDate: DateTime
   endDate: DateTime
@@ -49,6 +58,7 @@ type Player {
 type PlayerUsername {
   id: ID!
   username: String!
+  player: Player
 }
 
 type User {

@@ -1,9 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { useTranslations } from "next-intl";
-import { type League } from "@/lib/apollo/types";
+import { type League } from "@/lib/apollo/generated/graphql";
 import { EditLeagueForm } from "@/components/forms/league/edit-league-form";
 
 interface EditLeagueModalProps {

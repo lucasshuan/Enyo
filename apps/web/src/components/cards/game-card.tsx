@@ -1,12 +1,15 @@
 import type { Route } from "next";
 import { Link } from "@/i18n/routing";
 import { ChevronRight } from "lucide-react";
-import { type Game } from "@/lib/apollo/types";
+import { type Game } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface GameCardProps {
-  game: Game;
+  game: Pick<
+    Game,
+    "id" | "name" | "slug" | "description" | "thumbnailImageUrl" | "status"
+  >;
   fallbackDescription?: string;
   pendingLabel?: string;
   priority?: boolean;

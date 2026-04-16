@@ -31,14 +31,14 @@ type GamePageProps = {
 export const dynamic = "force-dynamic";
 
 import { GET_GAME } from "@/lib/apollo/queries/games";
-import { Game, League } from "@/lib/apollo/types";
+import { type Game, GetGameQuery } from "@/lib/apollo/generated/graphql";
 
 export async function generateMetadata({
   params,
 }: GamePageProps): Promise<Metadata> {
   const { gameSlug } = await params;
 
-  const data = await safeServerQuery<{ game: Game }>({
+  const data = await safeServerQuery<GetGameQuery>({
     query: GET_GAME,
     variables: { slug: gameSlug },
   });
@@ -73,7 +73,7 @@ export default async function GamePage({ params }: GamePageProps) {
 
 async function GamePageContent({ gameSlug }: { gameSlug: string }) {
   const session = await getServerAuthSession();
-  const data = await safeServerQuery<{ game: Game }>({
+  const data = await safeServerQuery<GetGameQuery>({
     query: GET_GAME,
     variables: { slug: gameSlug },
   });
@@ -96,7 +96,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
 
   const gameWithCounts = {
     ...game,
-    leagueCount: game._count?.events || 0,
+    leagueCount: game._count?.leagues || 0,
     playerCount: game._count?.players || 0,
     tourneyCount: 0,
     postCount: 0,
@@ -229,7 +229,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
 
           {leagues.length > 0 ? (
             <div className="grid gap-5 xl:grid-cols-2">
-              {leagues.map((league: League) => (
+              {leagues.map((league) => (
                 <LeagueCard key={league.id} league={league} game={gameSlug} />
               ))}
             </div>

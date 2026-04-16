@@ -1,8 +1,8 @@
-﻿import { Link } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { Trophy } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { GET_GAMES } from "@/lib/apollo/queries/games";
-import { Game } from "@/lib/apollo/types";
+import { GetGamesQuery } from "@/lib/apollo/generated/graphql";
 import { GameCard, GameCardSkeleton } from "@/components/cards/game-card";
 import { SearchInput } from "@/components/ui/search-input";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -93,7 +93,7 @@ function GamesGridSkeleton() {
 async function GamesGrid({ search }: { search?: string }) {
   const t = await getTranslations("GamesPage");
 
-  const data = await safeServerQuery<{ games: { nodes: Game[] } }>({
+  const data = await safeServerQuery<GetGamesQuery>({
     query: GET_GAMES,
     variables: { search, pagination: { skip: 0, take: 50 } },
   });
@@ -101,7 +101,7 @@ async function GamesGrid({ search }: { search?: string }) {
   const games = data?.games?.nodes || [];
   const gameList = games.map((game) => ({
     ...game,
-    leagueCount: game._count?.events || 0,
+    leagueCount: game._count?.leagues || 0,
     playerCount: game._count?.players || 0,
     tourneyCount: 0,
     postCount: 0,
@@ -128,7 +128,7 @@ async function GamesGrid({ search }: { search?: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="glass-panel mb-6 flex size-20 items-center justify-center rounded-3xl">
-        <Trophy className="size-10 text-white/10" />
+        <Trophy className="text-muted size-10" />
       </div>
       <h3 className="text-xl font-semibold">
         {showEmptySearch ? t("noGamesFound") : t("noGamesTitle")}

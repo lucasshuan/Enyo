@@ -249,8 +249,7 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
 
 - [ ] **1.1 Unificar o fluxo de autenticação**
   - [x] Criar endpoint de `/auth/me` na API para validar IDs de sessão.
-  - [ ] Remover o `token` da query string no redirecionamento da API (migrar para cookie ou via callback interno).
-  - [ ] Configurar o NextAuth para processar o callback do Discord no frontend e trocar código por JWT via backend.
+  - [x] Remover o `token` da query string no redirecionamento da API (migrar para cookie ou via callback interno).
   - [x] Ajustar o Apollo Link no `apps/web` para injetar o JWT no header `Authorization`.
   - arquivos afetados: `apps/web/src/auth/*`, `apps/api/src/modules/auth/*`, `apps/web/src/lib/apollo/apollo-client.ts`
   - dificuldade: alta | impacto: alto
@@ -275,11 +274,11 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
   - arquivos afetados: `apps/api/src/modules/**/*.model.ts`, `apps/api/src/modules/**/*.input.ts`
   - dificuldade: alta | impacto: alto
 
-- [ ] **1.5 Adotar GraphQL Codegen (Frontend "Elite Setup")**
-  - [ ] Configurar `@graphql-codegen` no `apps/web` integrando com Apollo Client.
-  - [ ] Adicionar script `codegen:watch` para gerar tipos em tempo real durante o desenvolvimento.
-  - [ ] Configurar validação de contrato no `pre-commit` (Husky/lint-staged) para impedir drift de tipos.
-  - [ ] Substituir todas as interfaces manuais (ex: `SimpleGame`) pelos tipos gerados automaticamente.
+- [x] **1.5 Adotar GraphQL Codegen (Frontend "Elite Setup")**
+  - [x] Configurar `@graphql-codegen` no `apps/web` integrando com Apollo Client.
+  - [x] Adicionar script `codegen:watch` para gerar tipos em tempo real durante o desenvolvimento.
+  - [x] Configurar validação de contrato no `pre-commit` (Husky/lint-staged) para impedir drift de tipos.
+  - [x] Substituir todas as interfaces manuais (ex: `SimpleGame`) pelos tipos gerados automaticamente.
   - arquivos afetados: `apps/web/codegen.ts`, `apps/web/package.json`, `apps/web/src/lib/apollo/queries/*`
   - dificuldade: média | impacto: alto
 
@@ -327,6 +326,21 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
   - [x] Padronizar as versões das dependências comuns no monorepo.
   - arquivos afetados: `apps/api/package.json`, `pnpm-lock.yaml`
   - dificuldade: baixa | impacto: baixo
+
+### Etapa 4. Melhorias de UX e Qualidade de Vida
+
+- [ ] **4.1 Padronizar next-intl**
+  - [ ] Analise todos os arquivos que possuem mais de um useTranslation e faça os ajustes necessários para ter apenas um.
+  - [ ] Reformule e reestruture os arquivos de tradução en.json e pt.json para que fiquem mais organizados e fáceis de manter na atual arquitetura do projeto.
+  - arquivos afetados: `apps/web/src/**/*.tsx`
+  - dificuldade: média | impacto: baixo
+
+- [ ] **4.2 Adicionar Logger**
+  - [ ] Adicionar logger em camadas estratégicas na API para monitorar requisições e erros.
+  - [ ] Adicionar logger em camadas estratégicas na Web para monitorar requisições e erros.
+  - [ ] Garantir que apenas logs de erro relevantes sejam exibidos em produção.
+  - [ ] Usar camadas diferentes de relevância de logs (debug, info, warn, error) e permitir filtrar por elas.
+  - dificuldade: média | impacto: médio
 
 ## Validation Basis
 

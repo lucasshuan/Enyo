@@ -11,13 +11,15 @@ export const ADD_PLAYER_TO_GAME = gql`
 export const SEARCH_PLAYERS = gql`
   query SearchPlayers($gameId: ID!, $query: String!) {
     searchPlayers(gameId: $gameId, query: $query) {
-      id
-      username
-      player {
+      nodes {
         id
-        user {
+        username
+        player {
           id
-          country
+          user {
+            id
+            country
+          }
         }
       }
     }

@@ -70,7 +70,6 @@ export class AuthService {
   }
 
   async login(user: User) {
-    // Buscar permissões reais do banco
     const permissions = await this.databaseProvider.userPermission.findMany({
       where: { userId: user.id },
       include: { permission: true },
@@ -92,5 +91,44 @@ export class AuthService {
         permissions: permissionKeys,
       },
     };
+  }
+
+  async createAuthCode(token: string): Promise<string> {
+    const code =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+    const expiresAt = new Date();
+    expiresAt.setMinutes(expiresAt.getMinutes() + 5);
+
+    await this.databaseProvider.authCode.create({
+      data: {
+        code,
+        token,
+        expiresAt,
+      },
+    });
+
+    return code;
+  }
+
+  async exchangeCode(code: string): Promise<string | null> {
+    const authCode = await this.databaseProvider.authCode.findUnique({
+      where: { code },
+    });
+
+    if (!authCode) return null;
+
+    if (authCode.expiresAt < new Date()) {
+      await this.databaseProvider.authCode.delete({
+        where: { id: authCode.id },
+      });
+      return null;
+    }
+
+    await this.databaseProvider.authCode.delete({
+      where: { id: authCode.id },
+    });
+
+    return authCode.token;
   }
 }

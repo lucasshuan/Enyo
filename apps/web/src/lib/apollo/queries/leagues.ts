@@ -1,4 +1,4 @@
-﻿import { gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const GET_LEAGUE = gql`
   query GetLeague($gameSlug: String!, $leagueSlug: String!) {
@@ -10,7 +10,19 @@ export const GET_LEAGUE = gql`
       initialElo
       ratingSystem
       type
+      allowDraw
+      kFactor
+      scoreRelevance
+      inactivityDecay
+      inactivityThresholdHours
+      inactivityDecayFloor
+      pointsPerWin
+      pointsPerDraw
+      gameId
+      isApproved
+      pointsPerLoss
       createdAt
+      updatedAt
       game {
         id
         name
@@ -20,6 +32,8 @@ export const GET_LEAGUE = gql`
       }
       entries {
         id
+        leagueId
+        playerId
         currentElo
         position
         player {

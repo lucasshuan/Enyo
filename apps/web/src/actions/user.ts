@@ -5,7 +5,7 @@ import { UPDATE_PROFILE } from "@/lib/apollo/queries/user-mutations";
 import { getServerAuthSession } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-import { User } from "@/lib/apollo/types";
+import { UpdateProfileMutation } from "@/lib/apollo/generated/graphql";
 import { normalizeOptionalText } from "@/lib/utils";
 
 export async function updateProfile(formData: FormData) {
@@ -21,7 +21,7 @@ export async function updateProfile(formData: FormData) {
   };
 
   try {
-    const { data: result } = await getClient().mutate<{ updateProfile: User }>({
+    const { data: result } = await getClient().mutate<UpdateProfileMutation>({
       mutation: UPDATE_PROFILE,
       variables: { input: data },
     });

@@ -10,11 +10,13 @@ import { getLocale } from "next-intl/server";
 import { formatDate } from "@/lib/date-utils";
 import { LeagueTable } from "@/components/tables/league-table";
 import { LeagueAdminPanel } from "./admin-panel";
-import { League } from "@/lib/apollo/types";
+import { type League, GetLeagueQuery } from "@/lib/apollo/generated/graphql";
 import { Session } from "next-auth";
 
+type LeagueFromQuery = NonNullable<GetLeagueQuery["league"]>;
+
 interface LeagueTemplateProps {
-  league: League;
+  league: LeagueFromQuery;
   session: Session | null;
   isEditor: boolean;
 }
@@ -37,7 +39,7 @@ export function LeagueTemplate({
     userId: entry.player?.userId || null,
     country: entry.player?.user?.country || null,
     currentElo: entry.currentElo,
-    position: entry.position,
+    position: entry.position ?? 0,
     displayName: entry.player?.user?.name || entry.player?.user?.username || "",
   }));
 
@@ -56,7 +58,7 @@ export function LeagueTemplate({
 }
 
 interface LeagueContentProps {
-  league: League;
+  league: LeagueFromQuery;
   session: Session | null;
   isEditor: boolean;
   isUserRegistered: boolean;

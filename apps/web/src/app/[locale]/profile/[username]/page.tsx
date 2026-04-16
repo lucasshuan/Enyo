@@ -9,7 +9,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { GET_USER } from "@/lib/apollo/queries/user";
-import { User } from "@/lib/apollo/types";
+import { GetUserQuery } from "@/lib/apollo/generated/graphql";
 import { getServerAuthSession } from "@/auth";
 import { getTranslations } from "next-intl/server";
 import { buttonVariants } from "@/components/ui/button";
@@ -32,7 +32,7 @@ export async function generateMetadata({
   const t = await getTranslations("ProfilePage");
   const { username } = await params;
 
-  const data = await safeServerQuery<{ user: User }>({
+  const data = await safeServerQuery<GetUserQuery>({
     query: GET_USER,
     variables: { username },
   });
@@ -52,7 +52,7 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
   const tModals = await getTranslations("Modals");
   const { username, locale } = await params;
 
-  const data = await safeServerQuery<{ user: User }>({
+  const data = await safeServerQuery<GetUserQuery>({
     query: GET_USER,
     variables: { username },
   });

@@ -7,7 +7,10 @@ import { LoaderCircle, Calendar, Hash } from "lucide-react";
 import Image from "next/image";
 import { useQuery } from "@apollo/client/react";
 import { GET_PLAYER } from "@/lib/apollo/queries/players";
-import { type Player, type PlayerUsername } from "@/lib/apollo/types";
+import {
+  type PlayerUsername,
+  GetPlayerQuery,
+} from "@/lib/apollo/generated/graphql";
 import { formatDate } from "@/lib/date-utils";
 
 interface PlayerHoverCardProps {
@@ -32,13 +35,10 @@ export function PlayerHoverCard({
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const triggerRef = React.useRef<HTMLDivElement>(null);
 
-  const { data: apolloData, loading } = useQuery<{ player: Player }>(
-    GET_PLAYER,
-    {
-      variables: { id: playerId },
-      skip: !isOpen,
-    },
-  );
+  const { data: apolloData, loading } = useQuery<GetPlayerQuery>(GET_PLAYER, {
+    variables: { id: playerId },
+    skip: !isOpen,
+  });
   const data = apolloData?.player;
 
   const handleMouseEnter = () => {

@@ -1,4 +1,4 @@
-﻿import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { User } from '../auth/user.model';
 import { Game } from './game.model';
 import { LeagueEntry } from '../leagues/league-entry.model';
@@ -37,4 +37,7 @@ export class PlayerUsername {
 
   @Field()
   username: string;
+
+  @Field(() => Player, { nullable: true })
+  player?: Player;
 }

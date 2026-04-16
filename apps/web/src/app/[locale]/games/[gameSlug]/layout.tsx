@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { GET_GAME } from "@/lib/apollo/queries/games";
-import { Game } from "@/lib/apollo/types";
+import { GetGameQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 
 interface GameLayoutProps {
@@ -16,7 +16,7 @@ export default async function GameLayout({
   params,
 }: GameLayoutProps) {
   const { gameSlug } = await params;
-  const data = await safeServerQuery<{ game: Game }>({
+  const data = await safeServerQuery<GetGameQuery>({
     query: GET_GAME,
     variables: { slug: gameSlug },
   });

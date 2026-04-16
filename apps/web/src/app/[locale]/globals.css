@@ -43,6 +43,7 @@
     both;
   --animate-in: animate-in 0.2s cubic-bezier(0.2, 0, 0, 1) both;
   --animate-pop-in: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-auth-orb-drift: auth-orb-drift 8s ease-in-out infinite;
 
   @keyframes modal-overlay {
     0% {
@@ -88,6 +89,19 @@
     100% {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes auth-orb-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -20px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 15px) scale(0.95);
     }
   }
 }
@@ -321,19 +335,6 @@ button:hover {
 .animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 15s ease infinite;
-}
-
-@keyframes auth-orb-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(18px, -12px) scale(1.06);
-  }
-  66% {
-    transform: translate(-12px, 10px) scale(0.96);
-  }
 }
 
 @keyframes glitch-shake {

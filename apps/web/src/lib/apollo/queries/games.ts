@@ -1,4 +1,4 @@
-﻿import { gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const GET_GAMES = gql`
   query GetGames($pagination: PaginationInput, $search: String) {
@@ -56,6 +56,20 @@ export const GET_GAME = gql`
         startDate
         endDate
         createdAt
+        entries {
+          id
+          currentElo
+          position
+          player {
+            id
+            user {
+              id
+              name
+              username
+              country
+            }
+          }
+        }
       }
       _count {
         leagues

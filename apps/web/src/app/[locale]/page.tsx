@@ -1,4 +1,4 @@
-﻿import { Link } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { Suspense } from "react";
 import { ChevronRight, Compass } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { GameCard, GameCardSkeleton } from "@/components/cards/game-card";
 import { getTranslations } from "next-intl/server";
 import { GET_GAMES } from "@/lib/apollo/queries/games";
-import { Game } from "@/lib/apollo/types";
+import { GetGamesQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 
 export const dynamic = "force-dynamic";
@@ -120,7 +120,7 @@ async function PublicGamesList({
   noGamesTitle,
   noGamesDescription,
 }: PublicGamesListProps) {
-  const data = await safeServerQuery<{ games: { nodes: Game[] } }>({
+  const data = await safeServerQuery<GetGamesQuery>({
     query: GET_GAMES,
     variables: { pagination: { skip: 0, take: 4 } },
   });
@@ -128,7 +128,7 @@ async function PublicGamesList({
   const games = data?.games?.nodes || [];
   const gameList = games.map((game) => ({
     ...game,
-    leagueCount: game._count?.events || 0,
+    leagueCount: game._count?.leagues || 0,
     playerCount: game._count?.players || 0,
     tourneyCount: 0,
     postCount: 0,

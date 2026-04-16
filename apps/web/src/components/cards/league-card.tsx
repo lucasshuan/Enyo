@@ -1,10 +1,12 @@
 import { Link } from "@/i18n/routing";
-import { type League } from "@/lib/apollo/types";
+import { GetGameQuery } from "@/lib/apollo/generated/graphql";
 import { useTranslations } from "next-intl";
 import { Globe } from "lucide-react";
 
+type LeagueFromGame = NonNullable<GetGameQuery["game"]>["leagues"][number];
+
 interface LeagueCardProps {
-  league: League;
+  league: LeagueFromGame;
   game: string;
 }
 

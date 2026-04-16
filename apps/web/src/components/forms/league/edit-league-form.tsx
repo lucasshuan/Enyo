@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useTransition, useState, useEffect } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
@@ -22,7 +22,7 @@ import { useTranslations } from "next-intl";
 import { Slider } from "@/components/ui/slider";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { NumberInput } from "@/components/ui/number-input";
-import { type League } from "@/lib/apollo/types";
+import { type League } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils";
 
 interface EditLeagueFormProps {

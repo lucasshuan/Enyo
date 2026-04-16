@@ -7,7 +7,7 @@ import { useEditGameSchema, type EditGameValues } from "@/schemas/game";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { updateGame } from "@/actions/game";
-import { type Game } from "@/lib/apollo/types";
+import { type Game } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils";
 
 interface EditGameFormProps {

@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Settings2, UserPlus } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
 import { EditLeagueModal } from "@/components/modals/league/edit-league-modal";
 import { AddPlayerToLeagueModal } from "@/components/modals/league/add-player-to-league-modal";
-import { type League } from "@/lib/apollo/types";
+import { type League } from "@/lib/apollo/generated/graphql";
 import { useTranslations } from "next-intl";
 import { useUser } from "@/components/providers";
 

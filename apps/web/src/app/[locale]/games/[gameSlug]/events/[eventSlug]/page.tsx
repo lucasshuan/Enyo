@@ -1,11 +1,11 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getServerAuthSession } from "@/auth";
 import { canManageLeagues } from "@/lib/permissions";
 import { LeagueTemplate } from "@/components/templates/events/league";
 
 import { GET_LEAGUE } from "@/lib/apollo/queries/leagues";
-import { League } from "@/lib/apollo/types";
+import { GetLeagueQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 
 interface EventPageProps {
@@ -43,7 +43,7 @@ async function EventPageContent({
   const session = await getServerAuthSession();
 
   // For now, we use GET_LEAGUE as it handles the Event fetching behind the scenes
-  const data = await safeServerQuery<{ league: League }>({
+  const data = await safeServerQuery<GetLeagueQuery>({
     query: GET_LEAGUE,
     variables: { gameSlug, leagueSlug: eventSlug },
   });

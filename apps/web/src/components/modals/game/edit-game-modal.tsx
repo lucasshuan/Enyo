@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { EditGameForm } from "@/components/forms/game/edit-game-form";
-import { type Game } from "@/lib/apollo/types";
+import { type Game } from "@/lib/apollo/generated/graphql";
 
 interface EditGameModalProps {
   game: Game;

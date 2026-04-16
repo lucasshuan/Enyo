@@ -15,7 +15,7 @@ import { LeagueTable } from "@/components/tables/league-table";
 import { LeagueAdminPanel } from "./admin-panel";
 
 import { GET_LEAGUE } from "@/lib/apollo/queries/leagues";
-import { League } from "@/lib/apollo/types";
+import { type League, GetLeagueQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 
 interface LeaguePageProps {
@@ -45,7 +45,7 @@ async function LeaguePageContent({
   leagueSlug: string;
 }) {
   const session = await getServerAuthSession();
-  const data = await safeServerQuery<{ league: League }>({
+  const data = await safeServerQuery<GetLeagueQuery>({
     query: GET_LEAGUE,
     variables: { gameSlug, leagueSlug },
   });
@@ -71,7 +71,7 @@ async function LeaguePageContent({
     userId: entry.player?.userId || null,
     country: entry.player?.user?.country || null,
     currentElo: entry.currentElo,
-    position: entry.position,
+    position: entry.position ?? 0,
     displayName: entry.player?.user?.name || entry.player?.user?.username || "",
   }));
 
