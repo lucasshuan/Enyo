@@ -17,11 +17,14 @@ import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
 import { formatCompactNumber } from "@/lib/utils";
 
-// Client-side Admin Panel (migrated from GameAdminActions)
-import { GameAdminPanel } from "./admin-panel";
+import nextDynamic from "next/dynamic";
 import { AddEventButton } from "./add-event-button";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 import type { SimpleGame } from "@/actions/get-games";
+
+const GameAdminPanel = nextDynamic(() =>
+  import("./admin-panel").then((mod) => mod.GameAdminPanel),
+);
 
 type GamePageProps = {
   params: Promise<{

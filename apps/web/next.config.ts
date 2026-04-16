@@ -29,6 +29,8 @@ const nextConfig: NextConfig = {
       "react-hook-form",
       "@hookform/resolvers",
       "zod",
+      "flag-icons",
+      "@ares/core",
     ],
   },
   async headers() {
@@ -40,11 +42,11 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
               "img-src 'self' data: blob: cdn.discordapp.com shared.fastly.steamstatic.com *.googleusercontent.com",
               "font-src 'self' data: fonts.gstatic.com",
-              "connect-src 'self' *.supabase.co vitals.vercel-insights.com",
+              "connect-src 'self' *.supabase.co vitals.vercel-insights.com va.vercel-insights.com",
               "frame-ancestors 'none'",
               "upgrade-insecure-requests",
             ].join("; "),
