@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { GET_GAME } from "@/lib/apollo/queries/games";
 import { GetGameQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
+import Image from "next/image";
 
 interface GameLayoutProps {
   children: React.ReactNode;
@@ -29,19 +30,29 @@ export default async function GameLayout({
 
   return (
     <>
-      <section className="relative min-h-64 w-full overflow-hidden">
+      <section className="relative min-h-[320px] w-full overflow-hidden">
+        {game.backgroundImageUrl ? (
+          <>
+            <Image
+              src={game.backgroundImageUrl}
+              alt=""
+              fill
+              priority
+              className="object-cover opacity-60"
+              sizes="100vw"
+            />
+            <div className="from-background/40 to-background absolute inset-0 bg-linear-to-b" />
+          </>
+        ) : (
+          <div className="from-primary/20 to-background/94 absolute inset-0 bg-linear-to-br" />
+        )}
         <div
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-10"
           style={{
-            backgroundImage: game.backgroundImageUrl
-              ? `linear-gradient(180deg, rgba(11,8,15,0.4) 0%, rgba(11,8,15,0) 100%), url(${game.backgroundImageUrl})`
-              : "linear-gradient(135deg, color-mix(in srgb, var(--primary) 32%, transparent), rgba(11,8,15,0.94))",
-            backgroundPosition: "center",
-            backgroundSize: "cover",
             maskImage:
-              "linear-gradient(to bottom, black 70%, transparent 100%)",
+              "linear-gradient(to bottom, black 50%, transparent 100%)",
             WebkitMaskImage:
-              "linear-gradient(to bottom, black 70%, transparent 100%)",
+              "linear-gradient(to bottom, black 50%, transparent 100%)",
           }}
         />
       </section>

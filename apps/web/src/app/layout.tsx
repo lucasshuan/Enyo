@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     default: "Ares",
     template: "%s | Ares",
   },
-  description: "Plataforma de league e torneios para jogos.",
+  description: "Plataforma de ligas e torneios para jogos.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
   },
   openGraph: {
     title: "Ares",
-    description: "Plataforma de league e torneios para jogos.",
+    description: "Plataforma de ligas e torneios para jogos.",
     images: [
       {
         url: "/logo.png",

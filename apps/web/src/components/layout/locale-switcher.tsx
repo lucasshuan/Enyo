@@ -82,7 +82,7 @@ export function LocaleSwitcher() {
 
       <button
         type="button"
-        aria-label={t("label")}
+        aria-label={`${t("label")}: ${t(selectedLocale)}`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         disabled={isPending}
@@ -112,7 +112,7 @@ export function LocaleSwitcher() {
         <div className="glass-panel absolute top-full right-0 z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0f0b12]/95 p-1 shadow-2xl backdrop-blur-xl">
           <div
             role="listbox"
-            aria-label={t("label")}
+            aria-label={`${t("label")}: ${t(selectedLocale)}`}
             className="flex flex-col gap-1"
           >
             {routing.locales.map((value) => (

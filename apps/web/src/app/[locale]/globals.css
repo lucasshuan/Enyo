@@ -195,29 +195,33 @@ button:hover {
 
 @keyframes grid-drift {
   0% {
-    background-position:
-      0 0,
-      0 0;
+    transform: translate(0, 0);
   }
 
   100% {
-    background-position:
-      84px 84px,
-      84px 84px;
+    transform: translate(84px, 84px);
   }
 }
 
 .grid-surface {
+  position: fixed;
+  inset: -100px;
+  z-index: -50;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image:
     linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px);
-  background-position:
-    0 0,
-    0 0;
   background-size: 42px 42px;
   animation: grid-drift 5s linear infinite;
   animation-delay: -2.5s;
-  will-change: background-position;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
