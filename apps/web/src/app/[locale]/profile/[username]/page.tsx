@@ -93,7 +93,7 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse gap-8 px-6 pt-16 pb-12 sm:px-10 lg:flex-row lg:gap-8 lg:px-12">
         {/* Sidebar */}
-        <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
+        <aside className="w-full shrink-0 lg:w-[320px] xl:w-90">
           <div className="sticky top-28 flex flex-col gap-4">
             <div className="glass-panel overflow-hidden rounded-4xl">
               {/* Subtle decorations removed */}
@@ -118,7 +118,7 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
                 </h1>
 
                 {targetUser.bio ? (
-                  <p className="mt-6 max-w-[280px] text-sm leading-relaxed text-white/60">
+                  <p className="mt-6 max-w-70 text-sm leading-relaxed text-white/60">
                     {targetUser.bio}
                   </p>
                 ) : isOwnProfile ? (

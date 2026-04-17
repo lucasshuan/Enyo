@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseProvider } from '../../database/database.provider';
 import type { User } from '@ares/db';
@@ -130,5 +130,28 @@ export class AuthService {
     });
 
     return authCode.token;
+  }
+
+  async getSessionData(userId: string) {
+    const user = await this.databaseProvider.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const permissions = await this.databaseProvider.userPermission.findMany({
+      where: { userId: user.id },
+      include: { permission: true },
+    });
+
+    return {
+      id: user.id,
+      username: user.username,
+      image: user.image,
+      isAdmin: user.isAdmin,
+      permissions: permissions.map((p) => p.permission.key),
+    };
   }
 }

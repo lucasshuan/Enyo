@@ -320,7 +320,7 @@
           "placeholder": "MM/DD/YYYY"
         },
         "end": {
-          "label": "End Date",
+          "label": "End Date (Optional)",
           "placeholder": "MM/DD/YYYY"
         }
       },

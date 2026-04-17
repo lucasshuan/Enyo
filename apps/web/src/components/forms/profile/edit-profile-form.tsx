@@ -372,7 +372,7 @@ export function EditProfileForm({
             typeof document !== "undefined" &&
             createPortal(
               <div
-                className="glass-panel country-portal-content custom-scrollbar fixed z-9999 mt-2 flex max-h-[250px] flex-col overflow-hidden rounded-2xl shadow-2xl"
+                className="glass-panel country-portal-content custom-scrollbar fixed z-9999 mt-2 flex max-h-62.5 flex-col overflow-hidden rounded-2xl shadow-2xl"
                 style={{
                   top: countryCoords.top,
                   left: countryCoords.left,

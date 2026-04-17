@@ -54,14 +54,6 @@ export function LocaleSwitcher() {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    for (const targetLocale of routing.locales) {
-      if (targetLocale !== locale) {
-        router.prefetch(pathname, { locale: targetLocale });
-      }
-    }
-  }, [locale, pathname, router]);
-
   const switchLocale = (newLocale: (typeof routing.locales)[number]) => {
     if (newLocale === locale) {
       setIsOpen(false);

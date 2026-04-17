@@ -1,4 +1,4 @@
-﻿import { redirect } from "next/navigation";
+﻿import { redirect } from "@/i18n/routing";
 
 interface GameLeaguesPageProps {
   params: Promise<{
@@ -12,5 +12,5 @@ export default async function GameLeaguesPage({
 }: GameLeaguesPageProps) {
   const { gameSlug, locale } = await params;
 
-  redirect(`/${locale}/games/${gameSlug}`);
+  redirect({ href: `/games/${gameSlug}`, locale });
 }

@@ -139,6 +139,7 @@ export function DateInput({
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleSelect}
+                defaultMonth={selectedDate}
                 disabled={minDate ? (date) => date < minDate : undefined}
                 initialFocus
               />

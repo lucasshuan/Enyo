@@ -319,7 +319,7 @@
           "placeholder": "DD/MM/AAAA"
         },
         "end": {
-          "label": "Data de Término",
+          "label": "Data de Término (Opcional)",
           "placeholder": "DD/MM/AAAA"
         }
       },

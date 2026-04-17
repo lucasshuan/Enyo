@@ -4,6 +4,10 @@ import { Suspense, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import {
+  getLocalizedPathname,
+  getPreferredClientLocale,
+} from "@/i18n/locale";
 import { getApiUrl } from "@/lib/api";
 
 function AuthCallbackContent() {
@@ -11,12 +15,22 @@ function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const processing = useRef(false);
 
+  const redirectWithLocale = (
+    href: string | { pathname: string; query?: Record<string, string> },
+  ) => {
+    const locale = getPreferredClientLocale();
+    router.replace(getLocalizedPathname(href, locale));
+  };
+
   useEffect(() => {
     const code = searchParams.get("code");
 
     if (!code) {
       console.error("[AuthCallback] No code found in search params");
-      router.replace("/?error=Callback");
+      redirectWithLocale({
+        pathname: "/",
+        query: { error: "Callback" },
+      });
       return;
     }
 
@@ -44,7 +58,10 @@ function AuthCallbackContent() {
             status: response.status,
             errorData,
           });
-          router.replace("/?error=Callback");
+          redirectWithLocale({
+            pathname: "/",
+            query: { error: "Callback" },
+          });
           return;
         }
 
@@ -60,18 +77,24 @@ function AuthCallbackContent() {
           console.log(
             "[AuthCallback] Sign in successful, redirecting to /profile",
           );
-          router.replace("/profile");
+          redirectWithLocale("/profile");
           return;
         }
 
         console.error("[AuthCallback] Sign in failed", result?.error);
-        router.replace("/?error=Callback");
+        redirectWithLocale({
+          pathname: "/",
+          query: { error: "Callback" },
+        });
       } catch (error) {
         console.error(
           "[AuthCallback] Unexpected error",
           error instanceof Error ? error.message : error,
         );
-        router.replace("/?error=Callback");
+        redirectWithLocale({
+          pathname: "/",
+          query: { error: "Callback" },
+        });
       }
     })();
   }, [router, searchParams]);

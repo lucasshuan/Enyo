@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
-import type { User } from '@ares/db';
 import type { Response } from 'express';
 
 import { AuthService } from './auth.service';
+import { User } from '@ares/db';
 
 @Controller('auth')
 export class AuthController {
@@ -52,7 +52,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
-  getMe(@Req() req: { user: User }) {
-    return req.user;
+  getMe(@Req() req: { user: { id: string } }) {
+    return this.authService.getSessionData(req.user.id);
   }
 }

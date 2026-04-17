@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, ReactNode, Suspense } from "react";
+import { useEffect, useRef, createContext, useContext, ReactNode, Suspense } from "react";
 import { type Session } from "next-auth";
 import {
   SessionProvider as NextAuthSessionProvider,
+  signOut,
   useSession,
 } from "next-auth/react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 
 import { LoginErrorHandler } from "@/components/auth/login-error-handler";
 import {
@@ -59,6 +60,27 @@ export function useUser() {
   return context;
 }
 
+const SESSION_ERROR_MESSAGES: Record<string, string> = {
+  AccessTokenExpired: "Your session has expired. Please sign in again.",
+  SessionInvalid: "Your session is no longer valid. Please sign in again.",
+};
+
+function SessionGuard() {
+  const { data: session } = useSession();
+  const handledRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const error = session?.error;
+    if (!error || handledRef.current === error) return;
+
+    handledRef.current = error;
+    toast.error(SESSION_ERROR_MESSAGES[error] ?? "Session error. Please sign in again.");
+    void signOut({ callbackUrl: "/" });
+  }, [session?.error]);
+
+  return null;
+}
+
 export function Providers({
   children,
   session,
@@ -67,9 +89,10 @@ export function Providers({
   session?: Session | null;
 }) {
   return (
-    <NextAuthSessionProvider session={session}>
+    <NextAuthSessionProvider session={session} refetchInterval={5 * 60}>
       <UserProvider>
         {children}
+        <SessionGuard />
         <Suspense fallback={null}>
           <LoginErrorHandler />
         </Suspense>
