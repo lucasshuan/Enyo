@@ -97,9 +97,7 @@ export function PlayerHoverCard({
             <div className="glass-panel overflow-hidden rounded-3xl bg-[#0a080f] shadow-2xl ring-1 ring-white/10">
               <div className="flex flex-col">
                 {/* Header - Always show immediately using props or fetched data */}
-                <div className="relative h-20 overflow-hidden bg-white/5">
-                  <div className="bg-primary/20 absolute inset-0 blur-xl" />
-                </div>
+                <div className="h-20 bg-white/5" />
 
                 <div className="relative px-5 pb-5">
                   <div className="-mt-8 mb-4 flex items-end justify-between">

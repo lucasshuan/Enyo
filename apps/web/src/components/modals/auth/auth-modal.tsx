@@ -16,42 +16,6 @@ type AuthModalProps = {
   isPending: boolean;
 };
 
-// ─── Animated background orbs ────────────────────────────────────────────────
-
-function BackgroundOrbs() {
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden rounded-4xl"
-    >
-      {/* Main crimson glow */}
-      <div
-        className="absolute -top-20 -left-20 size-72 rounded-full opacity-30 blur-[80px]"
-        style={{
-          background: "radial-gradient(circle, #c00b3b 0%, transparent 70%)",
-          animation: "auth-orb-drift 8s ease-in-out infinite",
-        }}
-      />
-      {/* Soft violet accent */}
-      <div
-        className="absolute -right-16 -bottom-16 size-56 rounded-full opacity-20 blur-[60px]"
-        style={{
-          background: "radial-gradient(circle, #8b5cf6 0%, transparent 70%)",
-          animation: "auth-orb-drift 11s ease-in-out infinite reverse",
-        }}
-      />
-      {/* Subtle top-right crimson */}
-      <div
-        className="absolute top-0 right-1/4 size-32 rounded-full opacity-15 blur-2xl"
-        style={{
-          background: "radial-gradient(circle, #c00b3b 0%, transparent 70%)",
-          animation: "auth-orb-drift 6s ease-in-out infinite 2s",
-        }}
-      />
-    </div>
-  );
-}
-
 // ─── Scan-line texture ────────────────────────────────────────────────────────
 
 function ScanLines() {
@@ -154,7 +118,6 @@ function AuthModalInner({
             "0 0 0 1px rgba(192,11,59,0.18), 0 0 0 1px rgba(255,255,255,0.04) inset, 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(192,11,59,0.12)",
         }}
       >
-        <BackgroundOrbs />
         <ScanLines />
 
         {/* Top border accent */}
@@ -182,10 +145,6 @@ function AuthModalInner({
           <div className="mb-8 flex flex-col items-center gap-5">
             {/* Icon medallion */}
             <div className="relative">
-              <div
-                className="rounded-2 absolute inset-0 blur-xl"
-                style={{ background: "rgba(192,11,59,0.2)" }}
-              />
               <div
                 className="bg-primary size-14 shrink-0 sm:size-16 lg:size-14"
                 style={{

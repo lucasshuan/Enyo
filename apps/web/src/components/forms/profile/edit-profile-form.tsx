@@ -473,7 +473,7 @@ export function EditProfileForm({
           placeholder={t("bio.placeholder")}
           rows={3}
           className={cn(
-            "focus:border-primary/50 focus:ring-primary/10 w-full resize-none rounded-2xl border bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4",
+            "focus:border-primary/50 focus:ring-primary/10 custom-scrollbar w-full resize-none rounded-2xl border bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4",
             errors.bio ? "border-red-500/50" : "border-white/10",
           )}
         />

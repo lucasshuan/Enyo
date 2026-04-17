@@ -24,24 +24,24 @@ export function GameCard({
   return (
     <Link
       href={`/games/${game.slug}` as Route}
-      className="glass-panel group flex w-full flex-col overflow-hidden rounded-4xl"
+      className="glass-panel group flex w-full flex-col overflow-hidden rounded-4xl transition-all duration-300"
     >
-      <div className="relative aspect-368/178 w-full overflow-hidden">
+      <div className="relative aspect-368/178 w-full shrink-0 overflow-hidden bg-[#0b080f] brightness-75 transition-all duration-500 ease-out group-hover:brightness-100">
         {game.thumbnailImageUrl ? (
-          <Image
-            src={game.thumbnailImageUrl}
-            alt={game.name}
-            fill
-            priority={priority}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            quality={75}
-          />
+          <div className="absolute -inset-px transform-gpu transition-transform duration-500 ease-out group-hover:scale-[1.1]">
+            <Image
+              src={game.thumbnailImageUrl}
+              alt={game.name}
+              fill
+              priority={priority}
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              quality={75}
+            />
+          </div>
         ) : (
-          <div className="from-primary/48 h-full w-full bg-linear-to-br to-[#0b080f]/92 transition-transform duration-500 group-hover:scale-105" />
+          <div className="from-primary/48 absolute -inset-px h-auto w-auto bg-linear-to-br to-[#0b080f]/92 transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
         )}
-
-        <div className="absolute inset-0 bg-linear-to-b from-[#0b080f]/0 to-[#0b080f]/80 transition-opacity duration-500 group-hover:opacity-40" />
       </div>
 
       <div className="flex min-h-26 flex-col px-5 pt-5 pb-8">

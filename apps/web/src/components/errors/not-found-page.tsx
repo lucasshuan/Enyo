@@ -198,15 +198,6 @@ export function NotFoundPage() {
       <ParticleCanvas />
       <Scanlines />
 
-      <div
-        aria-hidden="true"
-        className="animate-breathe pointer-events-none absolute top-1/2 left-1/2 -z-10 aspect-square w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
-        style={{
-          background:
-            "radial-gradient(circle, color-mix(in srgb, #c00b3b 22%, transparent) 0%, transparent 70%)",
-        }}
-      />
-
       <div className="relative flex flex-col items-center gap-6">
         <GlitchText />
 

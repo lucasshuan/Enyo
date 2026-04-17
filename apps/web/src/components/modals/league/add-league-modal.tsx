@@ -52,18 +52,14 @@ export function AddLeagueModal({
   };
 
   // States
-  const [currentStep, setCurrentStep] = useState(gameId ? 1 : 0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
-
-  if (isOpen && !prevIsOpen) {
-    setPrevIsOpen(true);
-    setCurrentStep(gameId ? 1 : 0);
-  } else if (!isOpen && prevIsOpen) {
-    setPrevIsOpen(false);
-  }
+  
+  
+  // Track max reached step with ref (no re-render needed)
+  const maxReachedStepRef = useRef(gameId ? 1 : 0);
 
   const isMounted = useRef(true);
 
@@ -74,6 +70,26 @@ export function AddLeagueModal({
       isMounted.current = false;
     };
   }, []);
+
+  // Handle modal open state changes
+  useEffect(() => {
+    const handleOpenModal = () => {
+      const initialStep = gameId ? 1 : 0;
+      setCurrentStep(initialStep);
+      maxReachedStepRef.current = initialStep;
+    };
+
+    if (isOpen) {
+      handleOpenModal();
+    }
+  }, [isOpen, gameId]);
+
+  // Update max reached step ref when currentStep changes
+  useEffect(() => {
+    if (currentStep > maxReachedStepRef.current) {
+      maxReachedStepRef.current = currentStep;
+    }
+  }, [currentStep]);
 
   const steps = [
     { label: t("steps.game") },
@@ -88,6 +104,7 @@ export function AddLeagueModal({
     setTimeout(() => {
       if (isMounted.current) {
         setCurrentStep(0);
+        maxReachedStepRef.current = 0;
         setIsLoading(false);
       }
     }, 300);
@@ -104,6 +121,15 @@ export function AddLeagueModal({
     }
   };
 
+  const handleStepClick = (step: number) => {
+    setCurrentStep(step);
+  };
+
+  const isStepUnlocked = (step: number) => {
+    if (step <= currentStep) return true;
+    return step <= maxReachedStepRef.current && isStepValid;
+  };
+
   return (
     <>
       <MultiStepModal
@@ -113,6 +139,8 @@ export function AddLeagueModal({
         onClose={handleClose}
         onNext={() => setCurrentStep((s) => s + 1)}
         onBack={() => setCurrentStep((s) => s - 1)}
+        onStepClick={handleStepClick}
+        isStepUnlocked={isStepUnlocked}
         onConfirm={handleOpenConfirm}
         steps={steps}
         currentStep={currentStep}
@@ -151,3 +179,6 @@ export function AddLeagueModal({
     </>
   );
 }
+
+
+

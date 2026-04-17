@@ -83,60 +83,20 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
       }
     >
       {/* Background Glows & Floating Blobs */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 aspect-square w-150 rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--primary)_15%,transparent)_0%,transparent_70%)] blur-[80px]" />
-        <div className="absolute top-1/2 -right-24 aspect-square w-120 rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--primary)_10%,transparent)_0%,transparent_70%)] blur-[60px]" />
-
-        {/* Animated Blobs with Breathing Effect */}
-        <div className="animate-float animate-breathe bg-primary/20 absolute top-[10%] left-[5%] h-64 w-64 rounded-full blur-[80px]" />
-        <div
-          className="animate-float-slow animate-breathe bg-primary/10 absolute top-[55%] right-[5%] h-[450px] w-[450px] rounded-full blur-[120px]"
-          style={{ animationDelay: "-2s" }}
-        />
-        <div
-          className="animate-float animate-breathe bg-primary/15 absolute bottom-[5%] left-[20%] h-80 w-80 rounded-full blur-[90px]"
-          style={{ animationDelay: "-5s", animationDuration: "17s" }}
-        />
-        <div
-          className="animate-float-slow animate-breathe bg-primary/30 absolute top-[25%] left-[45%] h-32 w-32 rounded-full blur-[50px]"
-          style={{ animationDelay: "-1.5s" }}
-        />
-        <div
-          className="animate-float animate-breathe bg-primary/10 absolute right-[20%] bottom-[35%] h-72 w-72 rounded-full blur-[100px]"
-          style={{ animationDelay: "-4s" }}
-        />
-      </div>
+      {/* Background Glows & Floating Blobs Removed */}
 
       {/* Profile Header Background */}
       <div
         className="pointer-events-none absolute top-0 right-0 left-0 z-0 h-40 overflow-hidden"
         style={{ backgroundColor: "var(--primary-strong)" }}
-      >
-        <div
-          className="animate-float-slow absolute -top-1/2 -left-1/4 h-[200%] w-[150%] opacity-50"
-          style={{
-            background: `radial-gradient(circle at center, var(--primary-light) 0%, transparent 70%)`,
-            filter: "blur(40px)",
-          }}
-        />
-        <div
-          className="animate-float absolute -right-1/4 -bottom-1/2 h-[150%] w-[120%] opacity-30"
-          style={{
-            background: `radial-gradient(circle at center, var(--primary) 0%, transparent 60%)`,
-            filter: "blur(60px)",
-            animationDirection: "reverse",
-          }}
-        />
-      </div>
+      ></div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse gap-8 px-6 pt-16 pb-12 sm:px-10 lg:flex-row lg:gap-8 lg:px-12">
         {/* Sidebar */}
         <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
           <div className="sticky top-28 flex flex-col gap-4">
             <div className="glass-panel overflow-hidden rounded-4xl">
-              {/* Subtle gradient background decoration inside sidebar */}
-              <div className="bg-primary/20 pointer-events-none absolute -top-10 -right-10 size-40 rounded-full blur-[50px]" />
-              <div className="bg-secondary/10 pointer-events-none absolute -bottom-10 -left-10 size-40 rounded-full blur-[50px]" />
+              {/* Subtle decorations removed */}
 
               <div className="relative z-10 flex flex-col items-center p-8 text-center">
                 {targetUser.image ? (

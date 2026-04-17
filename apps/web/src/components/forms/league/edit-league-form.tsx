@@ -319,7 +319,7 @@ export function EditLeagueForm({
               {...register("description")}
               placeholder={t("AddLeague.descriptionField.placeholder")}
               className={cn(
-                "focus:border-primary/50 focus:ring-primary/10 min-h-[80px] w-full rounded-2xl border bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4",
+                "focus:border-primary/50 focus:ring-primary/10 custom-scrollbar min-h-[80px] w-full rounded-2xl border bg-white/5 px-5 py-3 text-sm text-white transition-all outline-none placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-4",
                 errors.description ? "border-red-500/50" : "border-white/10",
               )}
             />
@@ -601,8 +601,6 @@ export function EditLeagueForm({
 
               {/* Explanation Box */}
               <div className="border-primary/20 bg-primary/3 shadow-primary/5 relative overflow-hidden rounded-3xl border p-6 shadow-2xl">
-                <div className="bg-primary/5 absolute -top-12 -right-12 h-32 w-32 rounded-full blur-3xl" />
-
                 <h4 className="text-primary mb-4 flex items-center gap-2 text-sm font-bold">
                   <Zap className="size-4" />
                   {t("AddLeague.explanation.title")}

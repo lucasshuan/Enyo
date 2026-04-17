@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { getLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
@@ -55,7 +55,7 @@ export default async function AppLayout({
   const locale = await getLocale().catch(() => routing.defaultLocale);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
       <body>
         {children}
         <Analytics />

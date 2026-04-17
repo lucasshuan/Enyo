@@ -1,7 +1,6 @@
 import "server-only";
 
 import type { NextAuthOptions, User as NextAuthUser } from "next-auth";
-import { decode as decodeJwt, encode as encodeJwt } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "@/env";
@@ -16,18 +15,6 @@ type BackendJwtPayload = {
 
 export const authOptions = {
   secret: env.NEXTAUTH_SECRET,
-  jwt: {
-    async encode(params) {
-      return encodeJwt(params);
-    },
-    async decode(params) {
-      try {
-        return await decodeJwt(params);
-      } catch {
-        return null;
-      }
-    },
-  },
   session: {
     strategy: "jwt",
   },

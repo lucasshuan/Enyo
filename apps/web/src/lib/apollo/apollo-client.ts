@@ -7,8 +7,7 @@ import {
   ApolloClient,
   InMemoryCache,
 } from "@apollo/client-integration-nextjs";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth/config";
+import { getServerAuthSession } from "@/auth";
 import { env } from "@/env";
 import { logger } from "@/lib/logger";
 
@@ -18,7 +17,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   });
 
   const authLink = new SetContextLink(async ({ headers }) => {
-    const session = await getServerSession(authOptions);
+    const session = await getServerAuthSession();
     const token = session?.user?.accessToken;
 
     return {

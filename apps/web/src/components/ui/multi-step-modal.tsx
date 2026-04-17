@@ -20,6 +20,8 @@ interface MultiStepModalProps {
   currentStep: number;
   onNext: () => void;
   onBack: () => void;
+  onStepClick?: (step: number) => void;
+  isStepUnlocked?: (step: number) => boolean;
   onConfirm?: () => void;
   children: React.ReactNode;
   className?: string;
@@ -42,6 +44,8 @@ export function MultiStepModal({
   currentStep,
   onNext,
   onBack,
+  onStepClick,
+  isStepUnlocked,
   onConfirm,
   children,
   className = "sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl",
@@ -118,17 +122,23 @@ export function MultiStepModal({
               const Icon = step.icon;
               const isActive = idx === currentStep;
               const isPast = idx < currentStep;
+              const isUnlocked = isStepUnlocked?.(idx) ?? false;
+              const canClick =
+                onStepClick && (isPast || isUnlocked) && !isActive;
 
               return (
                 <div key={idx} className="flex shrink-0 items-center gap-2">
-                  <div
+                  <button
+                    type="button"
+                    onClick={() => canClick && onStepClick(idx)}
+                    disabled={!canClick}
                     className={cn(
                       "flex items-center gap-2 rounded-2xl border px-4 py-2 transition-all duration-300",
                       isActive
                         ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                        : isPast
-                          ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-500/70"
-                          : "border-white/5 bg-white/5 text-white/30",
+                        : isPast || isUnlocked
+                          ? "cursor-pointer border-emerald-500/20 bg-emerald-500/5 text-emerald-500/70 hover:bg-emerald-500/10"
+                          : "cursor-not-allowed border-white/5 bg-white/5 text-white/30",
                     )}
                   >
                     <div
@@ -136,7 +146,7 @@ export function MultiStepModal({
                         "flex size-5 items-center justify-center rounded-full text-[10px] font-bold",
                         isActive
                           ? "bg-primary text-white"
-                          : isPast
+                          : isPast || isUnlocked
                             ? "bg-emerald-500 text-white"
                             : "bg-white/10 text-white/40",
                       )}
@@ -147,12 +157,14 @@ export function MultiStepModal({
                     <span className="text-xs font-bold tracking-wide uppercase">
                       {step.label}
                     </span>
-                  </div>
+                  </button>
                   {idx < steps.length - 1 && (
                     <div
                       className={cn(
                         "h-px w-6",
-                        isPast ? "bg-emerald-500/20" : "bg-white/5",
+                        isPast || isUnlocked
+                          ? "bg-emerald-500/20"
+                          : "bg-white/5",
                       )}
                     />
                   )}

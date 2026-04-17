@@ -52,9 +52,6 @@ export function AddEventButton({
           </span>
         </div>
         <ChevronRight className="group-hover:text-primary ml-auto size-5 text-white/20 transition-transform group-hover:translate-x-1" />
-
-        {/* Glow effect */}
-        <div className="bg-primary/5 absolute -right-4 -bottom-4 size-24 rounded-full opacity-0 blur-2xl transition-opacity group-hover:opacity-100" />
       </button>
     ) : (
       <button
