@@ -326,6 +326,12 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
   - arquivos afetados: `apps/api/package.json`, `pnpm-lock.yaml`
   - dificuldade: baixa | impacto: baixo
 
+- [ ] **3.4 As rotas GQL precisam puxar apenas os campos necessários**
+  - [ ] Analisar as rotas GraphQL atuais e identificar quais campos estão sendo puxados desnecessariamente.
+  - [ ] Criar queries novas para puxar apenas os campos necessários para cada necessidade específica, evitando overfetching.
+  - arquivos afetados: `apps/web/src/lib/apollo/queries/*`
+  - dificuldade: média | impacto: médio
+
 ### Etapa 4. Melhorias de UX e Qualidade de Vida
 
 - [ ] **4.1 Padronizar next-intl**
