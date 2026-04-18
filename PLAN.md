@@ -293,8 +293,7 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
 
 - [ ] **2.2 Criar a primeira suíte de testes real**
   - [ ] Configurar Vitest no `apps/web` com `React Testing Library`.
-  - [ ] Implementar testes de integração na API para os fluxos de criação de Jogo e Registro em League.
-  - [ ] Criar testes unitários para a lógica de cálculo de ELO/Pontos no backend.
+  - [ ] Implementar testes de integração e unidade na API para os fluxos existentes.
   - arquivos afetados: `apps/api/test/*`, `apps/web/src/**/*.test.tsx`
   - dificuldade: alta | impacto: alto
 

@@ -6,7 +6,7 @@ export const GET_USER = gql`
       id
       name
       username
-      image
+      imageUrl
       bio
       profileColor
       isAdmin
@@ -40,7 +40,7 @@ export const SEARCH_USERS = gql`
         id
         name
         username
-        image
+        imageUrl
       }
       totalCount
       hasNextPage

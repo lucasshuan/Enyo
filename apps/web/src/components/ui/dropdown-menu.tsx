@@ -10,6 +10,7 @@ interface DropdownMenuProps {
   side?: "bottom" | "right";
   align?: "start" | "center" | "end";
   width?: number;
+  openOnHover?: boolean;
 }
 
 function getDropdownCoords({
@@ -61,16 +62,26 @@ export function DropdownMenu({
   side = "bottom",
   align = "start",
   width: customWidth,
+  openOnHover = false,
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [coords, setCoords] = useState({
     top: 0,
     left: 0,
     width: 0,
     actualSide: side,
   });
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -138,9 +149,49 @@ export function DropdownMenu({
     setIsOpen(!isOpen);
   };
 
+  const openDropdown = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+
+    if (!containerRef.current) return;
+
+    setCoords(
+      getDropdownCoords({
+        element: containerRef.current,
+        side,
+        align,
+        customWidth,
+      }),
+    );
+    setIsOpen(true);
+  };
+
+  const closeDropdown = () => {
+    if (!openOnHover) {
+      setIsOpen(false);
+      return;
+    }
+
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
+
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+      closeTimeoutRef.current = null;
+    }, 140);
+  };
+
   return (
-    <div className="relative w-fit" ref={containerRef}>
-      <div onClick={toggleDropdown} className="w-fit cursor-pointer">
+    <div
+      className="relative w-fit"
+      ref={containerRef}
+      onMouseEnter={openOnHover ? openDropdown : undefined}
+      onMouseLeave={openOnHover ? closeDropdown : undefined}
+    >
+      <div onClick={openOnHover ? undefined : toggleDropdown} className="w-fit cursor-pointer">
         {trigger}
       </div>
 
@@ -161,6 +212,8 @@ export function DropdownMenu({
                 ? "slide-in-from-left-2"
                 : "slide-in-from-top-2",
             )}
+            onMouseEnter={openOnHover ? openDropdown : undefined}
+            onMouseLeave={openOnHover ? closeDropdown : undefined}
           >
             <div onClick={() => setIsOpen(false)}>{children}</div>
           </div>,

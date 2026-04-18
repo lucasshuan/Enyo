@@ -99,9 +99,9 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
               {/* Subtle decorations removed */}
 
               <div className="relative z-10 flex flex-col items-center p-8 text-center">
-                {targetUser.image ? (
+                {targetUser.imageUrl ? (
                   <Image
-                    src={targetUser.image}
+                    src={targetUser.imageUrl}
                     alt={targetUser.name ?? targetUser.username ?? "Avatar"}
                     width={140}
                     height={140}

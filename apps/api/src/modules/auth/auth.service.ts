@@ -46,7 +46,7 @@ export class AuthService {
     }
 
     // 2. If not, create user and account
-    const image = avatar
+    const imageUrl = avatar
       ? `https://cdn.discordapp.com/avatars/${providerAccountId}/${avatar}.png`
       : null;
 
@@ -55,7 +55,7 @@ export class AuthService {
         name: global_name || username,
         username: username,
         email: email,
-        image: image,
+        imageUrl: imageUrl,
         accounts: {
           create: {
             type: 'oauth',
@@ -80,7 +80,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       username: user.username,
-      image: user.image,
+      imageUrl: user.imageUrl,
       isAdmin: user.isAdmin,
       permissions: permissionKeys,
     };
@@ -149,7 +149,7 @@ export class AuthService {
     return {
       id: user.id,
       username: user.username,
-      image: user.image,
+      imageUrl: user.imageUrl,
       isAdmin: user.isAdmin,
       permissions: permissions.map((p) => p.permission.key),
     };

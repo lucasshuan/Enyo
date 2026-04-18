@@ -54,7 +54,7 @@ model User {
   username      String    @unique
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
-  image         String?
+  imageUrl         String?   @map("image_url")
   bio           String?
   profileColor  String?   @map("profile_color")
   country       String?

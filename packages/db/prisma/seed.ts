@@ -18,9 +18,9 @@ const GAMES_TO_SEED = [
     description:
       "Superfighters Deluxe is a unique action game that combines brawling, shooting and platforming in dynamic sandboxy 2D levels. Lots of weapons and fun gameplay systems interlock to create absurd action-movie chaos.",
     thumbnailImageUrl:
-      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/855860/header.jpg?t=1774470652",
+      "https://dcoboi83hxoar.cloudfront.net/uploads/406f2c2e-2730-425f-9736-119a12c7d4ad.jpg",
     backgroundImageUrl:
-      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/855860/ss_0f1d0d077ce556fc003e2f2cd330d0fb8ce8dd7c.1920x1080.jpg?t=1774470652",
+      "https://dcoboi83hxoar.cloudfront.net/uploads/72b2fefd-57c7-4212-86c1-edb2d559ac4c.jpg",
     steamUrl: "https://store.steampowered.com/app/855860/Superfighters_Deluxe/",
   },
   {
@@ -29,9 +29,9 @@ const GAMES_TO_SEED = [
     description:
       "Rocket League is a high-powered hybrid of arcade-style soccer and vehicular mayhem with easy-to-understand controls and fluid, physics-driven competition. Rocket League includes casual and competitive Online Matches, a fully-featured offline Season Mode, special “Mutators” that let you change the rules entirely, hockey and basketball-inspired Extra Modes, and more than 500 trillion possible cosmetic customization combinations.",
     thumbnailImageUrl:
-      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252950/1bcf75584d0c3613b02b2d0a2721a6b411375784/header_alt_assets_15.jpg?t=1773251703",
+      "https://dcoboi83hxoar.cloudfront.net/uploads/5f54b3b0-f4f2-463f-8cd9-52e4bed66ccf.jpg",
     backgroundImageUrl:
-      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252950/7bf3df882320660bf9e48727c1aa46fb53fbdb9e/ss_7bf3df882320660bf9e48727c1aa46fb53fbdb9e.1920x1080.jpg?t=1773251703",
+      "https://dcoboi83hxoar.cloudfront.net/uploads/7e77f9cb-fada-4fea-9631-9216a7cf39c1.jpg",
     steamUrl: "https://store.steampowered.com/app/252950/Rocket_League/",
   },
 ];

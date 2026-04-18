@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditGameSchema, type EditGameValues } from "@/schemas/game";
 import { useTranslations } from "next-intl";
@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { updateGame } from "@/actions/game";
 import { type Game } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils";
+import { ImageUploadInput } from "@/components/ui/image-upload-input";
 
 interface EditGameFormProps {
   game: Game;
@@ -32,6 +33,7 @@ export function EditGameForm({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid },
   } = useForm<EditGameValues>({
     resolver: zodResolver(schema),
@@ -126,57 +128,37 @@ export function EditGameForm({
         )}
       </div>
 
+      <div>
+        <Controller
+          name="backgroundImageUrl"
+          control={control}
+          render={({ field }) => (
+            <ImageUploadInput
+              value={field.value}
+              onChange={field.onChange}
+              label={t("backgroundImage.label")}
+              error={errors.backgroundImageUrl?.message}
+              disabled={isPending}
+            />
+          )}
+        />
+      </div>
+
+      <Controller
+        name="thumbnailImageUrl"
+        control={control}
+        render={({ field }) => (
+          <ImageUploadInput
+            value={field.value}
+            onChange={field.onChange}
+            label={t("thumbnailImage.label")}
+            error={errors.thumbnailImageUrl?.message}
+            disabled={isPending}
+          />
+        )}
+      />
+
       <div className="col-span-full flex flex-col gap-2">
-        <label
-          htmlFor="backgroundImageUrl"
-          className="ml-1 text-sm font-medium text-white/70"
-        >
-          {t("backgroundImage.label")}
-        </label>
-        <input
-          id="backgroundImageUrl"
-          type="text"
-          {...register("backgroundImageUrl")}
-          className={cn(
-            "field-base",
-            errors.backgroundImageUrl
-              ? "field-border-error"
-              : "field-border-default",
-          )}
-        />
-        {errors.backgroundImageUrl && (
-          <p className="field-error-text">
-            {errors.backgroundImageUrl.message}
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="thumbnailImageUrl"
-          className="ml-1 text-sm font-medium text-white/70"
-        >
-          {t("thumbnailImage.label")}
-        </label>
-        <input
-          id="thumbnailImageUrl"
-          type="text"
-          {...register("thumbnailImageUrl")}
-          className={cn(
-            "field-base",
-            errors.thumbnailImageUrl
-              ? "field-border-error"
-              : "field-border-default",
-          )}
-        />
-        {errors.thumbnailImageUrl && (
-          <p className="field-error-text">
-            {errors.thumbnailImageUrl.message}
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
         <label
           htmlFor="steamUrl"
           className="ml-1 text-sm font-medium text-white/70"

@@ -3,22 +3,18 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
+const cdnHostname = cdnUrl ? new URL(cdnUrl).hostname : null;
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   typedRoutes: false,
   images: {
     qualities: [75],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.discordapp.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "shared.fastly.steamstatic.com",
-        pathname: "/**",
-      },
+      ...(cdnHostname
+        ? [{ protocol: "https" as const, hostname: cdnHostname, pathname: "/**" }]
+        : []),
     ],
   },
   experimental: {
@@ -47,7 +43,8 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
-              "img-src 'self' data: blob: cdn.discordapp.com shared.fastly.steamstatic.com *.googleusercontent.com",
+              `img-src 'self' data: blob:${cdnHostname ? ` ${cdnHostname}` : ""}`,
+
               "font-src 'self' data: fonts.gstatic.com",
               `connect-src 'self' vitals.vercel-insights.com va.vercel-insights.com ${apiOrigin}`.trim(),
               "frame-ancestors 'none'",

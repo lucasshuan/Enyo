@@ -94,7 +94,7 @@
     "metaTitleNotFound": "Jogo não encontrado",
     "metaTitleDbUnavailable": "Banco de dados indisponível",
     "metaDescriptionFallback": "Ligas para {gameName} no Ares.",
-    "backToGames": "Voltar aos jogos",
+    "backToGames": "Todos os jogos",
     "dbUnavailable": "Banco de dados indisponível no desenvolvimento local.",
     "dbUnavailableDescription": "Inicie sua instância do Postgres ou atualize `.env` com uma string de conexão alcançável para ver a página deste jogo.",
     "eventsTitle": "Eventos",
@@ -132,7 +132,7 @@
     "copyright": "Ares © 2026"
   },
   "Admin": {
-    "panel": "Painel Administrativo"
+    "panel": "Gerenciar"
   },
   "Auth": {
     "Errors": {
@@ -205,10 +205,10 @@
         "placeholder": "Descrição do jogo..."
       },
       "backgroundImage": {
-        "label": "URL da Imagem de Fundo"
+        "label": "Imagem de Fundo"
       },
       "thumbnailImage": {
-        "label": "URL da Imagem de Thumbnail"
+        "label": "Thumbnail"
       },
       "steamUrl": {
         "label": "URL da Steam"

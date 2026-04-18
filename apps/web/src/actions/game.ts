@@ -17,6 +17,7 @@ import {
   UpdateLeagueMutation,
   SearchPlayersQuery,
   RegisterSelfToLeagueMutation,
+  RequestUploadUrlDocument,
 } from "@/lib/apollo/generated/graphql";
 import { getServerAuthSession } from "@/auth";
 import {
@@ -53,6 +54,22 @@ function revalidateGamePaths(game: { slug: string }) {
   revalidatePath("/games");
   revalidatePath(`/games/${game.slug}`);
 }
+
+export const requestUploadUrl = createSafeAction(
+  "requestUploadUrl",
+  async (filename: string, contentType: string) => {
+    const session = await getServerAuthSession();
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    const { data } = await getClient().mutate({
+      mutation: RequestUploadUrlDocument,
+      variables: { filename, contentType },
+    });
+
+    if (!data?.requestUploadUrl) throw new Error("Failed to get upload URL");
+    return data.requestUploadUrl;
+  },
+);
 
 export const updateGame = createSafeAction(
   "updateGame",

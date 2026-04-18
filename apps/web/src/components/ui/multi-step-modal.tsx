@@ -117,7 +117,7 @@ export function MultiStepModal({
           </div>
 
           {/* Steps Indicator */}
-          <div className="custom-scrollbar flex items-center gap-2 overflow-x-auto pb-2">
+          <div className="custom-scrollbar flex items-center gap-2 overflow-x-auto pt-1">
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const isActive = idx === currentStep;

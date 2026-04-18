@@ -129,7 +129,8 @@ export class LeaguesService {
       }
     }
 
-    const { name, slug, description, ...leagueData } = data;
+    const { name, slug, description, allowedFormats, ...leagueData } = data;
+
     const league = await this.databaseProvider.league.update({
       where: { eventId: id },
       data: {
@@ -140,6 +141,7 @@ export class LeaguesService {
             description,
           },
         },
+        ...(allowedFormats ? { allowedFormats } : {}),
         ...leagueData,
       },
       include: { event: true },
@@ -158,6 +160,7 @@ export class LeaguesService {
       startDate,
       endDate,
       authorId,
+      allowedFormats,
       ...leagueData
     } = data;
 
@@ -202,6 +205,7 @@ export class LeaguesService {
             authorId,
           },
         },
+        allowedFormats,
         ...leagueData,
       },
       include: { event: true },

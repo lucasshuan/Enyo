@@ -1,4 +1,5 @@
 import { SectionHeader } from "@/components/ui/section-header";
+import { GlowBorder } from "@/components/ui/glow-border";
 import { getTranslations } from "next-intl/server";
 import { getServerAuthSession } from "@/auth";
 import Image from "next/image";
@@ -15,7 +16,7 @@ import { LeagueCard } from "@/components/cards/league-card";
 import { AlertCircle, ChevronLeft, Ghost } from "lucide-react";
 import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
-import { formatCompactNumber } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 
 import { AddEventButton } from "./add-event-button";
 import { PageAdminActions } from "./page-admin-actions";
@@ -108,33 +109,25 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
 
   return (
     <div className="relative mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-8 lg:px-12">
-      {canSeeAdminActions && (
-        <div className="pointer-events-none absolute inset-x-0 -top-65 z-20">
-          <div className="mx-auto flex w-full max-w-7xl justify-end px-6 sm:px-10 lg:px-12">
-            <div className="pointer-events-auto">
-              <PageAdminActions
-                game={game as Game}
-                canEditGame={canEditCurrentGame}
-                canApproveGame={canApproveGame}
-                canManagePlayers={viewerCanManagePlayers}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Sidebar */}
-      <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
-        <div className="sticky top-28 space-y-4">
-          <Link
-            href="/games"
-            className="group inline-flex items-center gap-2 text-sm font-medium text-white/40 transition-colors hover:text-white"
-          >
-            <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-            {t("backToGames")}
-          </Link>
+      <aside className="w-full shrink-0 lg:w-[320px] xl:w-90">
+        <div className="sticky top-28 flex flex-col gap-4">
+          <div>
+            <Link
+              href="/games"
+              className="no-lift group relative z-10 -mb-px inline-flex items-center gap-2 rounded-t-2xl border border-b-0 border-border bg-[linear-gradient(180deg,rgb(20_13_22),rgb(11_8_15))] px-4 py-2.5 text-xs font-bold tracking-wider text-white/50 uppercase transition-colors hover:text-white"
+            >
+              <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+              {t("backToGames")}
+            </Link>
 
-          <div className="glass-panel overflow-hidden rounded-4xl">
+          <GlowBorder
+            className={cn(
+              canSeeAdminActions
+                ? "rounded-4xl rounded-tl-none rounded-br-none"
+                : "rounded-4xl rounded-tl-none",
+            )}
+          >
             <div className="relative aspect-368/178 w-full overflow-hidden">
               {game.thumbnailImageUrl ? (
                 <Image
@@ -220,6 +213,18 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
                 </a>
               )}
             </div>
+          </GlowBorder>
+
+          {canSeeAdminActions && (
+            <div className="flex w-full justify-end">
+              <PageAdminActions
+                game={game as Game}
+                canEditGame={canEditCurrentGame}
+                canApproveGame={canApproveGame}
+                canManagePlayers={viewerCanManagePlayers}
+              />
+            </div>
+          )}
           </div>
 
           {author && (
@@ -277,7 +282,7 @@ function GamePageSkeleton() {
   return (
     <>
       <div className="relative z-10 mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-12 lg:px-12">
-        <aside className="w-full shrink-0 lg:w-[320px] xl:w-[360px]">
+        <aside className="w-full shrink-0 lg:w-[320px] xl:w-90">
           <div className="sticky top-28 space-y-6">
             <div className="flex items-center gap-2">
               <div className="size-4 animate-pulse rounded bg-white/10" />
@@ -301,7 +306,7 @@ function GamePageSkeleton() {
                     />
                   ))}
                 </div>
-                <div className="h-[50px] w-full animate-pulse rounded-xl bg-white/10" />
+                <div className="h-12.5 w-full animate-pulse rounded-xl bg-white/10" />
               </div>
             </div>
 
@@ -317,7 +322,7 @@ function GamePageSkeleton() {
               <div className="space-y-3">
                 <div className="space-y-1">
                   <div className="bg-primary/30 h-8 w-24 animate-pulse rounded-full sm:h-9 sm:w-32 lg:h-10 lg:w-40" />
-                  <div className="h-6 w-56 animate-pulse rounded-full bg-white/6 sm:w-[500px]" />
+                  <div className="h-6 w-56 animate-pulse rounded-full bg-white/6 sm:w-125" />
                 </div>
               </div>
             </div>
@@ -326,7 +331,7 @@ function GamePageSkeleton() {
               {[1, 2, 3, 4].map((i) => (
                 <section
                   key={i}
-                  className="glass-panel h-[280px] rounded-4xl p-6"
+                  className="glass-panel h-70 rounded-4xl p-6"
                 >
                   <div className="mb-4 flex items-center justify-between gap-4">
                     <div className="w-full">

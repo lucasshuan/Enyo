@@ -1,5 +1,6 @@
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
 import { MATCH_FORMATS } from '@ares/core';
+import { MatchFormat } from '@prisma/client';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -94,7 +95,7 @@ export class CreateLeagueInput {
   @IsArray()
   @ArrayNotEmpty()
   @IsIn(MATCH_FORMATS, { each: true })
-  allowedFormats: string[];
+  allowedFormats: MatchFormat[];
 
   @Field({ nullable: true })
   @IsDate()
@@ -187,5 +188,5 @@ export class UpdateLeagueInput {
   @IsArray()
   @IsOptional()
   @IsIn(MATCH_FORMATS, { each: true })
-  allowedFormats?: string[];
+  allowedFormats?: MatchFormat[];
 }

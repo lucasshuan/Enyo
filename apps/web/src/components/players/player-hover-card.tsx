@@ -102,9 +102,9 @@ export function PlayerHoverCard({
                 <div className="relative px-5 pb-5">
                   <div className="-mt-8 mb-4 flex items-end justify-between">
                     <div className="relative size-16 overflow-hidden rounded-2xl bg-[#0a080f] ring-4 ring-[#0a080f]">
-                      {data?.user?.image ? (
+                      {data?.user?.imageUrl ? (
                         <Image
-                          src={data.user.image}
+                          src={data.user.imageUrl}
                           alt={data.user.name || data.user.username}
                           fill
                           className="object-cover"

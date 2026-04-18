@@ -8,7 +8,7 @@ export const GET_PLAYER = gql`
       user {
         name
         username
-        image
+        imageUrl
         country
         createdAt
       }

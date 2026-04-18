@@ -95,7 +95,7 @@
     "metaTitleNotFound": "Game not found",
     "metaTitleDbUnavailable": "Database unavailable",
     "metaDescriptionFallback": "Leagues for {gameName} on Ares.",
-    "backToGames": "Back to games",
+    "backToGames": "All games",
     "dbUnavailable": "Database unavailable in local development.",
     "dbUnavailableDescription": "Start your Postgres instance or update `.env` with a reachable connection string to view this game page.",
     "eventsTitle": "Events",
@@ -133,7 +133,7 @@
     "copyright": "Ares © 2026"
   },
   "Admin": {
-    "panel": "Administrative Panel"
+    "panel": "Manage"
   },
   "Auth": {
     "Errors": {
@@ -206,10 +206,10 @@
         "placeholder": "Game description..."
       },
       "backgroundImage": {
-        "label": "Background Image URL"
+        "label": "Background Image"
       },
       "thumbnailImage": {
-        "label": "Thumbnail Image URL"
+        "label": "Thumbnail Image"
       },
       "steamUrl": {
         "label": "Steam URL"

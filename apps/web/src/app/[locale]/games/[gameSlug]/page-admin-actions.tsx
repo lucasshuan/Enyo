@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCheck, ChevronDown, Settings2 } from "lucide-react";
+import { CheckCheck, ChevronRight, Settings2 } from "lucide-react";
 import { type Game } from "@/lib/apollo/generated/graphql";
 import { useTranslations } from "next-intl";
 import { DropdownItem, DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -21,6 +21,7 @@ export function PageAdminActions({
   canApproveGame,
   canManagePlayers,
 }: PageAdminActionsProps) {
+  void canManagePlayers;
   const t = useTranslations();
   const [isEditGameOpen, setIsEditGameOpen] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
@@ -28,19 +29,19 @@ export function PageAdminActions({
   return (
     <>
       <DropdownMenu
+        side="right"
         align="end"
         width={280}
+        openOnHover
         trigger={
-          <div className="border-glow-animation rounded-2xl p-px transition-transform hover:-translate-y-0.5">
-            <button
-              type="button"
-              className="flex h-11 items-center gap-2 rounded-[15px] bg-[#0e0a12] px-4 text-xs font-bold tracking-wider text-white/80 uppercase transition-colors hover:translate-y-0 hover:bg-[#130e18]"
-            >
-              <Settings2 className="size-4" />
-              <span>{t("Admin.panel")}</span>
-              <ChevronDown className="size-4 text-white/50" />
-            </button>
-          </div>
+          <button
+            type="button"
+            className="no-lift group relative z-10 -mt-px flex items-center gap-2 rounded-b-2xl border border-t-0 border-border bg-[linear-gradient(180deg,rgb(20_13_22),rgb(11_8_15))] px-4 py-2.5 text-xs font-bold tracking-wider text-white/50 uppercase transition-colors hover:text-white"
+          >
+            <Settings2 className="size-4" />
+            <span>{t("Admin.panel")}</span>
+            <ChevronRight className="size-4 opacity-50 transition-transform group-hover:translate-x-1" />
+          </button>
         }
       >
         {canEditGame && (

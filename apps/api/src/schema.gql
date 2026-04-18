@@ -67,7 +67,7 @@ type User {
   name: String!
   username: String!
   email: String
-  image: String
+  imageUrl: String
   bio: String
   profileColor: String
   country: String
@@ -122,6 +122,11 @@ type PaginatedUsers {
   hasNextPage: Boolean!
 }
 
+type UploadUrlResponse {
+  uploadUrl: String!
+  finalUrl: String!
+}
+
 type Query {
   games(pagination: PaginationInput, search: String): PaginatedGames!
   game(slug: String!): Game
@@ -149,6 +154,7 @@ type Mutation {
   createLeague(input: CreateLeagueInput!): League!
   addPlayerToLeague(leagueId: ID!, playerId: ID!, initialElo: Int): LeagueEntry!
   registerSelfToLeague(leagueId: ID!): LeagueEntry!
+  requestUploadUrl(filename: String!, contentType: String!): UploadUrlResponse!
 }
 
 input CreateGameInput {

@@ -83,7 +83,7 @@ export const GET_LEAGUE = gql`
             id
             name
             username
-            image
+            imageUrl
             country
           }
         }

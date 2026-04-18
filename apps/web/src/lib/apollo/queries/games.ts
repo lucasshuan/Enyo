@@ -43,7 +43,7 @@ export const GET_GAME = gql`
         id
         name
         username
-        image
+        imageUrl
       }
       leagues {
         id

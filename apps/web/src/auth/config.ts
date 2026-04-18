@@ -10,7 +10,7 @@ const SESSION_REVALIDATION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 type BackendJwtPayload = {
   sub: string;
   username: string;
-  image?: string | null;
+  imageUrl?: string | null;
   isAdmin: boolean;
   permissions?: string[];
   exp?: number;
@@ -19,9 +19,15 @@ type BackendJwtPayload = {
 type SessionData = {
   id: string;
   username: string;
-  image: string | null;
+  imageUrl: string | null;
   isAdmin: boolean;
   permissions: string[];
+};
+
+type SessionUpdatePayload = {
+  username?: string;
+  imageUrl?: string | null;
+  name?: string;
 };
 
 function parseJwtPayload(token: string): BackendJwtPayload | null {
@@ -95,7 +101,8 @@ export const authOptions = {
           id: payload.sub,
           username: payload.username,
           name: payload.username,
-          image: payload.image,
+          image: payload.imageUrl,
+          imageUrl: payload.imageUrl,
           isAdmin: payload.isAdmin || false,
           permissions: payload.permissions || [],
           accessToken: credentials.token,
@@ -109,7 +116,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
-        token.image = user.image;
+        token.imageUrl = user.image ?? null;
         token.isAdmin = user.isAdmin;
         token.permissions = user.permissions ?? [];
         token.error = undefined;
@@ -126,9 +133,11 @@ export const authOptions = {
 
       // Client-side profile update (edit-profile-form)
       if (trigger === "update" && session) {
-        if (session.username) token.username = session.username;
-        if (session.image) token.image = session.image;
-        if (session.name) token.name = session.name;
+        const sessionUpdate = session as SessionUpdatePayload;
+        if (sessionUpdate.username) token.username = sessionUpdate.username;
+        if (sessionUpdate.imageUrl !== undefined)
+          token.imageUrl = sessionUpdate.imageUrl;
+        if (sessionUpdate.name) token.name = sessionUpdate.name;
         return token;
       }
 
@@ -156,7 +165,7 @@ export const authOptions = {
 
         token.id = result.data.id;
         token.username = result.data.username;
-        token.image = result.data.image;
+        token.imageUrl = result.data.imageUrl;
         token.isAdmin = result.data.isAdmin;
         token.permissions = result.data.permissions;
         token.error = undefined;
@@ -169,7 +178,7 @@ export const authOptions = {
       if (token && session.user) {
         session.user.id = token.id;
         session.user.username = token.username;
-        session.user.image = token.image;
+        session.user.image = token.imageUrl ?? null;
         session.user.isAdmin = token.isAdmin;
         session.user.accessToken = token.accessToken;
         session.user.permissions = token.permissions ?? [];
