@@ -91,13 +91,3 @@ export const GET_LEAGUE = gql`
     }
   }
 `;
-
-export const UPDATE_LEAGUE = gql`
-  mutation UpdateLeague($id: ID!, $input: UpdateLeagueInput!) {
-    updateLeague(id: $id, input: $input) {
-      id
-      name
-      slug
-    }
-  }
-`;
