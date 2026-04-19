@@ -108,7 +108,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
   };
 
   return (
-    <div className="relative mx-auto mt-4 flex w-full max-w-7xl flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-8 lg:px-12">
+    <div className="relative mx-auto mt-4 flex w-full flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-8 lg:px-12">
       {/* Sidebar */}
       <aside className="w-full shrink-0 lg:w-[320px] xl:w-90">
         <div className="sticky top-28 flex flex-col gap-4">

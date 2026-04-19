@@ -8,7 +8,7 @@ export function SiteFooter() {
   const t = useTranslations("SiteFooter");
   return (
     <footer className="bg-background-soft border-t border-white/6">
-      <div className="text-muted mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-6 py-6 text-xs sm:px-10 lg:px-12">
+      <div className="text-muted mx-auto flex w-full items-center justify-between gap-4 px-6 py-6 text-xs sm:px-10 lg:px-12">
         <span>{t("copyright")}</span>
         <a
           href="https://github.com/lucasshuan"

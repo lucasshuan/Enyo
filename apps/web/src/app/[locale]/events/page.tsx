@@ -13,7 +13,7 @@ export default async function EventsPage() {
   const t = await getTranslations("EventsPage");
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pt-14 pb-12 sm:px-10 lg:px-12">
+    <main className="mx-auto flex w-full flex-col gap-8 px-6 pt-14 pb-12 sm:px-10 lg:px-12">
       <SectionHeader title={t("title")} description={t("description")} />
 
       <div className="border-b border-white/5" />
