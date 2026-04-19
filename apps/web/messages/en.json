@@ -55,8 +55,8 @@
     "pt": "Português"
   },
   "HomePage": {
-    "heroTagline": "Tournament manager",
-    "heroSubtitle": "Leagues and tournaments for E-sports and competitive games.",
+    "heroTagline": "Tournament Platform",
+    "heroSubtitle": "League and tournament management for E-sports and competitive games.",
     "explore": "Explore",
     "join": "Join",
     "games": {
@@ -540,6 +540,52 @@
       "cancel": "Cancel",
       "success": "Player registered successfully!",
       "error": "Error registering player."
+    }
+  },
+  "Onboarding": {
+    "welcome": {
+      "title": "Welcome to Ares",
+      "subtitle": "Your competitive journey starts here. Let's set up your warrior profile in a few quick steps.",
+      "feature1": "Join games",
+      "feature2": "Compete in leagues",
+      "feature3": "Climb the ranks"
+    },
+    "identity": {
+      "title": "Your Identity",
+      "subtitle": "Choose how you'll be known on the battlefield.",
+      "nameLabel": "Display Name",
+      "namePlaceholder": "How should we call you?",
+      "usernameLabel": "Profile Link",
+      "usernamePlaceholder": "your_unique_tag",
+      "usernameTaken": "This username is already taken.",
+      "urlPreview": "Your profile URL",
+      "urlHint": "This is the unique link to your public profile. You can change it later."
+    },
+    "country": {
+      "title": "Where are you from?",
+      "subtitle": "Your country flag will appear next to your name in leaderboards.",
+      "placeholder": "Select your country",
+      "hint": "This is optional. You can always set it later in your profile settings."
+    },
+    "games": {
+      "title": "What do you play?",
+      "subtitle": "Pick the games you're interested in. We'll personalize your experience.",
+      "searchPlaceholder": "Search games...",
+      "noGames": "No games found",
+      "loading": "Loading games...",
+      "hint": "Don't worry — you can update your interests anytime."
+    },
+    "complete": {
+      "title": "You're all set!",
+      "subtitle": "Your profile is ready. Time to jump into the arena and start competing.",
+      "saving": "Setting up your profile..."
+    },
+    "nav": {
+      "getStarted": "Get Started",
+      "next": "Continue",
+      "back": "Back",
+      "finish": "Complete Setup",
+      "explore": "Explore Ares"
     }
   },
   "NotFound": {

@@ -31,6 +31,9 @@ export class User {
   isAdmin: boolean;
 
   @Field()
+  onboardingCompleted: boolean;
+
+  @Field()
   createdAt: Date;
 
   @Field(() => [Player], { nullable: true })

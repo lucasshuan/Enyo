@@ -12,6 +12,7 @@ type BackendJwtPayload = {
   username: string;
   imageUrl?: string | null;
   isAdmin: boolean;
+  onboardingCompleted: boolean;
   permissions?: string[];
   exp?: number;
 };
@@ -21,6 +22,7 @@ type SessionData = {
   username: string;
   imageUrl: string | null;
   isAdmin: boolean;
+  onboardingCompleted: boolean;
   permissions: string[];
 };
 
@@ -28,6 +30,7 @@ type SessionUpdatePayload = {
   username?: string;
   imageUrl?: string | null;
   name?: string;
+  onboardingCompleted?: boolean;
 };
 
 function parseJwtPayload(token: string): BackendJwtPayload | null {
@@ -104,6 +107,7 @@ export const authOptions = {
           image: payload.imageUrl,
           imageUrl: payload.imageUrl,
           isAdmin: payload.isAdmin || false,
+          onboardingCompleted: payload.onboardingCompleted ?? true,
           permissions: payload.permissions || [],
           accessToken: credentials.token,
         } as NextAuthUser;
@@ -118,6 +122,7 @@ export const authOptions = {
         token.username = user.username;
         token.imageUrl = user.image ?? null;
         token.isAdmin = user.isAdmin;
+        token.onboardingCompleted = user.onboardingCompleted;
         token.permissions = user.permissions ?? [];
         token.error = undefined;
         if (user.accessToken) {
@@ -138,6 +143,8 @@ export const authOptions = {
         if (sessionUpdate.imageUrl !== undefined)
           token.imageUrl = sessionUpdate.imageUrl;
         if (sessionUpdate.name) token.name = sessionUpdate.name;
+        if (sessionUpdate.onboardingCompleted !== undefined)
+          token.onboardingCompleted = sessionUpdate.onboardingCompleted;
         return token;
       }
 
@@ -167,6 +174,7 @@ export const authOptions = {
         token.username = result.data.username;
         token.imageUrl = result.data.imageUrl;
         token.isAdmin = result.data.isAdmin;
+        token.onboardingCompleted = result.data.onboardingCompleted;
         token.permissions = result.data.permissions;
         token.error = undefined;
         token.lastValidated = Date.now();
@@ -180,6 +188,7 @@ export const authOptions = {
         session.user.username = token.username;
         session.user.image = token.imageUrl ?? null;
         session.user.isAdmin = token.isAdmin;
+        session.user.onboardingCompleted = token.onboardingCompleted;
         session.user.accessToken = token.accessToken;
         session.user.permissions = token.permissions ?? [];
       }

@@ -66,6 +66,7 @@ model User {
   profileColor  String?   @map("profile_color")
   country       String?
   isAdmin       Boolean   @default(false) @map("is_admin")
+  onboardingCompleted Boolean @default(false) @map("onboarding_completed")
 
   accounts        Account[]
   sessions        Session[]

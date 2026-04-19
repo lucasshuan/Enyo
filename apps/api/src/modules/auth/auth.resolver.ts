@@ -59,4 +59,13 @@ export class AuthResolver {
       },
     });
   }
+
+  @Mutation(() => User)
+  @UseGuards(GqlAuthGuard)
+  async completeOnboarding(@CurrentUser() user: { id: string }) {
+    return this.databaseProvider.user.update({
+      where: { id: user.id },
+      data: { onboardingCompleted: true },
+    });
+  }
 }

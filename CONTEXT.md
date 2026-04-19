@@ -43,7 +43,7 @@ packages/core   → Enums, permissões e tipos compartilhados
 ### User
 
 - Autenticado via Discord (OAuth na API, depois JWT para o web)
-- Campos: `name`, `username`, `email`, `imageUrl`, `bio`, `profileColor`, `country`, `isAdmin`
+- Campos: `name`, `username`, `email`, `imageUrl`, `bio`, `profileColor`, `country`, `isAdmin`, `onboardingCompleted`
 - Pode ter permissões granulares além de `isAdmin`
 
 ### Game
@@ -222,9 +222,11 @@ A sessão no web é revalidada a cada **5 minutos** via `/auth/me`.
 - Listagem, criação e edição de jogos e ligas
 - Registro de players em ligas
 - i18n com next-intl (en + pt)
+- Onboarding wizard para novos usuários (multi-step: identidade, país, interesses de jogos)
 
 ### Pendente / Em progresso ⏳
 
+- **Seleção de jogos de interesse no onboarding**: a UI de seleção de jogos no onboarding está implementada com dados mock; persistir a seleção no backend (criar relação `UserGameInterest` ou similar) ainda não foi feito
 - **Cálculo de Elo no backend**: a fórmula está definida (ver seção acima), mas a mutation de Result com cálculo automático de Elo ainda não foi implementada; `eloDifference` em `ResultEntry` provavelmente ainda é manual ou placeholder
 - **Registro de partidas**: mutation de Result com cálculo de Elo automático
 - **N+1 / DataLoaders**: existem, mas cobrem pouco

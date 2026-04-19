@@ -17,6 +17,7 @@ import {
 import { toast, Toaster } from "sonner";
 
 import { LoginErrorHandler } from "@/components/auth/login-error-handler";
+import { OnboardingGate } from "@/components/onboarding/onboarding-gate";
 import {
   canManageGames,
   canManagePlayers,
@@ -101,6 +102,7 @@ export function Providers({
     <NextAuthSessionProvider session={session} refetchInterval={5 * 60}>
       <UserProvider>
         {children}
+        <OnboardingGate />
         <SessionGuard />
         <Suspense fallback={null}>
           <LoginErrorHandler />

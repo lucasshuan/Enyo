@@ -7,6 +7,7 @@ declare module "next-auth" {
       id: string;
       username: string;
       isAdmin: boolean;
+      onboardingCompleted: boolean;
       permissions: string[];
       accessToken?: string;
     } & DefaultSession["user"];
@@ -16,6 +17,7 @@ declare module "next-auth" {
     id: string;
     username: string;
     isAdmin: boolean;
+    onboardingCompleted: boolean;
     permissions?: string[];
     accessToken?: string;
   }
@@ -26,6 +28,7 @@ declare module "next-auth/jwt" {
     id: string;
     username: string;
     isAdmin: boolean;
+    onboardingCompleted: boolean;
     permissions?: string[];
     accessToken?: string;
     accessTokenExpires?: number;

@@ -10,6 +10,7 @@ declare module "next-auth" {
       bio?: string | null;
       profileColor?: string | null;
       isAdmin: boolean;
+      onboardingCompleted: boolean;
       accessToken?: string;
       permissions: string[];
     };
@@ -19,6 +20,7 @@ declare module "next-auth" {
     id: string;
     username: string;
     isAdmin: boolean;
+    onboardingCompleted: boolean;
     imageUrl?: string | null;
     accessToken?: string;
     permissions: string[];
@@ -31,6 +33,7 @@ declare module "next-auth/jwt" {
     username: string;
     imageUrl?: string | null;
     isAdmin: boolean;
+    onboardingCompleted: boolean;
     accessToken?: string;
     permissions: string[];
   }

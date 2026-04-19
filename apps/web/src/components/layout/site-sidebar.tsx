@@ -736,15 +736,15 @@ function SidebarBody({
           href="/"
           onClick={onClose}
           className={cn(
-            "flex min-w-0 items-center gap-2 overflow-hidden transition-all duration-300",
+            "no-lift flex min-w-0 items-center gap-1 overflow-hidden transition-all duration-300",
             effective ? "w-0 opacity-0" : "w-auto opacity-100",
           )}
         >
           <div
             className="bg-primary shrink-0"
             style={{
-              width: 18,
-              height: 18,
+              width: 14,
+              height: 14,
               maskImage: "url(/icon.svg)",
               WebkitMaskImage: "url(/icon.svg)",
               maskSize: "contain",
@@ -757,7 +757,7 @@ function SidebarBody({
             role="img"
             aria-label="Ares"
           />
-          <span className="text-primary text-base font-bold -tracking-widest whitespace-nowrap">
+          <span className="text-primary w-8 text-base font-bold -tracking-widest whitespace-nowrap">
             Ares
           </span>
         </Link>
@@ -782,59 +782,20 @@ function SidebarBody({
         )}
       </div>
 
-      {/* ── Divider ─────────────────────────────────────────────────────── */}
-      <div className="mx-3 h-px shrink-0 bg-white/4" />
-
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="custom-scrollbar flex-1 overflow-x-hidden overflow-y-auto py-2">
         {/* User menu / Login */}
         {user ? (
-          <UserMenuDropdown
-            user={user}
-            avatarSrc={avatarSrc}
-            collapsed={effective}
-            onClose={onClose}
-          />
-        ) : (
-          <div className={cn("", effective && "flex justify-center")}>
-            {effective ? (
-              <>
-                <button
-                  onClick={() => setAuthModalOpen(true)}
-                  title={tNavbar("login")}
-                  className="no-lift mx-2 flex w-full items-center justify-center rounded-lg py-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white"
-                >
-                  <LogIn className="size-4" />
-                </button>
-                <AuthModal
-                  isOpen={authModalOpen}
-                  onClose={() => setAuthModalOpen(false)}
-                  isPending={false}
-                />
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => setAuthModalOpen(true)}
-                  className={cn(
-                    "no-lift mx-1.5 flex w-[calc(100%-12px)] items-center gap-3 rounded-lg px-2.5 py-2 text-[13px] font-medium",
-                    "bg-primary/90 hover:bg-primary text-white transition-colors",
-                  )}
-                >
-                  <LogIn className="size-3.5 shrink-0" />
-                  {tNavbar("login")}
-                </button>
-                <AuthModal
-                  isOpen={authModalOpen}
-                  onClose={() => setAuthModalOpen(false)}
-                  isPending={false}
-                />
-              </>
-            )}
-          </div>
-        )}
-
-        <div className="mx-3 my-2 h-px bg-white/4" />
+          <>
+            <UserMenuDropdown
+              user={user}
+              avatarSrc={avatarSrc}
+              collapsed={effective}
+              onClose={onClose}
+            />
+            <div className="mx-3 my-2 h-px bg-white/4" />
+          </>
+        ) : null}
 
         {/* Home */}
         <div className="space-y-0.5">
@@ -891,6 +852,31 @@ function SidebarBody({
               : "flex flex-col gap-2.5 p-3",
           )}
         >
+          {/* Login button — only shown when logged out */}
+          {!user && (
+            <>
+              <button
+                onClick={() => setAuthModalOpen(true)}
+                title={tNavbar("login")}
+                className={cn(
+                  "no-lift flex items-center justify-center text-sm font-medium",
+                  "bg-primary/90 hover:bg-primary text-white transition-colors",
+                  effective
+                    ? "mx-2 w-auto rounded-lg py-1.5"
+                    : "h-12 w-full gap-3 rounded-full px-5",
+                )}
+              >
+                <LogIn className="size-4 shrink-0" />
+                {!effective && <span>{tNavbar("login")}</span>}
+              </button>
+              <AuthModal
+                isOpen={authModalOpen}
+                onClose={() => setAuthModalOpen(false)}
+                isPending={false}
+              />
+            </>
+          )}
+
           {/* Locale switcher — dropdown opens to the right */}
           <LocaleDropdown
             locale={locale}

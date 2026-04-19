@@ -82,6 +82,7 @@ export class AuthService {
       username: user.username,
       imageUrl: user.imageUrl,
       isAdmin: user.isAdmin,
+      onboardingCompleted: user.onboardingCompleted,
       permissions: permissionKeys,
     };
     return {
@@ -151,6 +152,7 @@ export class AuthService {
       username: user.username,
       imageUrl: user.imageUrl,
       isAdmin: user.isAdmin,
+      onboardingCompleted: user.onboardingCompleted,
       permissions: permissions.map((p) => p.permission.key),
     };
   }

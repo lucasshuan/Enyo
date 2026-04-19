@@ -103,6 +103,7 @@ type User {
   profileColor: String
   country: String
   isAdmin: Boolean!
+  onboardingCompleted: Boolean!
   createdAt: DateTime!
   players: [Player!]!
 }
@@ -198,6 +199,7 @@ type Mutation {
   addPlayerToGame(input: AddPlayerToGameInput!): Player!
   requestUploadUrl(filename: String!, contentType: String!): UploadUrlResponse!
   updateProfile(input: UpdateProfileInput!): User!
+  completeOnboarding: User!
   updateEloLeague(id: ID!, input: UpdateEloLeagueInput!): EloLeague!
   createEloLeague(input: CreateEloLeagueInput!): EloLeague!
   addPlayerToEloLeague(leagueId: ID!, playerId: ID!, initialElo: Int): EloLeagueEntry!
@@ -242,6 +244,7 @@ input UpdateProfileInput {
   profileColor: String
   country: String
   imageUrl: String
+  onboardingCompleted: Boolean
 }
 
 input UpdateEloLeagueInput {

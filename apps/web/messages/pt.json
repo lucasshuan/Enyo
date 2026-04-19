@@ -55,8 +55,8 @@
     "pt": "Português"
   },
   "HomePage": {
-    "heroTagline": "Gerenciador de torneios",
-    "heroSubtitle": "Ligas e torneios para E-sports e jogos competitivos.",
+    "heroTagline": "Plataforma de torneios",
+    "heroSubtitle": "Gerenciamento de ligas e torneios para E-sports e jogos competitivos.",
     "explore": "Explorar",
     "join": "Entrar",
     "games": {
@@ -539,6 +539,52 @@
       "cancel": "Cancelar",
       "success": "Jogador registrado com sucesso!",
       "error": "Erro ao registrar jogador."
+    }
+  },
+  "Onboarding": {
+    "welcome": {
+      "title": "Bem-vindo ao Ares",
+      "subtitle": "Sua jornada competitiva começa aqui. Vamos montar seu perfil de guerreiro em poucos passos.",
+      "feature1": "Entre em jogos",
+      "feature2": "Compita em ligas",
+      "feature3": "Suba no ranking"
+    },
+    "identity": {
+      "title": "Sua Identidade",
+      "subtitle": "Escolha como você será conhecido no campo de batalha.",
+      "nameLabel": "Nome de Exibição",
+      "namePlaceholder": "Como devemos te chamar?",
+      "usernameLabel": "Link do Perfil",
+      "usernamePlaceholder": "seu_tag_unico",
+      "usernameTaken": "Este nome de usuário já está em uso.",
+      "urlPreview": "URL do seu perfil",
+      "urlHint": "Este é o link único para seu perfil público. Você pode alterar depois."
+    },
+    "country": {
+      "title": "De onde você é?",
+      "subtitle": "A bandeira do seu país aparecerá ao lado do seu nome nos rankings.",
+      "placeholder": "Selecione seu país",
+      "hint": "Isso é opcional. Você pode definir depois nas configurações do perfil."
+    },
+    "games": {
+      "title": "O que você joga?",
+      "subtitle": "Escolha os jogos que te interessam. Vamos personalizar sua experiência.",
+      "searchPlaceholder": "Buscar jogos...",
+      "noGames": "Nenhum jogo encontrado",
+      "loading": "Carregando jogos...",
+      "hint": "Não se preocupe — você pode atualizar seus interesses a qualquer momento."
+    },
+    "complete": {
+      "title": "Tudo pronto!",
+      "subtitle": "Seu perfil está configurado. Hora de entrar na arena e começar a competir.",
+      "saving": "Configurando seu perfil..."
+    },
+    "nav": {
+      "getStarted": "Começar",
+      "next": "Continuar",
+      "back": "Voltar",
+      "finish": "Concluir",
+      "explore": "Explorar Ares"
     }
   },
   "NotFound": {

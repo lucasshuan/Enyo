@@ -189,6 +189,15 @@ O deploy básico já existe via GitHub -> Vercel/Render, então CD não é o gar
 - Gravidade: média
 - Modificação: reescrever documentação para o estado real do monorepo.
 
+### 9. Onboarding e personalização
+
+#### Seleção de jogos de interesse no onboarding é mock
+
+- Problema: o wizard de onboarding exibe uma lista mock de jogos para o usuário selecionar, mas a seleção não é persistida no backend.
+- Impacto: a personalização de experiência baseada em interesses do usuário não funciona de fato.
+- Gravidade: baixa
+- Modificação: criar relação `UserGameInterest` (ou similar) no Prisma schema, expor via GraphQL, e persistir as seleções feitas no onboarding. Usar os games reais do banco ao invés do mock.
+
 #### Artefatos gerados estão no Git sem política clara
 
 - Problema: `schema.gql` e `lint-results.json` estão versionados sem ownership definido.

@@ -32,4 +32,8 @@ export class UpdateProfileInput {
   @IsString()
   @IsOptional()
   imageUrl?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  onboardingCompleted?: boolean;
 }
