@@ -18,16 +18,8 @@ import { UserChip } from "@/components/ui/user-chip";
 import { Link } from "@/i18n/routing";
 import { cn, formatCompactNumber } from "@/lib/utils";
 
-import nextDynamic from "next/dynamic";
 import { GameManageActions } from "@/components/triggers/game/game-manage-actions";
-
-const AddEventButton = nextDynamic(
-  () =>
-    import("@/components/triggers/game/add-event-button").then(
-      (m) => m.AddEventButton,
-    ),
-  { ssr: false },
-);
+import { AddEventButton } from "@/components/triggers/game/add-event-button";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 import type { SimpleGame } from "@/actions/get-games";
 
