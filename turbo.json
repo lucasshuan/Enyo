@@ -39,6 +39,10 @@
       "cache": false,
       "persistent": true
     },
+    "codegen:watch": {
+      "cache": false,
+      "persistent": true
+    },
     "format": {
       "inputs": [
         "src/**",
