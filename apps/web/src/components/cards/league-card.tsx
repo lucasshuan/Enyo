@@ -21,7 +21,7 @@ export function LeagueCard({ league, game }: LeagueCardProps) {
   return (
     <Link
       href={`/games/${game}/events/${league.event.slug}`}
-      className="glass-panel group hover:border-primary/30 relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-4xl border-white/5 p-6 transition-all select-none hover:bg-white/5 active:scale-[0.99]"
+      className="glass-panel group hover:border-primary/30 relative flex h-full min-h-80 flex-col overflow-hidden rounded-4xl border-white/5 p-6 transition-all select-none hover:bg-white/5 active:scale-[0.99]"
     >
       {/* Background Glow */}
 

@@ -29,6 +29,11 @@ export class CreateEventInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
+  about?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
   participationMode?: string;
 
   @Field({ nullable: true })
@@ -58,4 +63,9 @@ export class UpdateEventInput {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  about?: string;
 }

@@ -43,6 +43,7 @@ import { formatHoursDuration } from "@/lib/date-utils";
 import { cn, slugify } from "@/lib/utils";
 import { MATCH_FORMATS } from "@ares/core";
 import { EloMatchSimulator } from "./elo-match-simulator";
+import { TiptapEditor } from "@/components/ui/tiptap-editor";
 
 interface AddLeagueFormProps {
   gameId: string;
@@ -87,6 +88,7 @@ export function AddLeagueForm({
       name: "",
       slug: "",
       description: "",
+      about: "",
       ratingSystem: "RANKED_LEAGUE",
       initialElo: LEAGUE_DEFAULT_SETTINGS.initialElo,
       allowDraw: false,
@@ -145,7 +147,9 @@ export function AddLeagueForm({
     }
   };
 
-  const [participationMode, setParticipationMode] = useState<"SOLO" | "TEAM">("SOLO");
+  const [participationMode, setParticipationMode] = useState<"SOLO" | "TEAM">(
+    "SOLO",
+  );
   const [eventType, setEventType] = useState<"LEAGUE" | "TOURNAMENT">("LEAGUE");
   const [isSlugModified, setIsSlugModified] = useState(false);
   const [games, setGames] = useState<SimpleGame[]>([]);
@@ -316,18 +320,21 @@ export function AddLeagueForm({
       } else if (currentStep === 2) {
         isStepValid = allowedFormats.length > 0;
       } else if (currentStep === 3) {
-        // Silent validation for Step 4 fields using the schema
+        // About step is always valid (optional rich text)
+        isStepValid = true;
+      } else if (currentStep === 4) {
+        // General step: validate name/slug
         const values = getValues();
         const parseResult = schema.safeParse(values);
 
         if (parseResult.success) {
           isStepValid = true;
         } else {
-          const step4Fields = ["name", "slug"];
-          const hasStep4Errors = parseResult.error.issues.some((issue) =>
-            step4Fields.includes(issue.path[0] as string),
+          const step5Fields = ["name", "slug"];
+          const hasStep5Errors = parseResult.error.issues.some((issue) =>
+            step5Fields.includes(issue.path[0] as string),
           );
-          isStepValid = !hasStep4Errors;
+          isStepValid = !hasStep5Errors;
         }
 
         if (isStepValid) {
@@ -382,6 +389,7 @@ export function AddLeagueForm({
             name: values.name,
             slug: values.slug,
             description: values.description ?? null,
+            about: values.about ?? null,
             allowDraw: values.allowDraw,
             initialElo: values.initialElo ?? LEAGUE_DEFAULT_SETTINGS.initialElo,
             kFactor: values.kFactor ?? LEAGUE_DEFAULT_SETTINGS.kFactor,
@@ -404,6 +412,7 @@ export function AddLeagueForm({
             name: values.name,
             slug: values.slug,
             description: values.description ?? null,
+            about: values.about ?? null,
             allowDraw: values.allowDraw,
             pointsPerWin:
               values.pointsPerWin ?? LEAGUE_DEFAULT_SETTINGS.pointsPerWin,
@@ -592,8 +601,29 @@ export function AddLeagueForm({
         </section>
       )}
 
-      {/* Step 4: General Data */}
+      {/* Step 4: About */}
       {currentStep === 3 && (
+        <section className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-500">
+          <div className="flex flex-col gap-2">
+            <LabelTooltip label={t("aboutField.label")} />
+            <Controller
+              name="about"
+              control={control}
+              render={({ field }) => (
+                <TiptapEditor
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  placeholder={t("aboutField.placeholder")}
+                />
+              )}
+            />
+            <p className="text-xs text-white/30">{t("aboutField.hint")}</p>
+          </div>
+        </section>
+      )}
+
+      {/* Step 5: General Data */}
+      {currentStep === 4 && (
         <section className="animate-in fade-in slide-in-from-right-4 space-y-8 duration-500">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="flex flex-col gap-2">
@@ -732,49 +762,49 @@ export function AddLeagueForm({
 
             {/* Event Type */}
             <div className="flex flex-col gap-4">
-            <LabelTooltip label={t("eventType.label")} />
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => setEventType("LEAGUE")}
-                className={cn(
-                  "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
-                  eventType === "LEAGUE"
-                    ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                    : "border-white/5 bg-white/5 text-white/40 hover:bg-white/10",
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <Trophy className="size-4" />
-                  <span className="text-sm font-bold">
-                    {t("eventType.league")}
-                  </span>
-                </div>
-                <span className="text-xs leading-relaxed text-white/50">
-                  {t("eventType.league_description")}
-                </span>
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border border-white/5 bg-white/5 p-4 text-left opacity-50"
-              >
-                <div className="flex w-full items-center justify-between gap-2">
+              <LabelTooltip label={t("eventType.label")} />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setEventType("LEAGUE")}
+                  className={cn(
+                    "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
+                    eventType === "LEAGUE"
+                      ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
+                      : "border-white/5 bg-white/5 text-white/40 hover:bg-white/10",
+                  )}
+                >
                   <div className="flex items-center gap-2">
-                    <Swords className="size-4 text-white/40" />
-                    <span className="text-sm font-bold text-white/40">
-                      {t("eventType.tournament")}
+                    <Trophy className="size-4" />
+                    <span className="text-sm font-bold">
+                      {t("eventType.league")}
                     </span>
                   </div>
-                  <span className="text-[9px] font-bold tracking-[0.2em] text-white/20 uppercase">
-                    {t("soon")}
+                  <span className="text-xs leading-relaxed text-white/50">
+                    {t("eventType.league_description")}
                   </span>
-                </div>
-                <span className="text-xs leading-relaxed text-white/30">
-                  {t("eventType.tournament_description")}
-                </span>
-              </button>
-            </div>
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  className="flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border border-white/5 bg-white/5 p-4 text-left opacity-50"
+                >
+                  <div className="flex w-full items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Swords className="size-4 text-white/40" />
+                      <span className="text-sm font-bold text-white/40">
+                        {t("eventType.tournament")}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-bold tracking-[0.2em] text-white/20 uppercase">
+                      {t("soon")}
+                    </span>
+                  </div>
+                  <span className="text-xs leading-relaxed text-white/30">
+                    {t("eventType.tournament_description")}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -806,9 +836,7 @@ export function AddLeagueForm({
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
-                    setValue("ratingSystem", "STANDARD_LEAGUE")
-                  }
+                  onClick={() => setValue("ratingSystem", "STANDARD_LEAGUE")}
                   className={cn(
                     "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
                     ratingSystem === "STANDARD_LEAGUE"
@@ -1225,7 +1253,6 @@ export function AddLeagueForm({
                 </div>
               </div>
             </div>
-
           </div>
         </section>
       )}

@@ -327,6 +327,11 @@
         "label": "Descrição",
         "placeholder": "Descreva esta liga..."
       },
+      "aboutField": {
+        "label": "Sobre",
+        "placeholder": "Escreva sobre o evento — regras, contexto, cronograma, ou qualquer informação que os participantes precisam saber...",
+        "hint": "Este conteúdo será exibido na página do evento. Suporta formatação de texto."
+      },
       "ratingSystem": {
         "label": "Sistema de Classificação",
         "elo": "Elo",
@@ -443,6 +448,7 @@
       "steps": {
         "game": "Jogo",
         "type": "Tipo",
+        "about": "Sobre",
         "general": "Geral",
         "format": "Formato",
         "matchFormats": "Partida"

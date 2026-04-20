@@ -20,6 +20,9 @@ export class Event {
   @Field({ nullable: true })
   description?: string;
 
+  @Field({ nullable: true })
+  about?: string;
+
   @Field()
   isApproved: boolean;
 

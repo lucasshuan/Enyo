@@ -210,6 +210,7 @@ export const addEloLeague = createSafeAction(
     name: string;
     slug: string;
     description: string | null;
+    about?: string | null;
     initialElo: number;
     allowDraw: boolean;
     kFactor: number;
@@ -237,6 +238,7 @@ export const addEloLeague = createSafeAction(
           name: data.name,
           slug: data.slug,
           description: data.description,
+          about: data.about,
           participationMode: data.participationMode,
         },
         league: {
@@ -271,6 +273,7 @@ export const addStandardLeague = createSafeAction(
     name: string;
     slug: string;
     description: string | null;
+    about?: string | null;
     allowDraw: boolean;
     pointsPerWin: number;
     pointsPerDraw: number;
@@ -295,6 +298,7 @@ export const addStandardLeague = createSafeAction(
           name: data.name,
           slug: data.slug,
           description: data.description,
+          about: data.about,
           participationMode: data.participationMode,
         },
         league: {
@@ -419,6 +423,7 @@ export const updateEloLeague = createSafeAction(
       name: string;
       slug: string;
       description: string | null;
+      about?: string | null;
       initialElo: number;
       allowDraw: boolean;
       kFactor: number;
@@ -440,6 +445,7 @@ export const updateEloLeague = createSafeAction(
           name: data.name,
           slug: data.slug,
           description: data.description,
+          about: data.about,
         },
         league: {
           initialElo: data.initialElo,
@@ -467,6 +473,7 @@ export const updateStandardLeague = createSafeAction(
       name: string;
       slug: string;
       description: string | null;
+      about?: string | null;
       allowDraw: boolean;
       pointsPerWin: number;
       pointsPerDraw: number;
@@ -485,6 +492,7 @@ export const updateStandardLeague = createSafeAction(
           name: data.name,
           slug: data.slug,
           description: data.description,
+          about: data.about,
         },
         league: {
           allowDraw: data.allowDraw,

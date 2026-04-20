@@ -36,6 +36,7 @@ export type CreateEloLeagueInput = {
 };
 
 export type CreateEventInput = {
+  about?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
   gameId?: InputMaybe<Scalars['String']['input']>;
@@ -93,6 +94,7 @@ export type EloLeagueEntry = {
 
 export type Event = {
   __typename?: 'Event';
+  about?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['DateTime']['output']>;
@@ -415,6 +417,7 @@ export type UpdateEloLeagueInput = {
 };
 
 export type UpdateEventInput = {
+  about?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;

@@ -327,6 +327,11 @@
         "label": "Description",
         "placeholder": "Describe this league..."
       },
+      "aboutField": {
+        "label": "About",
+        "placeholder": "Write something about this event — rules, context, schedule, or anything you want participants to know...",
+        "hint": "This content will be shown on the event page. Supports rich text formatting."
+      },
       "ratingSystem": {
         "label": "Classification System",
         "elo": "Elo",
@@ -443,6 +448,7 @@
       "steps": {
         "game": "Game",
         "type": "Type",
+        "about": "About",
         "general": "General",
         "format": "Format",
         "matchFormats": "Match"

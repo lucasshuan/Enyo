@@ -9,6 +9,7 @@ type Event {
   name: String!
   slug: String!
   description: String
+  about: String
   isApproved: Boolean!
   startDate: DateTime
   endDate: DateTime
@@ -246,6 +247,7 @@ input UpdateEventInput {
   name: String
   slug: String
   description: String
+  about: String
 }
 
 input UpdateEloLeagueInput {
@@ -265,6 +267,7 @@ input CreateEventInput {
   name: String!
   slug: String!
   description: String
+  about: String
   participationMode: String
   startDate: DateTime
   endDate: DateTime

@@ -24,6 +24,7 @@ export const getAddLeagueSchema = (t: TFunction) => {
         .string()
         .max(500, t("descMax", { count: 500 }))
         .optional(),
+      about: z.string().optional(),
       allowDraw: z.boolean(),
       gameId: z.string().optional(),
       gameName: z.string().optional(),
@@ -152,6 +153,7 @@ export const getEditLeagueSchema = (t: TFunction) => {
         .string()
         .max(500, t("descMax", { count: 500 }))
         .optional(),
+      about: z.string().optional(),
       allowDraw: z.boolean(),
       ratingSystem: z.enum(["RANKED_LEAGUE", "STANDARD_LEAGUE"]),
       // Elo fields

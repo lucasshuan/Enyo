@@ -19,6 +19,7 @@ function mapEloLeagueWithEvent<
       type: string;
       participationMode: string;
       description: string | null;
+      about: string | null;
       startDate: Date | null;
       endDate: Date | null;
       approvedAt?: Date | null;
@@ -38,6 +39,7 @@ function mapEloLeagueWithEvent<
       name: league.event.name,
       slug: league.event.slug,
       description: league.event.description,
+      about: league.event.about,
       isApproved: !!league.event.approvedAt,
       startDate: league.event.startDate,
       endDate: league.event.endDate,
@@ -141,6 +143,7 @@ export class EloLeaguesService {
                   name: eventData.name,
                   slug: eventData.slug,
                   description: eventData.description,
+                  about: eventData.about,
                 },
               },
             }
@@ -165,6 +168,7 @@ export class EloLeaguesService {
       name,
       slug,
       description,
+      about,
       startDate,
       endDate,
       participationMode,
@@ -203,6 +207,7 @@ export class EloLeaguesService {
             name,
             slug,
             description,
+            about,
             startDate,
             endDate,
             authorId,
