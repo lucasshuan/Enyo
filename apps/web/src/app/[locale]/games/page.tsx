@@ -71,7 +71,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
           </div>
         </div>
       </div>
-      <div className="border-b border-border" />
+      <div className="border-b border-white/5" />
 
       <Suspense fallback={<GamesGridSkeleton />}>
         <GamesGrid search={search} />

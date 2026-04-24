@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { ScheduleModule } from '@nestjs/schedule';
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache';
 import { join, resolve } from 'path';
 import { LoggerModule } from 'nestjs-pino';
 import { DatabaseModule } from './database/database.module';
@@ -39,6 +39,7 @@ import { AppController } from './app.controller';
           autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
           playground: !isProduction,
           introspection: !isProduction,
+          cache: new InMemoryLRUCache({ maxSize: 30_000_000 }),
         };
       },
       inject: [ConfigService],
@@ -54,7 +55,6 @@ import { AppController } from './app.controller';
     EventEntriesModule,
     MatchesModule,
     EventStaffModule,
-    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}
