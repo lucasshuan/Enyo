@@ -27,10 +27,10 @@ export default async function HomePage() {
     <main className="relative -mt-12 overflow-hidden lg:mt-0">
       {/* ── Hero background — Bellona ── */}
       <div
-        className="pointer-events-none absolute top-0 hidden h-svh sm:-left-120 sm:block md:-left-50 lg:-left-30"
+        className="pointer-events-none absolute top-0 hidden h-svh sm:-left-120 sm:block md:-left-90 lg:-left-60 xl:-left-30"
         aria-hidden="true"
       >
-          <div className="relative h-full overflow-hidden mask-[linear-gradient(to_left,transparent_0%,transparent_20%,black_50%,black_100%),linear-gradient(to_top,transparent_0%,black_33%,black_100%)] mask-intersect">
+        <div className="relative h-full overflow-hidden mask-[linear-gradient(to_left,transparent_0%,transparent_8%,black_70%,black_100%),linear-gradient(to_top,transparent_0%,black_33%,black_100%)] mask-intersect">
           <Image
             src="/hero-bg.png"
             alt=""
@@ -51,7 +51,7 @@ export default async function HomePage() {
             aria-hidden="true"
           >
             <div className="animate-hero-glow bg-primary/8 absolute -top-24 left-1/2 h-120 w-170 -translate-x-1/2 rounded-full blur-[140px]" />
-            <div className="animate-hero-glow bg-primary-strong/10 absolute -bottom-32 -right-10 h-80 w-120 rounded-full blur-[120px] [animation-delay:-3s]" />
+            <div className="animate-hero-glow bg-primary-strong/10 absolute -right-10 -bottom-32 h-80 w-120 rounded-full blur-[120px] [animation-delay:-3s]" />
           </div>
 
           <div className="relative flex flex-col items-center gap-6 md:max-w-[52%] md:self-end">
@@ -286,7 +286,7 @@ export default async function HomePage() {
           </div>
 
           {/* Styled box */}
-          <div className="communities-box border-gold-dim relative z-20 rounded-t-[2.5rem] border border-b-0 bg-linear-to-b from-background-soft to-background px-6 pt-10 pb-2 shadow-[0_-20px_80px_rgb(192_11_59/0.06),inset_0_1px_0_rgb(255_255_255/0.05)] sm:px-10 sm:pt-14 lg:px-12 lg:pt-16">
+          <div className="communities-box border-gold-dim from-background-soft to-background relative z-20 rounded-t-[2.5rem] border border-b-0 bg-linear-to-b px-6 pt-10 pb-2 shadow-[0_-20px_80px_rgb(192_11_59/0.06),inset_0_1px_0_rgb(255_255_255/0.05)] sm:px-10 sm:pt-14 lg:px-12 lg:pt-16">
             {/* Top edge glow line */}
             <div className="via-primary/30 absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent to-transparent" />
 
