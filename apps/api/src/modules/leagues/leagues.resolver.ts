@@ -12,6 +12,7 @@ import {
   CreateLeagueConfigInput,
   UpdateLeagueEventInput,
   UpdateLeagueConfigInput,
+  InitialStaffInput,
 } from './dto/leagues.input';
 
 @Resolver(() => League)
@@ -42,9 +43,11 @@ export class LeaguesResolver {
   async createLeague(
     @Args('event') eventInput: CreateLeagueEventInput,
     @Args('league') leagueInput: CreateLeagueConfigInput,
+    @Args('staff', { type: () => [InitialStaffInput], nullable: true })
+    staff: InitialStaffInput[] | undefined,
     @CurrentUser() user: User,
   ) {
-    return this.leaguesService.create(eventInput, leagueInput, user.id);
+    return this.leaguesService.create(eventInput, leagueInput, user.id, staff);
   }
 
   @Mutation(() => League)

@@ -7,6 +7,8 @@ import { AddEventForm } from "@/components/forms/events/add-event-form";
 import { useLocale, useTranslations } from "next-intl";
 import type { SimpleGame } from "@/actions/get-games";
 import { Trophy } from "lucide-react";
+import { useUser } from "@/components/providers";
+import type { StaffMember } from "@/components/forms/events/fieldsets/staff-fieldset";
 
 interface AddEventModalProps {
   gameId: string;
@@ -25,6 +27,7 @@ export function AddEventModal({
 }: AddEventModalProps) {
   const t = useTranslations("Modals.AddEvent");
   const locale = useLocale();
+  const { user } = useUser();
 
   const confirmFallbacks =
     locale === "pt"
@@ -56,6 +59,7 @@ export function AddEventModal({
   const [isLoading, setIsLoading] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
 
   const maxReachedStepRef = useRef(gameId ? 1 : 0);
   const isMounted = useRef(true);
@@ -75,6 +79,17 @@ export function AddEventModal({
     setPrevGameId(gameId);
     if (isOpen) {
       setCurrentStep(gameId ? 1 : 0);
+      if (!prevIsOpen && user) {
+        setStaffMembers([
+          {
+            userId: user.id,
+            role: "ORGANIZER",
+            name: user.name ?? user.username,
+            username: user.username,
+            imageUrl: user.image,
+          },
+        ]);
+      }
     }
   }
 
@@ -96,6 +111,7 @@ export function AddEventModal({
     { label: t("steps.type") },
     { label: t("steps.format") },
     { label: t("steps.general") },
+    { label: t("steps.staff") },
   ];
 
   const handleClose = () => {
@@ -106,6 +122,19 @@ export function AddEventModal({
         setCurrentStep(0);
         maxReachedStepRef.current = 0;
         setIsLoading(false);
+        setStaffMembers(
+          user
+            ? [
+                {
+                  userId: user.id,
+                  role: "ORGANIZER",
+                  name: user.name ?? user.username,
+                  username: user.username,
+                  imageUrl: user.image,
+                },
+              ]
+            : [],
+        );
       }
     }, 300);
   };
@@ -153,6 +182,9 @@ export function AddEventModal({
           onSuccess={handleClose}
           onLoadingChange={setIsLoading}
           onStepValidationChange={setIsStepValid}
+          currentUserId={user?.id}
+          staffMembers={staffMembers}
+          onStaffChange={setStaffMembers}
         />
       </MultiStepModal>
 

@@ -205,6 +205,7 @@ export const createLeague = createSafeAction(
     allowDraw?: boolean;
     allowedFormats?: string[];
     customFieldSchema?: unknown;
+    staff?: Array<{ userId: string; role: string }>;
   }) => {
     const session = await getServerAuthSession();
     if (!session?.user?.id) throw new Error("Unauthorized");
@@ -237,6 +238,7 @@ export const createLeague = createSafeAction(
           allowedFormats: data.allowedFormats,
           customFieldSchema: data.customFieldSchema,
         },
+        staff: data.staff,
       },
     });
 

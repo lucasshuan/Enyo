@@ -4,8 +4,9 @@ export const CREATE_LEAGUE = gql`
   mutation CreateLeague(
     $event: CreateLeagueEventInput!
     $league: CreateLeagueConfigInput!
+    $staff: [InitialStaffInput!]
   ) {
-    createLeague(event: $event, league: $league) {
+    createLeague(event: $event, league: $league, staff: $staff) {
       eventId
       classificationSystem
       config

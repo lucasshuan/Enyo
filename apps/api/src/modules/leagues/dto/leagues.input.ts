@@ -9,6 +9,18 @@ import {
 } from 'class-validator';
 
 @InputType()
+export class InitialStaffInput {
+  @Field()
+  @IsString()
+  userId!: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  role?: string;
+}
+
+@InputType()
 export class CreateLeagueEventInput {
   @Field({ nullable: true })
   @IsString()

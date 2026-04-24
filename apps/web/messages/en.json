@@ -455,7 +455,24 @@
         "about": "About",
         "general": "General",
         "format": "Format",
-        "matchFormats": "Match"
+        "matchFormats": "Match",
+        "staff": "Staff"
+      },
+      "staff": {
+        "title": "Event Staff",
+        "description": "Define who can help manage this event. You are always the organizer.",
+        "searchPlaceholder": "Search for a user by name or username...",
+        "noResults": "No users found.",
+        "you": "you",
+        "remove": "Remove member",
+        "roleOrganizer": "Organizer",
+        "roleModerator": "Moderator",
+        "roleModeratorShort": "Moderator",
+        "roleScorekeeper": "Scorekeeper",
+        "roleScorekeeperShort": "Scorekeeper",
+        "organizerDesc": "Full event control: edit settings, manage staff and participants.",
+        "moderatorDesc": "Can manage matches, participants and approve registrations.",
+        "scorekeeperDesc": "Can only submit and edit match scores."
       },
       "matchFormats": {
         "title": "Allowed Match Types",

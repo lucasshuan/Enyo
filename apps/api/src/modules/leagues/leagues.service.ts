@@ -90,6 +90,7 @@ export class LeaguesService {
     eventInput: CreateLeagueEventInput,
     leagueInput: CreateLeagueConfigInput,
     authorId: string,
+    initialStaff?: Array<{ userId: string; role?: string }>,
   ) {
     const gameId =
       eventInput.gameId ?? (await this.resolveGameId(eventInput.gameName));
@@ -130,6 +131,21 @@ export class LeaguesService {
       await tx.eventStaff.create({
         data: { eventId: event.id, userId: authorId, role: 'ORGANIZER' },
       });
+
+      // Add extra staff members (skip the author, already added as ORGANIZER)
+      if (initialStaff && initialStaff.length > 0) {
+        for (const s of initialStaff) {
+          if (s.userId !== authorId) {
+            await tx.eventStaff.create({
+              data: {
+                eventId: event.id,
+                userId: s.userId,
+                role: (s.role ?? 'MODERATOR') as never,
+              },
+            });
+          }
+        }
+      }
 
       return league;
     });

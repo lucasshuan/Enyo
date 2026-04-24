@@ -455,7 +455,24 @@
         "about": "Sobre",
         "general": "Geral",
         "format": "Formato",
-        "matchFormats": "Partida"
+        "matchFormats": "Partida",
+        "staff": "Equipe"
+      },
+      "staff": {
+        "title": "Equipe do Evento",
+        "description": "Defina quem pode ajudar a gerenciar este evento. Você é sempre o organizador.",
+        "searchPlaceholder": "Pesquisar usuário por nome ou username...",
+        "noResults": "Nenhum usuário encontrado.",
+        "you": "você",
+        "remove": "Remover membro",
+        "roleOrganizer": "Organizador",
+        "roleModerator": "Moderador",
+        "roleModeratorShort": "Moderador",
+        "roleScorekeeper": "Placar",
+        "roleScorekeeperShort": "Placar",
+        "organizerDesc": "Controle total do evento: editar configurações, gerenciar equipe e participantes.",
+        "moderatorDesc": "Pode gerenciar partidas, participantes e aprovar inscrições.",
+        "scorekeeperDesc": "Pode apenas registrar e editar o placar das partidas."
       },
       "matchFormats": {
         "title": "Tipos de Partida Permitidos",

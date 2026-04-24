@@ -17,6 +17,10 @@ import { TypeFieldset } from "./fieldsets/type-fieldset";
 import { LeagueConfigFieldset } from "./fieldsets/league-config-fieldset";
 import { GeneralFieldset } from "./fieldsets/general-fieldset";
 import { MatchFormatsFieldset } from "./fieldsets/match-formats-fieldset";
+import {
+  StaffFieldset,
+  type StaffMember,
+} from "./fieldsets/staff-fieldset";
 
 interface AddEventFormProps {
   gameId: string;
@@ -28,6 +32,9 @@ interface AddEventFormProps {
   currentStep: number;
   initialGame?: SimpleGame;
   isGameFixed?: boolean;
+  currentUserId?: string;
+  staffMembers?: StaffMember[];
+  onStaffChange?: (members: StaffMember[]) => void;
 }
 
 export function AddEventForm({
@@ -40,6 +47,9 @@ export function AddEventForm({
   currentStep,
   initialGame,
   isGameFixed,
+  currentUserId,
+  staffMembers,
+  onStaffChange,
 }: AddEventFormProps) {
   const t = useTranslations("Modals.AddEvent");
   const schema = useAddLeagueSchema();
@@ -135,6 +145,8 @@ export function AddEventForm({
         valid = !hasErrors;
       }
       if (valid) valid = !isSlugChecking && !hasSlugConflict;
+    } else if (currentStep === 4) {
+      valid = true;
     }
 
     onStepValidationChange?.(valid);
@@ -194,6 +206,9 @@ export function AddEventForm({
         allowDraw: values.allowDraw,
         allowedFormats: values.allowedFormats,
         config,
+        staff: staffMembers
+          ?.filter((m) => m.userId !== currentUserId)
+          .map(({ userId, role }) => ({ userId, role })),
       });
 
       if (result.success) {
@@ -237,6 +252,13 @@ export function AddEventForm({
           <GeneralFieldset
             onSlugStatusChange={handleSlugStatusChange}
             checkSlugAvailability={checkSlugAvailability}
+          />
+        )}
+        {currentStep === 4 && currentUserId && staffMembers && onStaffChange && (
+          <StaffFieldset
+            currentUserId={currentUserId}
+            staffMembers={staffMembers}
+            onStaffChange={onStaffChange}
           />
         )}
       </form>
