@@ -316,9 +316,6 @@ export function AddLeagueForm({
       } else if (currentStep === 2) {
         isStepValid = allowedFormats.length > 0;
       } else if (currentStep === 3) {
-        // About step is always valid (optional rich text)
-        isStepValid = true;
-      } else if (currentStep === 4) {
         // General step: validate name/slug
         const values = getValues();
         const parseResult = schema.safeParse(values);
@@ -435,7 +432,7 @@ export function AddLeagueForm({
 
             <div className="relative">
               <div className="relative">
-                <Search className="absolute top-1/2 left-4 size-5 -translate-y-1/2 text-secondary/25" />
+                <Search className="text-secondary/25 absolute top-1/2 left-4 size-5 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder={t("gameSelect.placeholder")}
@@ -465,7 +462,7 @@ export function AddLeagueForm({
                 !selectedGame &&
                 showResults &&
                 (games.length > 0 || !isGamesLoading) && (
-                  <div className="glass-panel animate-in fade-in slide-in-from-top-2 absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-3xl border border-gold-dim/35 bg-black/60 shadow-2xl backdrop-blur-xl duration-200">
+                  <div className="glass-panel animate-in fade-in slide-in-from-top-2 border-gold-dim/35 absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-3xl border bg-black/60 shadow-2xl backdrop-blur-xl duration-200">
                     <div className="custom-scrollbar max-h-60 overflow-y-auto p-2">
                       {/* Opção de Criar Novo (sempre visível se não houver match exato) */}
                       {!hasExactMatch && !isGamesLoading && (
@@ -474,7 +471,7 @@ export function AddLeagueForm({
                           onClick={() => {
                             setShowResults(false);
                           }}
-                          className="group flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-all hover:bg-card-strong/45"
+                          className="group hover:bg-card-strong/45 flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-all"
                         >
                           <div className="border-primary/20 bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg border">
                             <Search className="size-4" />
@@ -483,7 +480,7 @@ export function AddLeagueForm({
                             <span className="text-primary text-sm font-bold">
                               {t("gameSelect.searchNew", { name: gameSearch })}
                             </span>
-                            <span className="text-[10px] tracking-widest text-secondary/35 uppercase">
+                            <span className="text-secondary/35 text-[10px] tracking-widest uppercase">
                               {t("gameSelect.newGameWarning")}
                             </span>
                           </div>
@@ -499,9 +496,9 @@ export function AddLeagueForm({
                             setGameSearch(game.name);
                             setShowResults(false);
                           }}
-                          className="group flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-all hover:bg-card-strong/45"
+                          className="group hover:bg-card-strong/45 flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-all"
                         >
-                          <div className="relative size-10 shrink-0 overflow-hidden rounded-lg border border-gold-dim/25 bg-black/40">
+                          <div className="border-gold-dim/25 relative size-10 shrink-0 overflow-hidden rounded-lg border bg-black/40">
                             {game.thumbnailImageUrl ? (
                               <Image
                                 src={game.thumbnailImageUrl}
@@ -510,8 +507,8 @@ export function AddLeagueForm({
                                 className="object-cover"
                               />
                             ) : (
-                              <div className="flex size-full items-center justify-center bg-card-strong/45">
-                                <Trophy className="size-4 text-secondary/25" />
+                              <div className="bg-card-strong/45 flex size-full items-center justify-center">
+                                <Trophy className="text-secondary/25 size-4" />
                               </div>
                             )}
                           </div>
@@ -519,7 +516,7 @@ export function AddLeagueForm({
                             <span className="group-hover:text-primary text-sm font-bold text-white transition-colors">
                               {game.name}
                             </span>
-                            <span className="text-[10px] tracking-widest text-secondary/35 uppercase">
+                            <span className="text-secondary/35 text-[10px] tracking-widest uppercase">
                               {game.slug}
                             </span>
                           </div>
@@ -531,12 +528,12 @@ export function AddLeagueForm({
             </div>
 
             {/* Box de Preview ou Aviso */}
-            <div className="relative flex h-45 flex-col items-center justify-center overflow-hidden rounded-3xl border border-gold-dim/35 bg-card-strong/25 p-6 transition-all">
+            <div className="border-gold-dim/35 bg-card-strong/25 relative flex h-45 flex-col items-center justify-center overflow-hidden rounded-3xl border p-6 transition-all">
               {selectedGame ? (
                 <div className="animate-in fade-in zoom-in-95 flex w-full flex-col gap-4 duration-300">
                   <div className="flex items-center gap-4">
                     {/* Note: Thumbnails are usually 460x215 */}
-                    <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl border border-gold-dim/35 bg-black/40 shadow-2xl">
+                    <div className="border-gold-dim/35 relative size-16 shrink-0 overflow-hidden rounded-2xl border bg-black/40 shadow-2xl">
                       {selectedGame.thumbnailImageUrl ? (
                         <Image
                           src={selectedGame.thumbnailImageUrl}
@@ -559,7 +556,7 @@ export function AddLeagueForm({
                       </p>
                     </div>
                   </div>
-                  <p className="line-clamp-3 text-sm leading-relaxed text-secondary/55">
+                  <p className="text-secondary/55 line-clamp-3 text-sm leading-relaxed">
                     {selectedGame.description || t("gamePage.noDescription")}
                   </p>
                 </div>
@@ -575,7 +572,7 @@ export function AddLeagueForm({
                     <p className="text-sm font-bold tracking-wider text-white uppercase">
                       {t("gameSelect.newGameWarning")}
                     </p>
-                    <p className="mx-auto max-w-110 text-xs leading-relaxed text-secondary/35">
+                    <p className="text-secondary/35 mx-auto max-w-110 text-xs leading-relaxed">
                       {t("gameSelect.newGameInstructions")}
                     </p>
                   </div>
@@ -593,9 +590,9 @@ export function AddLeagueForm({
         </section>
       )}
 
-      {/* Step 4: About */}
+      {/* Step 4: General Data */}
       {currentStep === 3 && (
-        <section className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-500">
+        <section className="animate-in fade-in slide-in-from-right-4 space-y-8 duration-500">
           <div className="flex flex-col gap-2">
             <LabelTooltip label={t("aboutField.label")} />
             <Controller
@@ -609,14 +606,8 @@ export function AddLeagueForm({
                 />
               )}
             />
-            <p className="text-xs text-secondary/35">{t("aboutField.hint")}</p>
+            <p className="text-secondary/35 text-xs">{t("aboutField.hint")}</p>
           </div>
-        </section>
-      )}
-
-      {/* Step 5: General Data */}
-      {currentStep === 4 && (
-        <section className="animate-in fade-in slide-in-from-right-4 space-y-8 duration-500">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="flex flex-col gap-2">
               <LabelTooltip label={t("name.label")} required />
@@ -664,7 +655,7 @@ export function AddLeagueForm({
                   )}
                 />
                 {isSlugChecking ? (
-                  <LoaderCircle className="absolute top-1/2 right-4 size-4 -translate-y-1/2 animate-spin text-secondary/25" />
+                  <LoaderCircle className="text-secondary/25 absolute top-1/2 right-4 size-4 -translate-y-1/2 animate-spin" />
                 ) : canCheckSlug && !errors.slug ? (
                   hasSlugConflict ? (
                     <X className="text-danger absolute top-1/2 right-4 size-4 -translate-y-1/2" />
@@ -725,27 +716,27 @@ export function AddLeagueForm({
                       {t("participationMode.solo")}
                     </span>
                   </div>
-                  <span className="text-xs leading-relaxed text-secondary/55">
+                  <span className="text-secondary/55 text-xs leading-relaxed">
                     {t("participationMode.solo_description")}
                   </span>
                 </button>
                 <button
                   type="button"
                   disabled
-                  className="flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border border-gold-dim/25 bg-card-strong/45 p-4 text-left opacity-50"
+                  className="border-gold-dim/25 bg-card-strong/45 flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border p-4 text-left opacity-50"
                 >
                   <div className="flex w-full items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <Users className="size-4 text-secondary/45" />
-                      <span className="text-sm font-bold text-secondary/45">
+                      <Users className="text-secondary/45 size-4" />
+                      <span className="text-secondary/45 text-sm font-bold">
                         {t("participationMode.team")}
                       </span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-[0.2em] text-secondary/25 uppercase">
+                    <span className="text-secondary/25 text-[9px] font-bold tracking-[0.2em] uppercase">
                       {t("soon")}
                     </span>
                   </div>
-                  <span className="text-xs leading-relaxed text-secondary/35">
+                  <span className="text-secondary/35 text-xs leading-relaxed">
                     {t("participationMode.team_description")}
                   </span>
                 </button>
@@ -772,27 +763,27 @@ export function AddLeagueForm({
                       {t("eventType.league")}
                     </span>
                   </div>
-                  <span className="text-xs leading-relaxed text-secondary/55">
+                  <span className="text-secondary/55 text-xs leading-relaxed">
                     {t("eventType.league_description")}
                   </span>
                 </button>
                 <button
                   type="button"
                   disabled
-                  className="flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border border-gold-dim/25 bg-card-strong/45 p-4 text-left opacity-50"
+                  className="border-gold-dim/25 bg-card-strong/45 flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl border p-4 text-left opacity-50"
                 >
                   <div className="flex w-full items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <Swords className="size-4 text-secondary/45" />
-                      <span className="text-sm font-bold text-secondary/45">
+                      <Swords className="text-secondary/45 size-4" />
+                      <span className="text-secondary/45 text-sm font-bold">
                         {t("eventType.tournament")}
                       </span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-[0.2em] text-secondary/25 uppercase">
+                    <span className="text-secondary/25 text-[9px] font-bold tracking-[0.2em] uppercase">
                       {t("soon")}
                     </span>
                   </div>
-                  <span className="text-xs leading-relaxed text-secondary/35">
+                  <span className="text-secondary/35 text-xs leading-relaxed">
                     {t("eventType.tournament_description")}
                   </span>
                 </button>
@@ -822,7 +813,7 @@ export function AddLeagueForm({
                   <span className="text-sm font-bold">
                     {t("ratingSystem.elo")}
                   </span>
-                  <span className="text-xs leading-relaxed text-secondary/55">
+                  <span className="text-secondary/55 text-xs leading-relaxed">
                     {t("ratingSystem.elo_description")}
                   </span>
                 </button>
@@ -839,7 +830,7 @@ export function AddLeagueForm({
                   <span className="text-sm font-bold">
                     {t("ratingSystem.points")}
                   </span>
-                  <span className="text-xs leading-relaxed text-secondary/55">
+                  <span className="text-secondary/55 text-xs leading-relaxed">
                     {t("ratingSystem.points_description")}
                   </span>
                 </button>
@@ -855,29 +846,41 @@ export function AddLeagueForm({
 
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {matchFormatOptions.map((option) => {
+                  const isLocked = option.value !== "ONE_V_ONE";
                   const isSelected = allowedFormats.includes(option.value);
 
                   return (
                     <button
                       key={option.value}
                       type="button"
-                      onClick={() => toggleMatchFormat(option.value)}
+                      disabled={isLocked}
+                      onClick={() =>
+                        !isLocked && toggleMatchFormat(option.value)
+                      }
                       className={cn(
                         "flex items-center justify-between gap-1.5 rounded-xl border px-3 py-2 text-left transition-all",
-                        isSelected
-                          ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                          : "border-gold-dim/35 bg-card-strong/45 text-secondary/80 hover:bg-card-strong/70",
+                        isLocked
+                          ? "border-gold-dim/25 bg-card-strong/45 cursor-not-allowed opacity-50"
+                          : isSelected
+                            ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
+                            : "border-gold-dim/35 bg-card-strong/45 text-secondary/80 hover:bg-card-strong/70",
                       )}
                     >
                       <div className="flex flex-col gap-0.5">
                         <span className="text-xs font-bold">
                           {option.label}
                         </span>
-                        <span className="text-[10px] leading-tight text-secondary/45">
+                        <span className="text-secondary/45 text-[10px] leading-tight">
                           {option.description}
                         </span>
                       </div>
-                      {isSelected && <Check className="size-3 shrink-0" />}
+                      {isLocked ? (
+                        <span className="text-secondary/25 shrink-0 text-[9px] font-bold tracking-[0.2em] uppercase">
+                          {t("soon")}
+                        </span>
+                      ) : (
+                        isSelected && <Check className="size-3 shrink-0" />
+                      )}
                     </button>
                   );
                 })}
@@ -892,7 +895,7 @@ export function AddLeagueForm({
 
             <div className="grid gap-8 md:grid-cols-5">
               <div className="space-y-8 md:col-span-2">
-                <div className="flex items-center justify-between rounded-2xl border border-gold-dim/25 bg-card-strong/25 p-4">
+                <div className="border-gold-dim/25 bg-card-strong/25 flex items-center justify-between rounded-2xl border p-4">
                   <LabelTooltip
                     label={t("allowDraw.label")}
                     tooltip={t("allowDraw.tooltip")}
@@ -973,8 +976,8 @@ export function AddLeagueForm({
                         />
                       </div>
 
-                      <div className="border-l-primary/30 mt-2 space-y-4 rounded-2xl border border-gold-dim/25 bg-card-strong/25 p-5 text-left">
-                        <div className="flex items-center gap-2 text-secondary/45">
+                      <div className="border-l-primary/30 border-gold-dim/25 bg-card-strong/25 mt-2 space-y-4 rounded-2xl border p-5 text-left">
+                        <div className="text-secondary/45 flex items-center gap-2">
                           <Clock className="size-3.5" />
                           <span className="text-[10px] font-bold tracking-widest uppercase">
                             {t("inactivityDecay.label")}
@@ -1117,8 +1120,8 @@ export function AddLeagueForm({
                     <Zap className="size-4" />
                     {t("explanation.title")}
                   </h4>
-                  <div className="space-y-5 text-xs leading-relaxed text-secondary/70">
-                    <p className="font-medium text-secondary/90 italic">
+                  <div className="text-secondary/70 space-y-5 text-xs leading-relaxed">
+                    <p className="text-secondary/90 font-medium italic">
                       {ratingSystem === "ELO"
                         ? t("explanation.elo.description")
                         : t("explanation.points.description")}
@@ -1129,8 +1132,10 @@ export function AddLeagueForm({
                           <div className="flex items-center gap-3">
                             <div
                               className={cn(
-                                "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-card-strong/45",
-                                allowDraw ? "text-primary" : "text-secondary/45",
+                                "bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg",
+                                allowDraw
+                                  ? "text-primary"
+                                  : "text-secondary/45",
                               )}
                             >
                               {allowDraw ? (
@@ -1146,7 +1151,7 @@ export function AddLeagueForm({
                             </span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <div className="text-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-card-strong/45">
+                            <div className="text-primary bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg">
                               <Trophy className="size-3" />
                             </div>
                             <span>
@@ -1156,7 +1161,7 @@ export function AddLeagueForm({
                             </span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <div className="text-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-card-strong/45">
+                            <div className="text-primary bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg">
                               <ArrowUpRight className="size-3" />
                             </div>
                             <span>
@@ -1168,7 +1173,7 @@ export function AddLeagueForm({
                           <div className="flex items-center gap-3">
                             <div
                               className={cn(
-                                "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-card-strong/45",
+                                "bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg",
                                 scoreRelevance > 0
                                   ? "text-primary"
                                   : "text-secondary/45",
@@ -1197,7 +1202,7 @@ export function AddLeagueForm({
                           />
                           {inactivityDecay > 0 && (
                             <div className="flex items-center gap-3">
-                              <div className="text-danger/50 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-card-strong/45">
+                              <div className="text-danger/50 bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg">
                                 <Activity className="size-3" />
                               </div>
                               <span>

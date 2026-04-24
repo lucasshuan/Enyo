@@ -10,6 +10,7 @@ type LeagueForEdit = {
   name: string;
   slug: string;
   description?: string | null;
+  about?: string | null;
   classificationSystem: "ELO" | "POINTS";
   allowDraw: boolean;
   config: Record<string, unknown>;

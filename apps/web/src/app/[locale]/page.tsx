@@ -105,7 +105,7 @@ export default async function HomePage() {
               </Link>
               {user ? (
                 <Link
-                  href="/start"
+                  href="/dashboard"
                   className={cn(
                     buttonVariants({ intent: "primary", size: "lg" }),
                     "px-8 text-sm sm:text-base",

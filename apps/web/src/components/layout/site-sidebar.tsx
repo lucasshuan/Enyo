@@ -83,11 +83,11 @@ function NavItem({
           collapsed ? "mx-2 justify-center" : "mx-1.5 gap-3 px-2.5",
         )}
       >
-        <Icon className="size-3.5 shrink-0 text-secondary/20" />
+        <Icon className="text-secondary/20 size-3.5 shrink-0" />
 
         <span
           className={cn(
-            "truncate text-[13px] font-light text-secondary/20 transition-all duration-300",
+            "text-secondary/20 truncate text-[13px] font-light transition-all duration-300",
             collapsed ? "w-0 max-w-0 overflow-hidden opacity-0" : "flex-1",
           )}
         >
@@ -96,7 +96,7 @@ function NavItem({
 
         <span
           className={cn(
-            "overflow-hidden rounded-md bg-secondary/5 text-[10px] leading-none font-medium text-secondary/20 transition-all duration-300",
+            "bg-secondary/5 text-secondary/20 overflow-hidden rounded-md text-[10px] leading-none font-medium transition-all duration-300",
             collapsed
               ? "w-0 max-w-0 px-0 py-0 opacity-0"
               : "px-1.5 py-0.5 opacity-100",
@@ -108,9 +108,9 @@ function NavItem({
         {/* Collapsed tooltip */}
         {collapsed && (
           <div className="pointer-events-none absolute top-1/2 left-full z-50 ml-3 -translate-y-1/2 opacity-0 transition-opacity duration-150 group-hover/nav:opacity-100">
-            <div className="rounded-lg border border-gold-dim/40 bg-background-soft px-2.5 py-1.5 text-xs whitespace-nowrap text-secondary/35 shadow-2xl">
+            <div className="border-gold-dim/40 bg-background-soft text-secondary/35 rounded-lg border px-2.5 py-1.5 text-xs whitespace-nowrap shadow-2xl">
               {t(item.labelKey as Parameters<typeof t>[0])}
-              <span className="ml-1.5 text-secondary/20">· {t("soon")}</span>
+              <span className="text-secondary/20 ml-1.5">· {t("soon")}</span>
             </div>
           </div>
         )}
@@ -127,15 +127,19 @@ function NavItem({
           "relative flex items-center rounded-lg py-1.5 text-[13px] tracking-wide",
           "transition-[background-color,color,opacity] duration-400 ease-in-out",
           isActive
-            ? "bg-primary/50 text-white font-medium"
-            : "font-light text-secondary/45 hover:bg-primary/10 hover:text-secondary/90",
+            ? "bg-primary/50 font-medium text-white"
+            : "text-secondary/45 hover:bg-primary/10 hover:text-secondary/90 font-light",
           collapsed ? "mx-2 justify-center" : "mx-1.5 gap-3 px-2.5",
         )}
       >
-        <span className={cn(
-          "bg-primary-strong absolute top-1/2 left-0 h-4 w-0.5 -translate-y-1/2 rounded-r-full transition-[opacity,transform] duration-400 ease-in-out",
-          isActive && !collapsed ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0",
-        )} />
+        <span
+          className={cn(
+            "bg-primary-strong absolute top-1/2 left-0 h-4 w-0.5 -translate-y-1/2 rounded-r-full transition-[opacity,transform] duration-400 ease-in-out",
+            isActive && !collapsed
+              ? "scale-y-100 opacity-100"
+              : "scale-y-0 opacity-0",
+          )}
+        />
         <Icon
           className={cn(
             "size-3.5 shrink-0 transition-colors",
@@ -157,7 +161,7 @@ function NavItem({
         <div className="pointer-events-none absolute top-1/2 left-full z-50 ml-3 -translate-y-1/2 opacity-0 transition-opacity duration-150 group-hover/nav:opacity-100">
           <div
             className={cn(
-              "flex items-center gap-1.5 rounded-lg border border-gold-dim/40 bg-background-soft px-2.5 py-1.5 text-xs font-medium whitespace-nowrap shadow-2xl",
+              "border-gold-dim/40 bg-background-soft flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium whitespace-nowrap shadow-2xl",
               isActive ? "text-primary" : "text-secondary/90",
             )}
           >
@@ -244,7 +248,7 @@ function UserMenuDropdown({
     <div
       ref={dropdownRef}
       style={{ top: coords?.top ?? 0, left: coords?.left ?? 0 }}
-      className="animate-in fixed z-9999 w-68 origin-left overflow-hidden rounded-2xl border border-gold-dim bg-card-strong/95 shadow-2xl backdrop-blur-xl"
+      className="animate-in border-gold-dim bg-card-strong/95 fixed z-9999 w-68 origin-left overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl"
     >
       {/* ── Header ─────────────────────────────────── */}
       <div className="border-border relative overflow-hidden border-b p-4">
@@ -293,7 +297,7 @@ function UserMenuDropdown({
             setOpen(false);
             onClose?.();
           }}
-          className="text-muted hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)] hover:text-foreground flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors"
+          className="text-muted hover:text-foreground flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)]"
         >
           <User className="text-gold/75 size-4 shrink-0" />
           <span>{tUser("viewProfile")}</span>
@@ -305,7 +309,7 @@ function UserMenuDropdown({
             onClose?.();
             setEditProfileOpen(true);
           }}
-          className="text-muted hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)] hover:text-foreground flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors"
+          className="text-muted hover:text-foreground flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)]"
         >
           <Pencil className="text-gold/75 size-4 shrink-0" />
           <span>{tUser("editProfile")}</span>
@@ -364,7 +368,7 @@ function UserMenuDropdown({
           setOpen((v) => !v);
         }}
         className={cn(
-          "flex items-center rounded-lg transition-all duration-300 hover:bg-primary/10",
+          "hover:bg-primary/10 flex items-center rounded-lg transition-all duration-300",
           collapsed
             ? "mx-2 w-auto justify-center p-1.5"
             : "mx-1.5 w-[calc(100%-12px)] gap-3 px-2.5 py-2",
@@ -378,19 +382,22 @@ function UserMenuDropdown({
               width={collapsed ? 24 : 32}
               height={collapsed ? 24 : 32}
               className={cn(
-                "rounded-full border border-gold-dim/40 object-cover",
+                "border-gold-dim/40 rounded-full border object-cover",
                 collapsed ? "size-6" : "size-8",
               )}
             />
           ) : (
             <div
               className={cn(
-                "flex items-center justify-center rounded-full border border-gold-dim/40 bg-secondary/8",
+                "border-gold-dim/40 bg-secondary/8 flex items-center justify-center rounded-full border",
                 collapsed ? "size-6" : "size-8",
               )}
             >
               <User
-                className={cn(collapsed ? "size-3" : "size-4", "text-secondary/40")}
+                className={cn(
+                  collapsed ? "size-3" : "size-4",
+                  "text-secondary/40",
+                )}
               />
             </div>
           )}
@@ -407,16 +414,16 @@ function UserMenuDropdown({
         {!collapsed && (
           <>
             <div className="flex min-w-0 flex-1 flex-col text-left">
-              <span className="truncate text-[13px] leading-snug font-medium text-secondary/90">
+              <span className="text-secondary/90 truncate text-[13px] leading-snug font-medium">
                 {user.name ?? user.username ?? "User"}
               </span>
-              <span className="truncate text-[10px] leading-snug text-secondary/30">
+              <span className="text-secondary/30 truncate text-[10px] leading-snug">
                 {user.email ?? ""}
               </span>
             </div>
             <ChevronRight
               className={cn(
-                "size-3.5 shrink-0 text-secondary/25 transition-transform",
+                "text-secondary/25 size-3.5 shrink-0 transition-transform",
                 open && "rotate-180",
               )}
             />
@@ -483,7 +490,7 @@ function SidebarBody({
               titleKey: "mySpace",
               items: [
                 {
-                  href: "/start",
+                  href: "/dashboard",
                   labelKey: "dashboard",
                   icon: LayoutDashboard,
                 },
@@ -549,7 +556,7 @@ function SidebarBody({
   return (
     <div
       className={cn(
-        "flex h-full flex-col overflow-hidden border-r border-gold-dim",
+        "border-gold-dim flex h-full flex-col overflow-hidden border-r",
         "bg-card backdrop-blur-xl",
         ready &&
           "transition-[width] duration-300 ease-in-out will-change-[width]",
@@ -589,7 +596,7 @@ function SidebarBody({
           <button
             onClick={onClose}
             aria-label="Close menu"
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-secondary/40 transition-colors hover:bg-primary/10 hover:text-secondary/90"
+            className="text-secondary/40 hover:bg-primary/10 hover:text-secondary/90 flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors"
           >
             <X className="size-4" />
           </button>
@@ -598,7 +605,7 @@ function SidebarBody({
             onClick={onToggle}
             aria-label={effective ? t("expand") : t("collapse")}
             title={effective ? t("expand") : t("collapse")}
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-secondary/35 transition-colors hover:bg-primary/10 hover:text-secondary/90"
+            className="text-secondary/35 hover:bg-primary/10 hover:text-secondary/90 flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors"
           >
             {effective ? <Menu className="size-4" /> : <X className="size-4" />}
           </button>
@@ -620,18 +627,18 @@ function SidebarBody({
             >
               <div
                 className={cn(
-                  "shrink-0 animate-pulse rounded-full bg-secondary/8",
+                  "bg-secondary/8 shrink-0 animate-pulse rounded-full",
                   effective ? "size-6" : "size-8",
                 )}
               />
               {!effective && (
                 <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                  <div className="h-3 w-24 animate-pulse rounded bg-secondary/8" />
-                  <div className="h-2 w-16 animate-pulse rounded bg-secondary/5" />
+                  <div className="bg-secondary/8 h-3 w-24 animate-pulse rounded" />
+                  <div className="bg-secondary/5 h-2 w-16 animate-pulse rounded" />
                 </div>
               )}
             </div>
-            <div className="mx-3 my-2 h-px bg-gold-dim/25" />
+            <div className="bg-gold-dim/25 mx-3 my-2 h-px" />
           </>
         ) : user ? (
           <>
@@ -641,7 +648,7 @@ function SidebarBody({
               collapsed={effective}
               onClose={onClose}
             />
-            <div className="mx-3 my-2 h-px bg-gold-dim/25" />
+            <div className="bg-gold-dim/25 mx-3 my-2 h-px" />
           </>
         ) : null}
 
@@ -654,9 +661,7 @@ function SidebarBody({
               <div
                 className={cn(
                   "overflow-hidden transition-all duration-300",
-                  effective
-                    ? "mb-0 h-0 py-0 opacity-0"
-                    : "h-6.5 opacity-100",
+                  effective ? "mb-0 h-0 py-0 opacity-0" : "h-6.5 opacity-100",
                 )}
               >
                 <button
@@ -664,12 +669,12 @@ function SidebarBody({
                   onClick={() => toggleSection(section.titleKey)}
                   className="flex w-full items-center gap-1 px-4 pt-1 pb-1.5"
                 >
-                  <span className="flex-1 text-left text-[10px] font-normal tracking-[0.18em] text-gold/35 uppercase">
+                  <span className="text-gold/35 flex-1 text-left text-[10px] font-normal tracking-[0.18em] uppercase">
                     {t(section.titleKey as Parameters<typeof t>[0])}
                   </span>
                   <ChevronRight
                     className={cn(
-                      "size-2.5 shrink-0 text-gold/25 transition-transform duration-200",
+                      "text-gold/25 size-2.5 shrink-0 transition-transform duration-200",
                       isSectionCollapsed ? "rotate-0" : "rotate-90",
                     )}
                   />
@@ -700,7 +705,6 @@ function SidebarBody({
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
       <div className="shrink-0">
-
         <div
           className={cn(
             effective
@@ -710,7 +714,7 @@ function SidebarBody({
         >
           {/* Login button — only shown when logged out and expanded */}
           {isLoading && !effective ? (
-            <div className="h-12 w-full animate-pulse rounded-full bg-secondary/8" />
+            <div className="bg-secondary/8 h-12 w-full animate-pulse rounded-full" />
           ) : !user && !effective ? (
             <>
               <button
@@ -801,11 +805,11 @@ export function SiteSidebar() {
   return (
     <>
       {/* ── Mobile top bar ──────────────────────────────────────────────── */}
-      <div className="fixed top-0 right-0 left-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b border-gold-dim bg-background/90 px-4 backdrop-blur-xl lg:hidden">
+      <div className="border-gold-dim bg-background/90 fixed top-0 right-0 left-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b px-4 backdrop-blur-xl lg:hidden">
         <button
           onClick={() => setMobileOpen(true)}
           aria-label={t("openMenu")}
-          className="flex size-8 items-center justify-center rounded-lg text-secondary/55 transition-colors hover:bg-primary/10 hover:text-secondary/90"
+          className="text-secondary/55 hover:bg-primary/10 hover:text-secondary/90 flex size-8 items-center justify-center rounded-lg transition-colors"
         >
           <Menu className="size-5" />
         </button>

@@ -46,11 +46,11 @@ function ToolbarButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex size-8 items-center justify-center rounded-lg transition-colors",
+        "flex size-7 items-center justify-center rounded-lg transition-all duration-150",
         isActive
-          ? "bg-primary/20 text-primary"
-          : "text-white/50 hover:bg-white/10 hover:text-white",
-        disabled && "cursor-not-allowed opacity-30",
+          ? "bg-primary/10 text-primary"
+          : "text-secondary/40 hover:bg-card-strong hover:text-secondary",
+        disabled && "cursor-not-allowed opacity-25",
       )}
     >
       {children}
@@ -70,7 +70,7 @@ export function TiptapEditor({
       Placeholder.configure({
         placeholder: placeholder ?? "",
         emptyEditorClass:
-          "before:content-[attr(data-placeholder)] before:text-white/30 before:float-left before:pointer-events-none before:h-0",
+          "before:content-[attr(data-placeholder)] before:text-secondary/25 before:float-left before:pointer-events-none before:h-0",
       }),
     ],
     content: value ?? "",
@@ -82,7 +82,7 @@ export function TiptapEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert prose-sm max-w-none min-h-48 px-4 py-3 text-white/80 focus:outline-none [&_p]:leading-relaxed [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-white [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_hr]:border-white/10",
+          "prose prose-sm max-w-none min-h-48 px-5 py-3 text-sm text-secondary focus:outline-none [&_p]:leading-relaxed [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-secondary [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-secondary [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_hr]:border-gold-dim/30 [&_strong]:text-secondary [&_em]:text-secondary/80",
       },
     },
   });
@@ -92,12 +92,12 @@ export function TiptapEditor({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border border-white/10 bg-white/3 transition-colors focus-within:border-white/20",
+        "overflow-hidden rounded-2xl border border-gold-dim/35 bg-card-strong/50 transition-all hover:border-gold-dim/55 focus-within:border-gold/45 focus-within:bg-card-strong/70 focus-within:ring-4 focus-within:ring-gold/10",
         className,
       )}
     >
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-white/5 px-2 py-1.5">
+      <div className="flex flex-wrap items-center gap-0.5 border-b border-gold-dim/20 bg-card-strong/30 px-3 py-1.5">
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBold().run()}
           isActive={editor.isActive("bold")}
@@ -120,7 +120,7 @@ export function TiptapEditor({
           <Strikethrough className="size-3.5" />
         </ToolbarButton>
 
-        <div className="mx-1 h-4 w-px bg-white/10" />
+        <div className="mx-1 h-4 w-px bg-gold-dim/30" />
 
         <ToolbarButton
           onClick={() =>
@@ -141,7 +141,7 @@ export function TiptapEditor({
           <Heading3 className="size-3.5" />
         </ToolbarButton>
 
-        <div className="mx-1 h-4 w-px bg-white/10" />
+        <div className="mx-1 h-4 w-px bg-gold-dim/30" />
 
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -158,7 +158,7 @@ export function TiptapEditor({
           <ListOrdered className="size-3.5" />
         </ToolbarButton>
 
-        <div className="mx-1 h-4 w-px bg-white/10" />
+        <div className="mx-1 h-4 w-px bg-gold-dim/30" />
 
         <ToolbarButton
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
@@ -167,7 +167,7 @@ export function TiptapEditor({
           <Minus className="size-3.5" />
         </ToolbarButton>
 
-        <div className="mx-1 h-4 w-px bg-white/10" />
+        <div className="mx-1 h-4 w-px bg-gold-dim/30" />
 
         <ToolbarButton
           onClick={() => editor.chain().focus().undo().run()}
@@ -190,3 +190,4 @@ export function TiptapEditor({
     </div>
   );
 }
+

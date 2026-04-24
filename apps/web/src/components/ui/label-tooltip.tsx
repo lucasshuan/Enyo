@@ -71,7 +71,7 @@ export function LabelTooltip({
         <label
           htmlFor={htmlFor}
           className={cn(
-            "cursor-default text-sm font-medium text-white/70",
+            "cursor-default text-sm font-medium text-secondary/70",
             labelClassName,
           )}
         >
@@ -85,13 +85,13 @@ export function LabelTooltip({
           <Info
             className={cn(
               "size-3.5 cursor-default transition-colors",
-              show ? "text-white/60" : "text-white/20",
+              show ? "text-secondary/50" : "text-secondary/20",
             )}
           />
           {show &&
             createPortal(
               <div
-                className="pointer-events-none absolute isolate z-9999 w-64 -translate-x-1/2 transform-gpu rounded-xl border border-white/20 bg-[#0a0a0a]/60 p-3 text-[11px] leading-relaxed text-white/80 shadow-2xl"
+                className="pointer-events-none absolute isolate z-9999 w-64 -translate-x-1/2 transform-gpu rounded-xl border border-gold-dim/35 bg-card-strong/90 p-3 text-[11px] leading-relaxed text-secondary/80 shadow-2xl"
                 style={{
                   top: position.top,
                   left: position.left,
@@ -99,7 +99,7 @@ export function LabelTooltip({
                   WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                <div className="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 border-t border-l border-white/20 bg-[#0a0a0a]/60" />
+                <div className="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 border-t border-l border-gold-dim/35 bg-card-strong/90" />
                 <div className="relative z-10">{tooltip}</div>
               </div>,
               document.body,

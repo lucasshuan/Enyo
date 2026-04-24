@@ -30,12 +30,14 @@ import { formatHoursDuration } from "@/lib/date-utils";
 import { cn, slugify } from "@/lib/utils";
 import { MATCH_FORMATS } from "@bellona/core";
 import { EloMatchSimulator } from "./elo-match-simulator";
+import { TiptapEditor } from "@/components/ui/tiptap-editor";
 
 type LeagueForEdit = {
   eventId: string;
   name: string;
   slug: string;
   description?: string | null;
+  about?: string | null;
   classificationSystem: "ELO" | "POINTS";
   allowDraw?: boolean | null;
   config: Record<string, unknown>;
@@ -86,6 +88,7 @@ export function EditLeagueForm({
         name: league.name,
         slug: league.slug,
         description: league.description || "",
+        about: league.about || "",
         ratingSystem: league.classificationSystem,
         initialElo: cfg.initialElo ?? 1000,
         allowDraw: league.allowDraw ?? true,
@@ -298,6 +301,7 @@ export function EditLeagueForm({
         slug: values.slug,
         allowDraw: values.allowDraw,
         description: values.description ?? null,
+        about: values.about ?? null,
         allowedFormats: values.allowedFormats,
         config,
       });
@@ -360,7 +364,24 @@ export function EditLeagueForm({
 
       {/* Step 3: General Data */}
       {currentStep === 2 && (
-        <section className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-500">
+        <section className="animate-in fade-in slide-in-from-right-4 space-y-8 duration-500">
+          <div className="flex flex-col gap-2">
+            <LabelTooltip label={t("AddLeague.aboutField.label")} />
+            <Controller
+              name="about"
+              control={control}
+              render={({ field }) => (
+                <TiptapEditor
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  placeholder={t("AddLeague.aboutField.placeholder")}
+                />
+              )}
+            />
+            <p className="text-xs text-secondary/35">
+              {t("AddLeague.aboutField.hint")}
+            </p>
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="flex flex-col gap-2">
               <LabelTooltip label={t("AddLeague.name.label")} required />
@@ -883,23 +904,33 @@ export function EditLeagueForm({
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {matchFormatOptions.map((option) => {
+              const isLocked = option.value !== "ONE_V_ONE";
               const isSelected = allowedFormats.includes(option.value);
 
               return (
                 <button
                   key={option.value}
                   type="button"
-                  onClick={() => toggleMatchFormat(option.value)}
+                  disabled={isLocked}
+                  onClick={() => !isLocked && toggleMatchFormat(option.value)}
                   className={cn(
                     "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
-                    isSelected
-                      ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                      : "border-gold-dim/35 bg-card-strong/45 text-secondary/80 hover:bg-card-strong/70",
+                    isLocked
+                      ? "cursor-not-allowed border-gold-dim/25 bg-card-strong/45 opacity-50"
+                      : isSelected
+                        ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
+                        : "border-gold-dim/35 bg-card-strong/45 text-secondary/80 hover:bg-card-strong/70",
                   )}
                 >
                   <div className="flex w-full items-center justify-between gap-2">
                     <span className="text-sm font-bold">{option.label}</span>
-                    {isSelected && <Check className="size-4" />}
+                    {isLocked ? (
+                      <span className="text-[9px] font-bold tracking-[0.2em] text-secondary/25 uppercase">
+                        {t("AddLeague.soon")}
+                      </span>
+                    ) : (
+                      isSelected && <Check className="size-4" />
+                    )}
                   </div>
                   <span className="text-xs text-secondary/55">
                     {option.description}
