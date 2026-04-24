@@ -34,13 +34,13 @@ export default async function RootLayout({
         <Providers session={session}>
           <div className="relative flex h-screen overflow-hidden">
             <SiteSidebar />
-            <div className="app-scroll-shell flex flex-1 flex-col">
+            <div className="app-scroll-shell relative flex flex-1 flex-col">
+              {/* Locale switcher — absolute top-right, scrolls with page */}
+              <div className="absolute top-5 right-5 z-40 hidden lg:block">
+                <LocaleSwitcher />
+              </div>
               <div className="flex-1 pt-12 lg:pt-0">{children}</div>
               <SiteFooter />
-            </div>
-            {/* Locale switcher — fixed top-right, visible on all pages */}
-            <div className="fixed top-5 right-5 z-40 hidden lg:block">
-              <LocaleSwitcher />
             </div>
           </div>
         </Providers>

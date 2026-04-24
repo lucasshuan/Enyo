@@ -42,7 +42,7 @@ export default async function GameLayout({
               sizes="100vw"
             />
             {/* Subtle top-to-bottom darken so text above is legible */}
-            <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-background" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-transparent" />
           </>
         ) : (
           <div className="from-primary/20 to-background/94 absolute inset-0 bg-linear-to-br" />
