@@ -39,10 +39,10 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
                 href="/games/new"
                 className={cn(
                   buttonVariants({ intent: "primary", size: "sm" }),
-                  "rounded-xl",
+                  "group rounded-xl",
                 )}
               >
-                <Plus className="mr-1.5 size-4" />
+                <Plus className="mr-1.5 size-4 transition-transform duration-300 group-hover:rotate-180" />
                 {t("newGame")}
               </Link>
             </div>

@@ -19,6 +19,7 @@ type Documents = {
     "\n  mutation CreateGame($input: CreateGameInput!) {\n    createGame(input: $input) {\n      id\n      name\n      slug\n      status\n    }\n  }\n": typeof types.CreateGameDocument,
     "\n  mutation UpdateGame($id: ID!, $input: UpdateGameInput!) {\n    updateGame(id: $id, input: $input) {\n      id\n      name\n      slug\n    }\n  }\n": typeof types.UpdateGameDocument,
     "\n  mutation ApproveGame($id: ID!) {\n    approveGame(id: $id) {\n      id\n      status\n    }\n  }\n": typeof types.ApproveGameDocument,
+    "\n  mutation DeleteGame($id: ID!) {\n    deleteGame(id: $id) {\n      id\n      slug\n    }\n  }\n": typeof types.DeleteGameDocument,
     "\n  query GetGames($pagination: PaginationInput, $search: String) {\n    games(pagination: $pagination, search: $search) {\n      nodes {\n        id\n        name\n        slug\n        description\n        thumbnailImageUrl\n        backgroundImageUrl\n        status\n        _count {\n          events\n        }\n      }\n      totalCount\n      hasNextPage\n    }\n  }\n": typeof types.GetGamesDocument,
     "\n  query GetGame($slug: String!) {\n    game(slug: $slug) {\n      id\n      name\n      slug\n      description\n      thumbnailImageUrl\n      backgroundImageUrl\n      steamUrl\n      websiteUrl\n      status\n      authorId\n      createdAt\n      updatedAt\n      author {\n        id\n        name\n        username\n        imageUrl\n      }\n      _count {\n        events\n      }\n    }\n  }\n": typeof types.GetGameDocument,
     "\n  query GetGameActions($slug: String!) {\n    game(slug: $slug) {\n      id\n      slug\n      authorId\n    }\n  }\n": typeof types.GetGameActionsDocument,
@@ -40,6 +41,7 @@ const documents: Documents = {
     "\n  mutation CreateGame($input: CreateGameInput!) {\n    createGame(input: $input) {\n      id\n      name\n      slug\n      status\n    }\n  }\n": types.CreateGameDocument,
     "\n  mutation UpdateGame($id: ID!, $input: UpdateGameInput!) {\n    updateGame(id: $id, input: $input) {\n      id\n      name\n      slug\n    }\n  }\n": types.UpdateGameDocument,
     "\n  mutation ApproveGame($id: ID!) {\n    approveGame(id: $id) {\n      id\n      status\n    }\n  }\n": types.ApproveGameDocument,
+    "\n  mutation DeleteGame($id: ID!) {\n    deleteGame(id: $id) {\n      id\n      slug\n    }\n  }\n": types.DeleteGameDocument,
     "\n  query GetGames($pagination: PaginationInput, $search: String) {\n    games(pagination: $pagination, search: $search) {\n      nodes {\n        id\n        name\n        slug\n        description\n        thumbnailImageUrl\n        backgroundImageUrl\n        status\n        _count {\n          events\n        }\n      }\n      totalCount\n      hasNextPage\n    }\n  }\n": types.GetGamesDocument,
     "\n  query GetGame($slug: String!) {\n    game(slug: $slug) {\n      id\n      name\n      slug\n      description\n      thumbnailImageUrl\n      backgroundImageUrl\n      steamUrl\n      websiteUrl\n      status\n      authorId\n      createdAt\n      updatedAt\n      author {\n        id\n        name\n        username\n        imageUrl\n      }\n      _count {\n        events\n      }\n    }\n  }\n": types.GetGameDocument,
     "\n  query GetGameActions($slug: String!) {\n    game(slug: $slug) {\n      id\n      slug\n      authorId\n    }\n  }\n": types.GetGameActionsDocument,
@@ -90,6 +92,10 @@ export function graphql(source: "\n  mutation UpdateGame($id: ID!, $input: Updat
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation ApproveGame($id: ID!) {\n    approveGame(id: $id) {\n      id\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ApproveGame($id: ID!) {\n    approveGame(id: $id) {\n      id\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteGame($id: ID!) {\n    deleteGame(id: $id) {\n      id\n      slug\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteGame($id: ID!) {\n    deleteGame(id: $id) {\n      id\n      slug\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

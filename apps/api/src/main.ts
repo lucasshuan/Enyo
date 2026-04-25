@@ -21,8 +21,13 @@ async function bootstrap() {
     }),
   );
 
+  const rawOrigin = configService.get<string>('CORS_ORIGIN') ?? '';
+  const corsOrigins = rawOrigin.includes(',')
+    ? rawOrigin.split(',').map((o) => o.trim())
+    : rawOrigin;
+
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN'),
+    origin: corsOrigins,
     credentials: true,
   });
 

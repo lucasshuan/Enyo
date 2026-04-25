@@ -692,12 +692,12 @@ function SidebarBody({
                   onClick={() => toggleSection(section.titleKey)}
                   className="flex w-full items-center gap-1 px-4 pt-1 pb-1.5"
                 >
-                  <span className="text-gold/35 flex-1 text-left text-[10px] font-normal tracking-[0.18em] uppercase">
+                  <span className="text-gold/60 flex-1 text-left text-[10px] font-normal tracking-[0.18em] uppercase">
                     {t(section.titleKey as Parameters<typeof t>[0])}
                   </span>
                   <ChevronRight
                     className={cn(
-                      "text-gold/25 size-2.5 shrink-0 transition-transform duration-200",
+                      "text-gold/50 size-2.5 shrink-0 transition-transform duration-200",
                       isSectionCollapsed ? "rotate-0" : "rotate-90",
                     )}
                   />
