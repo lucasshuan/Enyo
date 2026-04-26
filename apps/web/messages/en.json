@@ -435,7 +435,7 @@
         "unit": "hours"
       },
       "inactivityFloor": {
-        "label": "Decay Floor",
+        "label": "Floor",
         "tooltip": "Minimum rating a player can reach via inactivity decay."
       },
       "pointsPerWin": {

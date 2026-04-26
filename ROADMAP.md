@@ -1,6 +1,6 @@
 # Bellona - Product Roadmap
 
-> Last updated: April 2026  
+> Last updated: April 25, 2026  
 > Planned feature vision. For the current technical state, see `CONTEXT.md`.
 
 ---
@@ -74,6 +74,28 @@
 
 - Aggressive page and ranking caching in Next.js (ISR/revalidation) to reduce API load
 - An essential strategy for maintaining performance with lean infrastructure
+
+---
+
+## AI-Assisted Features
+
+These are not planned as core features, but as natural augmentations once the underlying domain data is rich enough to make them useful. Each one is opt-in and non-intrusive.
+
+- **Automatic result extraction from screenshots**: when a participant uploads a match screenshot as evidence, a vision model analyzes the image and pre-fills the score and `customStats` fields based on the event's `customFieldSchema`. The scorekeeper confirms or corrects — no manual data entry. Requires the match recording flow to be complete first.
+
+- **Elo anomaly detection**: after each Elo recalculation, a background job checks for suspicious patterns — sandbagging (intentional losing before bracket play), unusual win/loss streaks between the same two players, or statistically implausible Elo trajectories. Flags entries for human review by event `MODERATOR` staff. Never auto-bans.
+
+- **Natural language queries over custom stats**: organizers and players can ask questions in plain text — _"Who had the best K/D ratio in the last round among players above 1500 Elo?"_ — and an LLM translates the query into a safe, validated Prisma query constrained to the event's `customFieldSchema`. Transforms the dynamic stats system from a storage feature into a real analytics tool.
+
+- **Event setup assistant**: a guided flow during league/tournament creation that accepts plain-language answers and translates them into technical configuration parameters. Lowers the barrier for new organizers who are unfamiliar with Elo concepts like `kFactor`, `scoreRelevance`, and `inactivityDecay`.
+
+- **Semantic game suggestions via Steam API**: beyond basic search, use embedding-based similarity to suggest existing games in Ares to new users based on what they already play and who they follow — without relying on raw popularity. Complements the planned Steam API integration.
+
+- **Elo trajectory projection**: on a player's profile, after a minimum number of matches in a season, display a projected Elo range for the end of the season with a confidence interval, based on the player's recent trajectory and variance. Purely informational — visible on the profile chart.
+
+- **Automatic season recap**: when an event transitions to `FINISHED`, generate a structured narrative post for the event page and Discord webhook: top performers, biggest Elo swings, closest match, milestone streaks, and title defense or change. Requires the Discord webhook integration and rich match history to be in place first.
+
+- **AI-generated challenges** _(gated on automated result ingestion)_: the platform monitors game activity and generates time-limited challenges with objective, verifiable win conditions — clearly badged as AI-created, with no human organizer. The core blocker is result arbitration: without a direct game API that pushes match data into Ares automatically, there is no way to verify challenge completion without a human moderator, which reintroduces the ownership problem. This becomes viable only once automated result ingestion from game APIs is available.
 
 ---
 

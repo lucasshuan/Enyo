@@ -128,7 +128,7 @@ export function MultiStepFormLayout({
       </div>
 
       {/* Form content */}
-      <div className="rounded-3xl border border-gold-dim bg-background-soft backdrop-blur-md">
+      <div className="rounded-3xl border border-gold-dim bg-card-strong">
         <div className="p-6 lg:p-8">{children(currentStep)}</div>
 
         {/* Footer nav */}

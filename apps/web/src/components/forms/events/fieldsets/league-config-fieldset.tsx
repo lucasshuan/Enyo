@@ -217,7 +217,7 @@ export function LeagueConfigFieldset({
                         {t("inactivityDecay.label")}
                       </span>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 text-left">
+                    <div className="grid grid-cols-2 items-end gap-4 text-left">
                       <div className="space-y-1.5">
                         <LabelTooltip
                           label={t("inactivityDecay.labelShort")}
@@ -424,11 +424,6 @@ export function LeagueConfigFieldset({
                           })()}
                         </span>
                       </div>
-                      <EloMatchSimulator
-                        scoreRelevance={scoreRelevance}
-                        kFactor={kFactor}
-                        initialElo={initialElo}
-                      />
                       {inactivityDecay > 0 && (
                         <div className="flex items-center gap-3">
                           <div className="text-danger/50 bg-card-strong/45 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg">
@@ -443,6 +438,11 @@ export function LeagueConfigFieldset({
                           </span>
                         </div>
                       )}
+                      <EloMatchSimulator
+                        scoreRelevance={scoreRelevance}
+                        kFactor={kFactor}
+                        initialElo={initialElo}
+                      />
                     </>
                   ) : (
                     <div className="grid gap-3">

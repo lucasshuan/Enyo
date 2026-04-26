@@ -435,7 +435,7 @@
         "unit": "horas"
       },
       "inactivityFloor": {
-        "label": "Piso de Decaimento",
+        "label": "Piso",
         "tooltip": "Pontuação mínima que um jogador pode atingir via decaimento."
       },
       "pointsPerWin": {
