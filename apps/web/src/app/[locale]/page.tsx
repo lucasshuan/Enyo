@@ -30,13 +30,13 @@ export default async function HomePage() {
         className="pointer-events-none absolute top-0 hidden h-svh sm:-left-120 sm:block md:-left-90 lg:-left-60 xl:-left-30"
         aria-hidden="true"
       >
-        <div className="relative h-full overflow-hidden mask-[linear-gradient(to_left,transparent_0%,transparent_8%,black_70%,black_100%),linear-gradient(to_top,transparent_0%,black_33%,black_100%)] mask-intersect">
+        <div className="relative h-full overflow-hidden mask-[linear-gradient(to_left,transparent_0%,transparent_25%,black_70%,black_100%),linear-gradient(to_top,transparent_0%,black_33%,black_100%)] mask-intersect">
           <Image
             src="/hero-bg.png"
             alt=""
             width={1718}
             height={916}
-            className="h-full w-auto max-w-none brightness-90"
+            className="h-full w-auto max-w-none brightness-85"
             priority
           />
         </div>
