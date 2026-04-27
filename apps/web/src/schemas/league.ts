@@ -50,6 +50,21 @@ export const getAddLeagueSchema = (t: TFunction) => {
           t("required"),
         )
         .min(1, t("required")),
+      // Event settings
+      status: z.enum(["PENDING", "ACTIVE", "FINISHED", "CANCELLED"]).optional(),
+      visibility: z.enum(["PUBLIC", "PRIVATE"]).optional(),
+      registrationsEnabled: z.boolean().optional(),
+      registrationStartDate: z.date().optional().nullable(),
+      registrationEndDate: z.date().optional().nullable(),
+      maxParticipants: z.number().int().min(1).optional().nullable(),
+      officialLinks: z
+        .array(
+          z.object({
+            label: z.string().min(1),
+            url: z.string().url(t("invalidUrl")),
+          }),
+        )
+        .optional(),
     })
     .superRefine((data, ctx) => {
       if (!data.gameId && !data.gameName) {
@@ -291,4 +306,7 @@ export const LEAGUE_DEFAULT_SETTINGS = {
   pointsPerDraw: 1,
   pointsPerLoss: 0,
   allowedFormats: ["ONE_V_ONE"] as const,
+  status: "PENDING" as const,
+  visibility: "PUBLIC" as const,
+  registrationsEnabled: false,
 } as const;

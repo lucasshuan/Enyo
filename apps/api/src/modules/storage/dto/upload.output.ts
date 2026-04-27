@@ -3,8 +3,8 @@ import { ObjectType, Field } from '@nestjs/graphql';
 @ObjectType()
 export class UploadUrlResponse {
   @Field()
-  uploadUrl: string;
+  uploadUrl!: string;
 
   @Field()
-  finalUrl: string;
+  finalUrl!: string;
 }

@@ -1,0 +1,49 @@
+
+> bellona-monorepo@0.1.0 typecheck C:\Desenvolvimento\Bellona
+> turbo run typecheck
+
+ÔÇó turbo 2.9.6
+
+   ÔÇó Packages in scope: @bellona/api, @bellona/core, @bellona/db, @bellona/web
+   ÔÇó Running typecheck in 4 packages
+   ÔÇó Remote caching disabled
+
+@bellona/db:build: cache bypass, force executing 89056522071025fb
+@bellona/web:typecheck: cache miss, executing 52092b55eb8df554
+@bellona/db:typecheck: cache hit, replaying logs 6a3e2a28a870bd58
+@bellona/db:typecheck: 
+@bellona/db:typecheck: > @bellona/db@0.1.0 typecheck C:\Desenvolvimento\Bellona\packages\db
+@bellona/db:typecheck: > tsc --noEmit
+@bellona/db:typecheck: 
+@bellona/core:typecheck: cache hit, replaying logs 64ec8bcda4e04c74
+@bellona/core:typecheck: 
+@bellona/core:typecheck: > @bellona/core@0.1.0 typecheck C:\Desenvolvimento\Bellona\packages\core
+@bellona/core:typecheck: > tsc --noEmit
+@bellona/core:typecheck: 
+@bellona/web:typecheck: 
+@bellona/web:typecheck: > @bellona/web@0.1.0 typecheck C:\Desenvolvimento\Bellona\apps\web
+@bellona/web:typecheck: > tsc --noEmit
+@bellona/web:typecheck: 
+@bellona/db:build: 
+@bellona/db:build: > @bellona/db@0.1.0 build C:\Desenvolvimento\Bellona\packages\db
+@bellona/db:build: > prisma generate --schema=./prisma/schema.prisma
+@bellona/db:build: 
+@bellona/db:build: Loaded Prisma config from prisma.config.ts.
+@bellona/db:build: 
+@bellona/db:build: Prisma schema loaded from prisma\schema.prisma.
+@bellona/db:build: 
+@bellona/db:build: Ô£ö Generated Prisma Client (v7.7.0) to .\..\..\node_modules\.pnpm\@prisma+client@7.7.0_prisma@7.7.0_@types+react-dom@19.2.3_@types+react@19.2.14__@types+react@_i6o7fpjg46ljpsoqwrq45ldwfm\node_modules\@prisma\client in 210ms
+@bellona/db:build: 
+@bellona/db:build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+@bellona/db:build: 
+@bellona/db:build: 
+@bellona/api:typecheck: cache miss, executing be59613ba00fb4a1
+@bellona/api:typecheck: 
+@bellona/api:typecheck: > @bellona/api@0.0.1 typecheck C:\Desenvolvimento\Bellona\apps\api
+@bellona/api:typecheck: > tsc --noEmit
+@bellona/api:typecheck: 
+
+ Tasks:    5 successful, 5 total
+Cached:    2 cached, 5 total
+  Time:    8.215s 
+

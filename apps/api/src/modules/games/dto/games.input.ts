@@ -5,11 +5,11 @@ import { IsString, IsOptional, IsUrl } from 'class-validator';
 export class CreateGameInput {
   @Field()
   @IsString()
-  name: string;
+  name!: string;
 
   @Field()
   @IsString()
-  slug: string;
+  slug!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -38,7 +38,7 @@ export class CreateGameInput {
 
   @Field()
   @IsString()
-  authorId: string;
+  authorId!: string;
 }
 
 @InputType()

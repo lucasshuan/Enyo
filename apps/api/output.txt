@@ -1,0 +1,4 @@
+
+> @bellona/api@0.0.1 typecheck C:\Desenvolvimento\Bellona\apps\api
+> tsc --noEmit
+

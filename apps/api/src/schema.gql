@@ -85,11 +85,16 @@ type Event {
   slug: String!
   description: String
   about: String
+  status: String!
+  visibility: String!
   isApproved: Boolean!
   startDate: DateTime
   endDate: DateTime
+  registrationsEnabled: Boolean!
   registrationStartDate: DateTime
   registrationEndDate: DateTime
+  maxParticipants: Float
+  officialLinks: JSON
   createdAt: DateTime!
   updatedAt: DateTime!
   league: League
@@ -271,8 +276,13 @@ input CreateLeagueEventInput {
   participationMode: String
   startDate: DateTime
   endDate: DateTime
+  status: String
+  visibility: String
+  registrationsEnabled: Boolean
   registrationStartDate: DateTime
   registrationEndDate: DateTime
+  maxParticipants: Int
+  officialLinks: JSON
 }
 
 input CreateLeagueConfigInput {
@@ -301,8 +311,13 @@ input UpdateLeagueEventInput {
   about: String
   startDate: DateTime
   endDate: DateTime
+  status: String
+  visibility: String
+  registrationsEnabled: Boolean
   registrationStartDate: DateTime
   registrationEndDate: DateTime
+  maxParticipants: Int
+  officialLinks: JSON
 }
 
 input UpdateLeagueConfigInput {

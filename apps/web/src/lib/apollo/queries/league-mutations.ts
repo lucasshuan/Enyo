@@ -7,7 +7,12 @@ export const CREATE_LEAGUE = gql`
     $staff: [InitialStaffInput!]
     $participants: [InitialEntryInput!]
   ) {
-    createLeague(event: $event, league: $league, staff: $staff, participants: $participants) {
+    createLeague(
+      event: $event
+      league: $league
+      staff: $staff
+      participants: $participants
+    ) {
       eventId
       classificationSystem
       config
@@ -15,6 +20,13 @@ export const CREATE_LEAGUE = gql`
         id
         name
         slug
+        status
+        visibility
+        registrationsEnabled
+        registrationStartDate
+        registrationEndDate
+        maxParticipants
+        officialLinks
       }
     }
   }
@@ -38,4 +50,3 @@ export const UPDATE_LEAGUE = gql`
     }
   }
 `;
-

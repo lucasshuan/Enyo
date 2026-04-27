@@ -5,11 +5,11 @@ import { IsString, IsOptional } from 'class-validator';
 export class AddEventStaffInput {
   @Field()
   @IsString()
-  eventId: string;
+  eventId!: string;
 
   @Field()
   @IsString()
-  userId: string;
+  userId!: string;
 
   @Field({ nullable: true })
   @IsString()

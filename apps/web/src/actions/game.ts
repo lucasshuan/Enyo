@@ -198,10 +198,15 @@ export const createLeague = createSafeAction(
     description: string | null;
     about?: string | null;
     participationMode?: string;
-    startDate?: Date | null;
-    endDate?: Date | null;
+    status?: string;
+    visibility?: string;
+    registrationsEnabled?: boolean;
     registrationStartDate?: Date | null;
     registrationEndDate?: Date | null;
+    maxParticipants?: number | null;
+    officialLinks?: unknown;
+    startDate?: Date | null;
+    endDate?: Date | null;
     classificationSystem: string;
     config: unknown;
     allowDraw?: boolean;
@@ -229,10 +234,15 @@ export const createLeague = createSafeAction(
           description: data.description,
           about: data.about,
           participationMode: data.participationMode,
-          startDate: data.startDate,
-          endDate: data.endDate,
+          status: data.status,
+          visibility: data.visibility,
+          registrationsEnabled: data.registrationsEnabled,
           registrationStartDate: data.registrationStartDate,
           registrationEndDate: data.registrationEndDate,
+          maxParticipants: data.maxParticipants,
+          officialLinks: data.officialLinks,
+          startDate: data.startDate,
+          endDate: data.endDate,
         },
         league: {
           classificationSystem: data.classificationSystem,

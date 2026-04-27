@@ -26,6 +26,7 @@ export class LeaguesService {
       type: string;
       participationMode: string;
       status: string;
+      visibility: string;
       name: string;
       slug: string;
       description: string | null;
@@ -33,8 +34,11 @@ export class LeaguesService {
       approvedAt: Date | null;
       startDate: Date | null;
       endDate: Date | null;
+      registrationsEnabled: boolean;
       registrationStartDate: Date | null;
       registrationEndDate: Date | null;
+      maxParticipants: number | null;
+      officialLinks: Prisma.JsonValue | null;
       authorId: string | null;
       createdAt: Date;
       updatedAt: Date;
@@ -122,14 +126,21 @@ export class LeaguesService {
           gameId: gameId!,
           type: 'LEAGUE',
           participationMode: (eventInput.participationMode ?? 'SOLO') as never,
+          status: (eventInput.status ?? 'PENDING') as never,
+          visibility: (eventInput.visibility ?? 'PUBLIC') as never,
           name: eventInput.name,
           slug: eventInput.slug,
           description: eventInput.description,
           about: eventInput.about,
           startDate: eventInput.startDate,
           endDate: eventInput.endDate,
+          registrationsEnabled: eventInput.registrationsEnabled ?? false,
           registrationStartDate: eventInput.registrationStartDate,
           registrationEndDate: eventInput.registrationEndDate,
+          maxParticipants: eventInput.maxParticipants ?? null,
+          officialLinks:
+            (eventInput.officialLinks as Prisma.InputJsonValue) ??
+            Prisma.JsonNull,
           authorId,
         },
       });
@@ -202,9 +213,21 @@ export class LeaguesService {
   ) {
     const [league] = await this.db.$transaction(async (tx) => {
       if (eventInput && Object.keys(eventInput).length > 0) {
+        const { officialLinks, status, visibility, ...rest } = eventInput;
+        const eventData: Prisma.EventUpdateInput = {
+          ...rest,
+          ...(status !== undefined && { status: status as never }),
+          ...(visibility !== undefined && { visibility: visibility as never }),
+          ...(officialLinks !== undefined && {
+            officialLinks:
+              (officialLinks as Prisma.InputJsonValue | null) ??
+              Prisma.JsonNull,
+          }),
+        };
+
         await tx.event.update({
           where: { id: eventId },
-          data: eventInput,
+          data: eventData,
         });
       }
 

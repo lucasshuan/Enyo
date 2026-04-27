@@ -15,11 +15,11 @@ export class CreateEventInput {
 
   @Field()
   @IsString()
-  name: string;
+  name!: string;
 
   @Field()
   @IsString()
-  slug: string;
+  slug!: string;
 
   @Field({ nullable: true })
   @IsString()

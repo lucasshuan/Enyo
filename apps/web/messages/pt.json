@@ -509,18 +509,74 @@
       },
       "format": {
         "title": "Formato do Evento",
-        "description": "Defina o tipo de evento, o modo de participação e o sistema de classificação para as standings."
+        "description": "Defina o sistema de classificação, as regras da liga e os tipos de partida aceitos."
+      },
+      "structure": {
+        "title": "Estrutura do Evento",
+        "description": "Defina a base da competição antes de configurar as regras da liga."
       },
       "general": {
         "title": "Detalhes do Evento",
-        "description": "Configure o nome público, identificador de URL e descrição deste evento."
+        "description": "Configure o nome público, identificador de URL, descrição e links oficiais deste evento.",
+        "officialLinks": {
+          "label": "Links Oficiais (Opcional)",
+          "tooltip": "Adicione links como Discord, transmissão, regulamento, etc.",
+          "labelPlaceholder": "Ex: Discord",
+          "urlPlaceholder": "https://...",
+          "add": "Adicionar link",
+          "remove": "Remover link"
+        }
+      },
+      "settings": {
+        "title": "Acesso do Evento",
+        "description": "Controle publicação, visibilidade, inscrições e capacidade máxima.",
+        "status": {
+          "label": "Status",
+          "tooltip": "Define o estado atual do evento. Eventos em 'Rascunho' ficam visíveis apenas para a equipe.",
+          "pending": "Rascunho",
+          "active": "Ativo",
+          "finished": "Encerrado",
+          "cancelled": "Cancelado"
+        },
+        "visibility": {
+          "label": "Visibilidade",
+          "public": "Público",
+          "public_description": "Qualquer pessoa pode encontrar e visualizar este evento.",
+          "private": "Privado",
+          "private_description": "Apenas membros com acesso podem visualizar este evento."
+        },
+        "maxParticipants": {
+          "label": "Capacidade Máxima (Opcional)",
+          "tooltip": "Limite de participantes aceitos no evento. Deixe em branco para ilimitado.",
+          "placeholder": "Sem limite"
+        },
+        "registrations": {
+          "label": "Inscrições",
+          "tooltip": "Habilita inscrições abertas para o evento. Você pode definir um período de abertura.",
+          "enabled": "Inscrições habilitadas",
+          "disabled": "Inscrições desabilitadas",
+          "startDate": "Data de Abertura das Inscrições",
+          "endDate": "Data de Encerramento das Inscrições"
+        },
+        "officialLinks": {
+          "label": "Links Oficiais (Opcional)",
+          "tooltip": "Adicione links como Discord, transmissão, regulamento, etc.",
+          "labelPlaceholder": "Ex: Discord",
+          "urlPlaceholder": "https://...",
+          "add": "Adicionar link",
+          "remove": "Remover link"
+        }
       },
       "steps": {
         "game": "Jogo",
+        "structure": "Estrutura",
+        "details": "Detalhes",
+        "access": "Acesso",
         "type": "Tipo",
         "about": "Sobre",
         "general": "Geral",
         "format": "Formato",
+        "settings": "Configurações",
         "matchFormats": "Partida",
         "participants": "Participantes",
         "staff": "Equipe"

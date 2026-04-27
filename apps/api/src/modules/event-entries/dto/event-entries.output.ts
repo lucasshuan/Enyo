@@ -4,11 +4,11 @@ import { EventEntry } from '../event-entry.model';
 @ObjectType()
 export class PaginatedEventEntries {
   @Field(() => [EventEntry])
-  nodes: EventEntry[];
+  nodes!: EventEntry[];
 
   @Field(() => Int)
-  totalCount: number;
+  totalCount!: number;
 
   @Field()
-  hasNextPage: boolean;
+  hasNextPage!: boolean;
 }

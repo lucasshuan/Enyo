@@ -1,19 +1,26 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useFormContext, useWatch, Controller } from "react-hook-form";
-import { LoaderCircle, Check, X, FileText } from "lucide-react";
+import {
+  useFieldArray,
+  useFormContext,
+  useWatch,
+  Controller,
+} from "react-hook-form";
+import {
+  LoaderCircle,
+  Check,
+  X,
+  FileText,
+  Link,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { TiptapEditor } from "@/components/ui/tiptap-editor";
 import { cn, slugify } from "@/lib/utils";
-
-type GeneralFormValues = {
-  name: string;
-  slug: string;
-  description?: string;
-  about?: string;
-};
+import type { AddLeagueValues } from "@/schemas/league";
 
 interface GeneralFieldsetProps {
   onSlugStatusChange: (isChecking: boolean, hasConflict: boolean) => void;
@@ -34,7 +41,12 @@ export function GeneralFieldset({
     control,
     setValue,
     formState: { errors, touchedFields },
-  } = useFormContext<GeneralFormValues>();
+  } = useFormContext<AddLeagueValues>();
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "officialLinks",
+  });
 
   const name = useWatch({ control, name: "name" }) ?? "";
   const slug = useWatch({ control, name: "slug" }) ?? "";
@@ -104,25 +116,13 @@ export function GeneralFieldset({
           <FileText className="text-primary size-4" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">{t("general.title")}</p>
-          <p className="text-muted mt-0.5 text-xs">{t("general.description")}</p>
+          <p className="text-sm font-semibold text-white">
+            {t("general.title")}
+          </p>
+          <p className="text-muted mt-0.5 text-xs">
+            {t("general.description")}
+          </p>
         </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <LabelTooltip label={t("aboutField.label")} />
-        <Controller
-          name="about"
-          control={control}
-          render={({ field }) => (
-            <TiptapEditor
-              value={field.value ?? ""}
-              onChange={field.onChange}
-              placeholder={t("aboutField.placeholder")}
-            />
-          )}
-        />
-        <p className="text-secondary/35 text-xs">{t("aboutField.hint")}</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -202,6 +202,71 @@ export function GeneralFieldset({
           {errors.description && touchedFields.description && (
             <p className="field-error-text">{errors.description.message}</p>
           )}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <LabelTooltip label={t("aboutField.label")} />
+        <Controller
+          name="about"
+          control={control}
+          render={({ field }) => (
+            <TiptapEditor
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              placeholder={t("aboutField.placeholder")}
+            />
+          )}
+        />
+        <p className="text-secondary/35 text-xs">{t("aboutField.hint")}</p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <LabelTooltip
+          label={t("general.officialLinks.label")}
+          tooltip={t("general.officialLinks.tooltip")}
+        />
+
+        <div className="flex flex-col gap-2">
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex items-center gap-2">
+              <Link className="text-secondary/30 size-4 shrink-0" />
+              <input
+                type="text"
+                {...register(`officialLinks.${index}.label` as const)}
+                placeholder={t("general.officialLinks.labelPlaceholder")}
+                className="field-base field-border-default w-36 shrink-0"
+              />
+              <input
+                type="url"
+                {...register(`officialLinks.${index}.url` as const)}
+                placeholder={t("general.officialLinks.urlPlaceholder")}
+                className={cn(
+                  "field-base min-w-0 flex-1",
+                  errors.officialLinks?.[index]?.url
+                    ? "field-border-error"
+                    : "field-border-default",
+                )}
+              />
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="text-danger/60 hover:text-danger flex-none transition-colors"
+                aria-label={t("general.officialLinks.remove")}
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => append({ label: "", url: "" })}
+            className="border-gold-dim/20 text-secondary/45 hover:border-primary/30 hover:text-primary flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed py-3 text-sm transition-all"
+          >
+            <Plus className="size-4" />
+            {t("general.officialLinks.add")}
+          </button>
         </div>
       </div>
     </section>

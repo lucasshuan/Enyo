@@ -17,6 +17,9 @@ export const EVENT_STATUSES = [
 ] as const;
 export type EventStatus = (typeof EVENT_STATUSES)[number];
 
+export const EVENT_VISIBILITIES = ["PUBLIC", "PRIVATE"] as const;
+export type EventVisibility = (typeof EVENT_VISIBILITIES)[number];
+
 export const EVENT_TYPES = ["LEAGUE", "TOURNAMENT"] as const;
 export type EventType = (typeof EVENT_TYPES)[number];
 
@@ -66,5 +69,9 @@ export type EventStaffRole = (typeof EVENT_STAFF_ROLES)[number];
 export const CLAIM_INITIATORS = ["STAFF", "USER"] as const;
 export type ClaimInitiator = (typeof CLAIM_INITIATORS)[number];
 
-export const ENTRY_CLAIM_STATUSES = ["PENDING", "ACCEPTED", "REJECTED"] as const;
+export const ENTRY_CLAIM_STATUSES = [
+  "PENDING",
+  "ACCEPTED",
+  "REJECTED",
+] as const;
 export type EntryClaimStatus = (typeof ENTRY_CLAIM_STATUSES)[number];

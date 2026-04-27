@@ -1,11 +1,13 @@
-import { InputType, Field, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 import {
   IsString,
   IsOptional,
   IsBoolean,
   IsArray,
   IsDate,
+  IsInt,
   IsObject,
+  Min,
 } from 'class-validator';
 
 @InputType()
@@ -83,6 +85,21 @@ export class CreateLeagueEventInput {
   endDate?: Date;
 
   @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  status?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  visibility?: string;
+
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  registrationsEnabled?: boolean;
+
+  @Field({ nullable: true })
   @IsDate()
   @IsOptional()
   registrationStartDate?: Date;
@@ -91,6 +108,16 @@ export class CreateLeagueEventInput {
   @IsDate()
   @IsOptional()
   registrationEndDate?: Date;
+
+  @Field(() => Int, { nullable: true })
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  maxParticipants?: number;
+
+  @Field(() => Object, { nullable: true })
+  @IsOptional()
+  officialLinks?: unknown;
 }
 
 @InputType()
@@ -157,6 +184,21 @@ export class UpdateLeagueEventInput {
   endDate?: Date;
 
   @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  status?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  visibility?: string;
+
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  registrationsEnabled?: boolean;
+
+  @Field({ nullable: true })
   @IsDate()
   @IsOptional()
   registrationStartDate?: Date;
@@ -165,6 +207,16 @@ export class UpdateLeagueEventInput {
   @IsDate()
   @IsOptional()
   registrationEndDate?: Date;
+
+  @Field(() => Int, { nullable: true })
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  maxParticipants?: number;
+
+  @Field(() => Object, { nullable: true })
+  @IsOptional()
+  officialLinks?: unknown;
 }
 
 @InputType()

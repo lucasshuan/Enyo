@@ -5,11 +5,11 @@ import { IsOptional, IsString } from 'class-validator';
 export class CreateMatchParticipantInput {
   @Field()
   @IsString()
-  entryId: string;
+  entryId!: string;
 
   @Field()
   @IsString()
-  outcome: string;
+  outcome!: string;
 
   @Field(() => Number, { nullable: true })
   @IsOptional()
@@ -20,7 +20,7 @@ export class CreateMatchParticipantInput {
 export class CreateMatchInput {
   @Field(() => ID)
   @IsString()
-  eventId: string;
+  eventId!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -29,7 +29,7 @@ export class CreateMatchInput {
 
   @Field()
   @IsString()
-  format: string;
+  format!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -56,10 +56,10 @@ export class UpdateMatchInput extends PartialType(CreateMatchInput) {}
 export class RecordOutcomeInput {
   @Field(() => ID)
   @IsString()
-  matchId: string;
+  matchId!: string;
 
   @Field(() => [CreateMatchParticipantInput])
-  participants: CreateMatchParticipantInput[];
+  participants!: CreateMatchParticipantInput[];
 
   @Field({ nullable: true })
   @IsOptional()

@@ -45,6 +45,11 @@ enum EventStatus {
   CANCELLED
 }
 
+enum EventVisibility {
+  PUBLIC
+  PRIVATE
+}
+
 enum AttachmentType {
   IMAGE
   VIDEO
@@ -220,6 +225,7 @@ model Event {
   type              EventType
   participationMode ParticipationMode @default(SOLO) @map("participation_mode")
   status            EventStatus       @default(PENDING)
+  visibility        EventVisibility   @default(PUBLIC)
 
   name        String
   slug        String
@@ -228,8 +234,11 @@ model Event {
 
   startDate             DateTime? @map("start_date")
   endDate               DateTime? @map("end_date")
+  registrationsEnabled  Boolean   @default(false) @map("registrations_enabled")
   registrationStartDate DateTime? @map("registration_start_date")
   registrationEndDate   DateTime? @map("registration_end_date")
+  maxParticipants       Int?      @map("max_participants")
+  officialLinks         Json?     @map("official_links")
   approvedAt            DateTime? @map("approved_at")
 
   authorId String? @map("author_id")

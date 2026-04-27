@@ -51,8 +51,10 @@ export function CreateEventTemplate({
 
   const steps = [
     { label: t("steps.game") },
+    { label: t("steps.structure") },
     { label: t("steps.format") },
-    { label: t("steps.general") },
+    { label: t("steps.details") },
+    { label: t("steps.access") },
     { label: t("steps.participants") },
     { label: t("steps.staff") },
   ];

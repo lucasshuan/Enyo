@@ -509,18 +509,74 @@
       },
       "format": {
         "title": "Event Format",
-        "description": "Define the event type, participation mode, and the classification system for your standings."
+        "description": "Define the ranking system, league rules, and allowed match types."
+      },
+      "structure": {
+        "title": "Event Structure",
+        "description": "Define the competition basics before configuring the league rules."
       },
       "general": {
         "title": "Event Details",
-        "description": "Set the public-facing name, URL identifier, and description for this event."
+        "description": "Set the public-facing name, URL identifier, description, and official links for this event.",
+        "officialLinks": {
+          "label": "Official Links (Optional)",
+          "tooltip": "Add links like Discord, stream, rulebook, etc.",
+          "labelPlaceholder": "e.g. Discord",
+          "urlPlaceholder": "https://...",
+          "add": "Add link",
+          "remove": "Remove link"
+        }
+      },
+      "settings": {
+        "title": "Event Access",
+        "description": "Control publication, visibility, registrations, and max capacity.",
+        "status": {
+          "label": "Status",
+          "tooltip": "Sets the current state of the event. 'Draft' events are only visible to staff.",
+          "pending": "Draft",
+          "active": "Active",
+          "finished": "Finished",
+          "cancelled": "Cancelled"
+        },
+        "visibility": {
+          "label": "Visibility",
+          "public": "Public",
+          "public_description": "Anyone can find and view this event.",
+          "private": "Private",
+          "private_description": "Only members with access can view this event."
+        },
+        "maxParticipants": {
+          "label": "Max Capacity (Optional)",
+          "tooltip": "Maximum number of participants accepted. Leave blank for unlimited.",
+          "placeholder": "No limit"
+        },
+        "registrations": {
+          "label": "Registrations",
+          "tooltip": "Enables open registrations for the event. You can optionally set an open period.",
+          "enabled": "Registrations enabled",
+          "disabled": "Registrations disabled",
+          "startDate": "Registration Start Date",
+          "endDate": "Registration End Date"
+        },
+        "officialLinks": {
+          "label": "Official Links (Optional)",
+          "tooltip": "Add links like Discord, stream, rulebook, etc.",
+          "labelPlaceholder": "e.g. Discord",
+          "urlPlaceholder": "https://...",
+          "add": "Add link",
+          "remove": "Remove link"
+        }
       },
       "steps": {
         "game": "Game",
+        "structure": "Structure",
+        "details": "Details",
+        "access": "Access",
         "type": "Type",
         "about": "About",
         "general": "General",
         "format": "Format",
+        "settings": "Settings",
         "matchFormats": "Match",
         "participants": "Participants",
         "staff": "Staff"

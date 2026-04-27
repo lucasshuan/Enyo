@@ -4,11 +4,11 @@ import { League } from '../league.model';
 @ObjectType()
 export class PaginatedLeagues {
   @Field(() => [League])
-  nodes: League[];
+  nodes!: League[];
 
   @Field(() => Int)
-  totalCount: number;
+  totalCount!: number;
 
   @Field()
-  hasNextPage: boolean;
+  hasNextPage!: boolean;
 }

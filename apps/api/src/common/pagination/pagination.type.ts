@@ -5,13 +5,13 @@ export function Paginated<T>(classRef: Type<T>) {
   @ObjectType({ isAbstract: true })
   abstract class PaginatedType {
     @Field(() => [classRef])
-    nodes: T[];
+    nodes!: T[];
 
     @Field(() => Int)
-    totalCount: number;
+    totalCount!: number;
 
     @Field(() => Boolean)
-    hasNextPage: boolean;
+    hasNextPage!: boolean;
   }
   return PaginatedType as Type<PaginatedType>;
 }

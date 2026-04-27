@@ -5,11 +5,11 @@ import { IsOptional, IsString } from 'class-validator';
 export class CreateEventEntryInput {
   @Field()
   @IsString()
-  eventId: string;
+  eventId!: string;
 
   @Field()
   @IsString()
-  displayName: string;
+  displayName!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -29,7 +29,7 @@ export class UpdateEventEntryInput extends PartialType(CreateEventEntryInput) {}
 export class ClaimEntryInput {
   @Field(() => ID)
   @IsString()
-  entryId: string;
+  entryId!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -41,9 +41,9 @@ export class ClaimEntryInput {
 export class ReviewClaimInput {
   @Field(() => ID)
   @IsString()
-  claimId: string;
+  claimId!: string;
 
   @Field()
   @IsString()
-  status: string;
+  status!: string;
 }
