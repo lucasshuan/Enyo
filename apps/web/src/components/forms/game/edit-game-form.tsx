@@ -1,17 +1,18 @@
 "use client";
 
-import { useTransition, useEffect } from "react";
+import { useTransition, useEffect, useState, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditGameSchema, type EditGameValues } from "@/schemas/game";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { updateGame } from "@/actions/game";
+import { updateGame, checkGameSlugAvailability } from "@/actions/game";
 import { type Game } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils";
 import { resolveImageValue } from "@/lib/upload";
 import { ImageUploadInput } from "@/components/ui/image-upload-input";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
+import { LoaderCircle, Check, X } from "lucide-react";
 
 interface EditGameFormProps {
   game: Game;
@@ -32,11 +33,18 @@ export function EditGameForm({
   const schema = useEditGameSchema();
   const [isPending, startTransition] = useTransition();
 
+  const [slugAvailability, setSlugAvailability] = useState<{
+    value: string;
+    status: "idle" | "available" | "conflict";
+  }>({ value: game.slug, status: "available" });
+  const slugRequestRef = useRef(0);
+
   const {
     register,
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors, isValid },
   } = useForm<EditGameValues>({
     resolver: zodResolver(schema),
@@ -52,6 +60,32 @@ export function EditGameForm({
     mode: "onChange",
   });
 
+  const slug = watch("slug") ?? "";
+  const canCheckSlug = slug.length >= 2 && slug !== game.slug;
+  const isSlugChecking = canCheckSlug && slugAvailability.value !== slug;
+  const hasSlugConflict =
+    canCheckSlug &&
+    slugAvailability.value === slug &&
+    slugAvailability.status === "conflict";
+
+  // Debounced slug availability check (skip if unchanged from original)
+  useEffect(() => {
+    if (!canCheckSlug) return;
+    const requestId = ++slugRequestRef.current;
+    const timeoutId = window.setTimeout(async () => {
+      const result = await checkGameSlugAvailability(slug, game.id);
+      if (slugRequestRef.current !== requestId) return;
+      setSlugAvailability({
+        value: slug,
+        status:
+          result.success && result.data?.available === false
+            ? "conflict"
+            : "available",
+      });
+    }, 400);
+    return () => window.clearTimeout(timeoutId);
+  }, [slug, canCheckSlug, game.id]);
+
   // Notify parent about loading state
   useEffect(() => {
     onLoadingChange?.(isPending);
@@ -59,8 +93,8 @@ export function EditGameForm({
 
   // Notify parent about validation state
   useEffect(() => {
-    onValidationChange?.(isValid);
-  }, [isValid, onValidationChange]);
+    onValidationChange?.(isValid && !isSlugChecking && !hasSlugConflict);
+  }, [isValid, isSlugChecking, hasSlugConflict, onValidationChange]);
 
   const onSubmit = async (values: EditGameValues) => {
     startTransition(async () => {
@@ -132,34 +166,50 @@ export function EditGameForm({
           required
           className="ml-1"
         />
-        <input
-          id="slug"
-          type="text"
-          required
-          {...register("slug")}
-          onChange={(e) => {
-            const sanitized = e.target.value
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .replace(/[^a-z0-9_-]/g, "");
-            setValue("slug", sanitized, { shouldValidate: true });
-          }}
-          placeholder={t("slug.placeholder")}
-          className={cn(
-            "field-base",
-            errors.slug ? "field-border-error" : "field-border-default",
-          )}
-        />
+        <div className="relative">
+          <input
+            id="slug"
+            type="text"
+            required
+            {...register("slug")}
+            onChange={(e) => {
+              const sanitized = e.target.value
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9_-]/g, "");
+              setValue("slug", sanitized, { shouldValidate: true });
+            }}
+            placeholder={t("slug.placeholder")}
+            className={cn(
+              "field-with-icon",
+              errors.slug || hasSlugConflict
+                ? "field-border-error"
+                : "field-border-default",
+            )}
+          />
+          {isSlugChecking ? (
+            <LoaderCircle className="text-secondary/25 absolute top-1/2 right-4 size-4 -translate-y-1/2 animate-spin" />
+          ) : canCheckSlug && !errors.slug ? (
+            hasSlugConflict ? (
+              <X className="text-danger absolute top-1/2 right-4 size-4 -translate-y-1/2" />
+            ) : slugAvailability.value === slug ? (
+              <Check className="text-success absolute top-1/2 right-4 size-4 -translate-y-1/2" />
+            ) : null
+          ) : null}
+        </div>
         {errors.slug && (
           <p className="field-error-text">{errors.slug.message}</p>
+        )}
+        {!errors.slug && hasSlugConflict && (
+          <p className="field-error-text">{t("slug.taken")}</p>
         )}
       </div>
 
       <div className="col-span-full flex flex-col gap-2">
         <label
           htmlFor="description"
-          className="ml-1 text-sm font-medium text-secondary/80"
+          className="text-secondary/80 ml-1 text-sm font-medium"
         >
           {t("descriptionField.label")}
         </label>
@@ -211,7 +261,7 @@ export function EditGameForm({
       <div className="col-span-full flex flex-col gap-2">
         <label
           htmlFor="steamUrl"
-          className="ml-1 text-sm font-medium text-secondary/80"
+          className="text-secondary/80 ml-1 text-sm font-medium"
         >
           {t("steamUrl.label")}
         </label>
@@ -232,7 +282,7 @@ export function EditGameForm({
       <div className="col-span-full flex flex-col gap-2">
         <label
           htmlFor="websiteUrl"
-          className="ml-1 text-sm font-medium text-secondary/80"
+          className="text-secondary/80 ml-1 text-sm font-medium"
         >
           {t("websiteUrl.label")}
         </label>

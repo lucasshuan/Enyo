@@ -276,7 +276,9 @@
       "slug": {
         "label": "Identificador",
         "placeholder": "identificador-do-jogo",
-        "tooltip": "Define o trecho único da URL deste jogo (ex: /games/counter-strike). Gerado automaticamente a partir do nome, mas pode ser personalizado."
+        "tooltip": "Define o trecho único da URL deste jogo (ex: /games/counter-strike). Gerado automaticamente a partir do nome, mas pode ser personalizado.",
+        "checking": "Verificando disponibilidade...",
+        "taken": "Este identificador já está em uso."
       },
       "descriptionField": {
         "label": "Descrição",
@@ -331,7 +333,9 @@
       "slug": {
         "label": "Identificador",
         "placeholder": "identificador-do-jogo",
-        "tooltip": "Define o trecho único da URL deste jogo (ex: /games/counter-strike). Gerado automaticamente a partir do nome, mas pode ser personalizado."
+        "tooltip": "Define o trecho único da URL deste jogo (ex: /games/counter-strike). Gerado automaticamente a partir do nome, mas pode ser personalizado.",
+        "checking": "Verificando disponibilidade...",
+        "taken": "Este identificador já está em uso."
       },
       "descriptionField": {
         "label": "Descrição",

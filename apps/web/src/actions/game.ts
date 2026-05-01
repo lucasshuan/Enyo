@@ -1,7 +1,7 @@
 "use server";
 
 import { getClient } from "@/lib/apollo/apollo-client";
-import { GET_GAME_ACTIONS } from "@/lib/apollo/queries/games";
+import { GET_GAME_ACTIONS, CHECK_GAME_SLUG } from "@/lib/apollo/queries/games";
 import {
   APPROVE_GAME,
   CREATE_GAME,
@@ -268,6 +268,19 @@ export const createLeague = createSafeAction(
     }
 
     return true;
+  },
+);
+
+export const checkGameSlugAvailability = createSafeAction(
+  "checkGameSlugAvailability",
+  async (slug: string, excludeId?: string) => {
+    if (!slug) return { available: true };
+    const result = await getClient().query<{ checkGameSlug: boolean }>({
+      query: CHECK_GAME_SLUG,
+      variables: { slug, excludeId },
+      fetchPolicy: "no-cache",
+    });
+    return { available: result.data?.checkGameSlug ?? true };
   },
 );
 

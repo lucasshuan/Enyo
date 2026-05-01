@@ -139,6 +139,17 @@ export class GamesService {
     });
   }
 
+  async checkSlug(slug: string, excludeId?: string): Promise<boolean> {
+    const existing = await this.databaseProvider.game.findFirst({
+      where: {
+        slug,
+        ...(excludeId ? { id: { not: excludeId } } : {}),
+      },
+      select: { id: true },
+    });
+    return !existing;
+  }
+
   async approve(id: string) {
     return this.databaseProvider.game.update({
       where: { id },

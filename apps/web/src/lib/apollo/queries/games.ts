@@ -67,6 +67,12 @@ export const GET_GAME_LAYOUT = gql`
   }
 `;
 
+export const CHECK_GAME_SLUG = gql`
+  query CheckGameSlug($slug: String!, $excludeId: ID) {
+    checkGameSlug(slug: $slug, excludeId: $excludeId)
+  }
+`;
+
 export const GET_GAMES_SIMPLE = gql`
   query GetGamesSimple($pagination: PaginationInput, $search: String) {
     games(pagination: $pagination, search: $search) {

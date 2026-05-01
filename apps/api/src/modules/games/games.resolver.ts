@@ -71,6 +71,14 @@ export class GamesResolver {
     return this.gamesService.findEventMeta(gameSlug, slug);
   }
 
+  @Query(() => Boolean, { name: 'checkGameSlug' })
+  async checkGameSlug(
+    @Args('slug') slug: string,
+    @Args('excludeId', { type: () => ID, nullable: true }) excludeId?: string,
+  ): Promise<boolean> {
+    return this.gamesService.checkSlug(slug, excludeId);
+  }
+
   @Mutation(() => Game)
   @UseGuards(GqlAuthGuard)
   async createGame(

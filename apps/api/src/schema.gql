@@ -199,6 +199,7 @@ type Query {
   games(pagination: PaginationInput, search: String): PaginatedGames!
   game(slug: String!): Game
   eventMeta(gameSlug: String!, slug: String!): EventMeta
+  checkGameSlug(slug: String!, excludeId: ID): Boolean!
   me: User
   user(username: String!): User
   searchUsers(pagination: PaginationInput, query: String): PaginatedUsers!

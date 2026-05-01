@@ -276,7 +276,9 @@
       "slug": {
         "label": "Identifier",
         "placeholder": "game-identifier",
-        "tooltip": "Defines the unique URL segment for this game (e.g., /games/counter-strike). Auto-generated from the name, but can be customized."
+        "tooltip": "Defines the unique URL segment for this game (e.g., /games/counter-strike). Auto-generated from the name, but can be customized.",
+        "checking": "Checking availability...",
+        "taken": "This identifier is already in use."
       },
       "descriptionField": {
         "label": "Description",
@@ -331,7 +333,9 @@
       "slug": {
         "label": "Identifier",
         "placeholder": "game-identifier",
-        "tooltip": "Defines the unique URL segment for this game (e.g., /games/counter-strike). Auto-generated from the name, but can be customized."
+        "tooltip": "Defines the unique URL segment for this game (e.g., /games/counter-strike). Auto-generated from the name, but can be customized.",
+        "checking": "Checking availability...",
+        "taken": "This identifier is already in use."
       },
       "descriptionField": {
         "label": "Description",
