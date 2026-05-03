@@ -26,19 +26,19 @@
       "pnpm -C apps/web codegen"
     ],
     "apps/web/**/*.{ts,tsx,js,mjs}": [
-      "pnpm -C apps/web exec eslint --fix --cache --cache-location .eslintcache",
+      "pnpm -C apps/web exec eslint --fix",
       "prettier --write --cache"
     ],
     "apps/api/**/*.ts": [
-      "pnpm -C apps/api exec eslint --fix --cache --cache-location .eslintcache",
+      "pnpm -C apps/api exec eslint --fix",
       "prettier --write --cache"
     ],
     "packages/core/**/*.{ts,tsx,js,mjs}": [
-      "pnpm -C packages/core exec eslint --fix --cache --cache-location .eslintcache",
+      "pnpm -C packages/core exec eslint --fix",
       "prettier --write --cache"
     ],
     "packages/db/**/*.{ts,tsx,js,mjs}": [
-      "pnpm -C packages/db exec eslint --fix --cache --cache-location .eslintcache",
+      "pnpm -C packages/db exec eslint --fix",
       "prettier --write --cache"
     ],
     "**/*.{json,md,yml,yaml}": [
