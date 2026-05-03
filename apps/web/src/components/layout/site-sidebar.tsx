@@ -39,7 +39,7 @@ type SessionUser = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  imageUrl?: string | null;
+  imagePath?: string | null;
   isAdmin?: boolean;
 };
 
@@ -451,7 +451,7 @@ function UserMenuDropdown({
           id: user.id,
           name: user.name,
           username: user.username,
-          imageUrl: user.imageUrl ?? user.image,
+          imagePath: user.imagePath ?? null,
         }}
       />
     </div>
@@ -553,7 +553,7 @@ function SidebarBody({
     setCollapsedSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const avatarSrc = cdnUrl(user?.imageUrl) ?? user?.image ?? null;
+  const avatarSrc = cdnUrl(user?.imagePath) ?? null;
 
   return (
     <div

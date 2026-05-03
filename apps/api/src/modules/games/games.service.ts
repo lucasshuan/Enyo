@@ -100,8 +100,8 @@ export class GamesService {
       where: { id },
       select: {
         authorId: true,
-        backgroundImageUrl: true,
-        thumbnailImageUrl: true,
+        backgroundImagePath: true,
+        thumbnailImagePath: true,
       },
     });
 
@@ -115,35 +115,35 @@ export class GamesService {
     // Move tmp uploads to permanent location
     const moves: Promise<string>[] = [];
     if (
-      mutableData.backgroundImageUrl &&
-      this.storageService.isTmpPath(mutableData.backgroundImageUrl)
+      mutableData.backgroundImagePath &&
+      this.storageService.isTmpPath(mutableData.backgroundImagePath)
     ) {
-      const filename = mutableData.backgroundImageUrl.split('/').pop()!;
+      const filename = mutableData.backgroundImagePath.split('/').pop()!;
       moves.push(
         this.storageService
           .moveFile(
-            mutableData.backgroundImageUrl,
+            mutableData.backgroundImagePath,
             `games/${id}/background-${filename}`,
           )
           .then((p) => {
-            mutableData = { ...mutableData, backgroundImageUrl: p };
+            mutableData = { ...mutableData, backgroundImagePath: p };
             return p;
           }),
       );
     }
     if (
-      mutableData.thumbnailImageUrl &&
-      this.storageService.isTmpPath(mutableData.thumbnailImageUrl)
+      mutableData.thumbnailImagePath &&
+      this.storageService.isTmpPath(mutableData.thumbnailImagePath)
     ) {
-      const filename = mutableData.thumbnailImageUrl.split('/').pop()!;
+      const filename = mutableData.thumbnailImagePath.split('/').pop()!;
       moves.push(
         this.storageService
           .moveFile(
-            mutableData.thumbnailImageUrl,
+            mutableData.thumbnailImagePath,
             `games/${id}/thumbnail-${filename}`,
           )
           .then((p) => {
-            mutableData = { ...mutableData, thumbnailImageUrl: p };
+            mutableData = { ...mutableData, thumbnailImagePath: p };
             return p;
           }),
       );
@@ -153,20 +153,22 @@ export class GamesService {
     // Delete old CDN images when they are replaced
     const deletions: Promise<void>[] = [];
     if (
-      mutableData.backgroundImageUrl !== undefined &&
-      current?.backgroundImageUrl &&
-      current.backgroundImageUrl !== mutableData.backgroundImageUrl
+      mutableData.backgroundImagePath !== undefined &&
+      current?.backgroundImagePath &&
+      current.backgroundImagePath !== mutableData.backgroundImagePath
     ) {
       deletions.push(
-        this.storageService.deleteFile(current.backgroundImageUrl),
+        this.storageService.deleteFile(current.backgroundImagePath),
       );
     }
     if (
-      mutableData.thumbnailImageUrl !== undefined &&
-      current?.thumbnailImageUrl &&
-      current.thumbnailImageUrl !== mutableData.thumbnailImageUrl
+      mutableData.thumbnailImagePath !== undefined &&
+      current?.thumbnailImagePath &&
+      current.thumbnailImagePath !== mutableData.thumbnailImagePath
     ) {
-      deletions.push(this.storageService.deleteFile(current.thumbnailImageUrl));
+      deletions.push(
+        this.storageService.deleteFile(current.thumbnailImagePath),
+      );
     }
     if (deletions.length > 0) {
       await Promise.all(deletions);
@@ -203,8 +205,8 @@ export class GamesService {
       where: { id },
       select: {
         authorId: true,
-        backgroundImageUrl: true,
-        thumbnailImageUrl: true,
+        backgroundImagePath: true,
+        thumbnailImagePath: true,
         _count: { select: { events: true } },
       },
     });
@@ -222,11 +224,11 @@ export class GamesService {
     }
 
     const deletions: Promise<void>[] = [];
-    if (game.backgroundImageUrl) {
-      deletions.push(this.storageService.deleteFile(game.backgroundImageUrl));
+    if (game.backgroundImagePath) {
+      deletions.push(this.storageService.deleteFile(game.backgroundImagePath));
     }
-    if (game.thumbnailImageUrl) {
-      deletions.push(this.storageService.deleteFile(game.thumbnailImageUrl));
+    if (game.thumbnailImagePath) {
+      deletions.push(this.storageService.deleteFile(game.thumbnailImagePath));
     }
     if (deletions.length > 0) await Promise.all(deletions);
 

@@ -22,10 +22,10 @@ export class Game {
   description?: string;
 
   @Field({ nullable: true })
-  thumbnailImageUrl?: string;
+  thumbnailImagePath?: string;
 
   @Field({ nullable: true })
-  backgroundImageUrl?: string;
+  backgroundImagePath?: string;
 
   @Field({ nullable: true })
   steamUrl?: string;

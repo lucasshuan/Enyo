@@ -48,7 +48,8 @@ Always refer to [ARCHITECTURE.md](../ARCHITECTURE.md) for the full reference bef
 **After any task that modifies more than 2 code files**, run lint and typecheck from the repo root before considering the task complete:
 
 ```bash
-pnpm exec lint-staged
+pnpm exec lint
+pnpm exec typecheck
 ```
 
 - If lint-staged auto-fixes files (ESLint `--fix`, Prettier `--write`), report which files changed.

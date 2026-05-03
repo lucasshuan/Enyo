@@ -9,7 +9,7 @@ import { cdnUrl } from "@/lib/cdn";
 interface GameCardProps {
   game: Pick<
     Game,
-    "id" | "name" | "slug" | "description" | "thumbnailImageUrl" | "status"
+    "id" | "name" | "slug" | "description" | "thumbnailImagePath" | "status"
   >;
   fallbackDescription?: string;
   pendingLabel?: string;
@@ -28,10 +28,10 @@ export function GameCard({
       className="glass-panel group flex w-full flex-col overflow-hidden rounded-xl transition-all duration-300 hover:border-[color-mix(in_srgb,var(--gold)_45%,white)] hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)]"
     >
       <div className="relative aspect-368/178 w-full shrink-0 overflow-hidden rounded-xl bg-[#0b080f] brightness-75 transition-all duration-300 ease-out group-hover:brightness-100">
-        {game.thumbnailImageUrl ? (
+        {game.thumbnailImagePath ? (
           <div className="absolute -inset-px transform-gpu transition-transform duration-300 ease-out">
             <Image
-              src={cdnUrl(game.thumbnailImageUrl)!}
+              src={cdnUrl(game.thumbnailImagePath)!}
               alt={game.name}
               fill
               priority={priority}

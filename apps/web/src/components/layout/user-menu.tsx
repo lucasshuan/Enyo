@@ -10,7 +10,7 @@ import { cdnUrl } from "@/lib/cdn";
 
 type UserProps = {
   id: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
   name?: string | null;
   email?: string | null;
   username: string;
@@ -26,10 +26,7 @@ export function UserMenu({ user: initialUser }: { user: UserProps }) {
   const user: UserProps = sessionUser
     ? {
         ...sessionUser,
-        imageUrl:
-          sessionUser.imageUrl ??
-          (session?.user?.image as string | null) ??
-          null,
+        imagePath: sessionUser.imagePath ?? null,
       }
     : initialUser;
 
@@ -39,9 +36,9 @@ export function UserMenu({ user: initialUser }: { user: UserProps }) {
         href={`/profile/${user.username ?? user.id}`}
         className="flex cursor-pointer items-center justify-center overflow-hidden rounded-full border border-white/10 transition-colors hover:border-white/20"
       >
-        {user?.imageUrl ? (
+        {user?.imagePath ? (
           <Image
-            src={cdnUrl(user.imageUrl)!}
+            src={cdnUrl(user.imagePath)!}
             alt={user.name || "Avatar"}
             width={32}
             height={32}
@@ -57,9 +54,9 @@ export function UserMenu({ user: initialUser }: { user: UserProps }) {
       <div className="invisible absolute top-full right-0 w-3xs pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
         <div className="flex flex-col overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] shadow-xl">
           <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
-            {user?.imageUrl ? (
+            {user?.imagePath ? (
               <Image
-                src={cdnUrl(user.imageUrl)!}
+                src={cdnUrl(user.imagePath)!}
                 alt={user.name ?? "Avatar"}
                 width={36}
                 height={36}

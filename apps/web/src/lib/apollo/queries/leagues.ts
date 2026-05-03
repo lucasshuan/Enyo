@@ -2,7 +2,11 @@ import { gql } from "@apollo/client";
 
 export const CHECK_EVENT_SLUG = gql`
   query CheckEventSlug($gameId: String!, $slug: String!, $excludeEventId: ID) {
-    checkEventSlug(gameId: $gameId, slug: $slug, excludeEventId: $excludeEventId)
+    checkEventSlug(
+      gameId: $gameId
+      slug: $slug
+      excludeEventId: $excludeEventId
+    )
   }
 `;
 
@@ -27,7 +31,7 @@ export const GET_LEAGUES = gql`
             id
             name
             slug
-            thumbnailImageUrl
+            thumbnailImagePath
           }
         }
       }
@@ -64,11 +68,10 @@ export const GET_LEAGUE = gql`
           id
           name
           slug
-          thumbnailImageUrl
+          thumbnailImagePath
           status
         }
       }
     }
   }
 `;
-

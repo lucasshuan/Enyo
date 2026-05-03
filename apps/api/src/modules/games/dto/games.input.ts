@@ -19,12 +19,12 @@ export class CreateGameInput {
   @Field({ nullable: true })
   @IsUrl()
   @IsOptional()
-  backgroundImageUrl?: string;
+  backgroundImagePath?: string;
 
   @Field({ nullable: true })
   @IsUrl()
   @IsOptional()
-  thumbnailImageUrl?: string;
+  thumbnailImagePath?: string;
 
   @Field({ nullable: true })
   @IsUrl()
@@ -61,12 +61,12 @@ export class UpdateGameInput {
   @Field({ nullable: true })
   @IsUrl()
   @IsOptional()
-  backgroundImageUrl?: string;
+  backgroundImagePath?: string;
 
   @Field({ nullable: true })
   @IsUrl()
   @IsOptional()
-  thumbnailImageUrl?: string;
+  thumbnailImagePath?: string;
 
   @Field({ nullable: true })
   @IsUrl()

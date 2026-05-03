@@ -15,7 +15,7 @@ export class User {
   email?: string;
 
   @Field({ nullable: true })
-  imageUrl?: string;
+  imagePath?: string;
 
   @Field({ nullable: true })
   bio?: string;

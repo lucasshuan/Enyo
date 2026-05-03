@@ -47,7 +47,7 @@ export const updateProfile = createSafeAction(
       bio: normalizeOptionalText(formData.get("bio") as string),
       profileColor: formData.get("profileColor") as string,
       country: normalizeOptionalText(formData.get("country") as string),
-      imageUrl: normalizeOptionalText(formData.get("imageUrl") as string),
+      imagePath: normalizeOptionalText(formData.get("imagePath") as string),
     };
 
     const { data: result } = await getClient().mutate<UpdateProfileMutation>({

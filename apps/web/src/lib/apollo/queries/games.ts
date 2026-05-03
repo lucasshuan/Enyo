@@ -8,8 +8,8 @@ export const GET_GAMES = gql`
         name
         slug
         description
-        thumbnailImageUrl
-        backgroundImageUrl
+        thumbnailImagePath
+        backgroundImagePath
         status
         _count {
           events
@@ -28,8 +28,8 @@ export const GET_GAME = gql`
       name
       slug
       description
-      thumbnailImageUrl
-      backgroundImageUrl
+      thumbnailImagePath
+      backgroundImagePath
       steamUrl
       websiteUrl
       status
@@ -40,7 +40,7 @@ export const GET_GAME = gql`
         id
         name
         username
-        imageUrl
+        imagePath
       }
       _count {
         events
@@ -62,7 +62,7 @@ export const GET_GAME_LAYOUT = gql`
   query GetGameLayout($slug: String!) {
     game(slug: $slug) {
       id
-      backgroundImageUrl
+      backgroundImagePath
     }
   }
 `;
@@ -81,7 +81,7 @@ export const GET_GAMES_SIMPLE = gql`
         name
         slug
         description
-        thumbnailImageUrl
+        thumbnailImagePath
       }
       totalCount
       hasNextPage

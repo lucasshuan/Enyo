@@ -124,9 +124,9 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
             borderClassName="bg-[color-mix(in_srgb,var(--gold)_45%,transparent)]"
           >
             <div className="relative aspect-368/178 w-full overflow-hidden">
-              {game.thumbnailImageUrl ? (
+              {game.thumbnailImagePath ? (
                 <Image
-                  src={cdnUrl(game.thumbnailImageUrl)!}
+                  src={cdnUrl(game.thumbnailImagePath)!}
                   alt={game.name}
                   fill
                   priority

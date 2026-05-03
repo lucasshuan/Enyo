@@ -80,7 +80,7 @@ export class EventEntriesService {
       data: {
         eventId: input.eventId,
         displayName: input.displayName,
-        imageUrl: input.imageUrl,
+        imagePath: input.imagePath,
         userId: input.userId,
         entryStatus,
         stats: Prisma.JsonNull,

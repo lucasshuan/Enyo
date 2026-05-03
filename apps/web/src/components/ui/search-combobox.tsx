@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -134,20 +134,46 @@ export function SearchComboboxDropdown<T>({
   maxHeight = "max-h-60",
 }: SearchComboboxDropdownProps<T>) {
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+  const [isPositioned, setIsPositioned] = useState(false);
   const portalRef = useRef<HTMLDivElement | null>(null);
   const prependRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prependOffset = prependItem ? 1 : 0;
 
-  // Recompute position when opening or anchor changes.
-  useEffect(() => {
-    if (!isOpen || !anchorRef.current) return;
+  // Compute position synchronously before paint so the dropdown never
+  // flashes at (0,0) in the corner of the viewport.
+  useLayoutEffect(() => {
+    if (!isOpen || !anchorRef.current) {
+      setIsPositioned(false);
+      return;
+    }
     const rect = anchorRef.current.getBoundingClientRect();
     setCoords({
       top: rect.bottom + window.scrollY + 8,
       left: rect.left + window.scrollX,
       width: rect.width,
     });
+    setIsPositioned(true);
+  }, [isOpen, anchorRef]);
+
+  // Reposition on scroll / resize while open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const reposition = () => {
+      if (!anchorRef.current) return;
+      const rect = anchorRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    };
+    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", reposition);
+    return () => {
+      window.removeEventListener("scroll", reposition, true);
+      window.removeEventListener("resize", reposition);
+    };
   }, [isOpen, anchorRef]);
 
   // Scroll highlighted item into view.
@@ -181,21 +207,26 @@ export function SearchComboboxDropdown<T>({
     return () => document.removeEventListener("mousedown", handleDown);
   }, [isOpen, onClickOutside, anchorRef]);
 
-  if (!isOpen || typeof document === "undefined") return null;
+  if (!isOpen || !isPositioned || typeof document === "undefined") return null;
 
   const showEmptyState =
     showEmpty && !isLoading && items.length === 0 && !prependItem;
+
+  // Animation classes are applied to every dropdown regardless of whether
+  // the consumer passed a custom containerClassName. `origin-top` ensures
+  // the zoom/scale animation grows downward from the anchor.
+  const animationClasses =
+    "animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-150 ease-out origin-top";
 
   return createPortal(
     <div
       ref={portalRef}
       onMouseDown={(e) => e.preventDefault()}
-      className={
+      className={cn(
+        animationClasses,
         containerClassName ??
-        cn(
-          "animate-in fade-in slide-in-from-top-2 border-gold-dim/35 fixed z-9999 overflow-hidden rounded-3xl border bg-black/60 shadow-2xl backdrop-blur-xl duration-200",
-        )
-      }
+          "border-gold-dim/35 fixed z-9999 overflow-hidden rounded-3xl border bg-black/60 shadow-2xl backdrop-blur-xl",
+      )}
       style={{ top: coords.top, left: coords.left, width: coords.width }}
     >
       {header}

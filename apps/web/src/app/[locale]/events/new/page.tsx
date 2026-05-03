@@ -47,7 +47,7 @@ export default async function CreateEventPage({
     name: game.name,
     slug: game.slug,
     description: game.description ?? null,
-    thumbnailImageUrl: game.thumbnailImageUrl ?? null,
+    thumbnailImagePath: game.thumbnailImagePath ?? null,
   };
 
   return (

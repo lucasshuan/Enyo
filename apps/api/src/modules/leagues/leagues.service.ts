@@ -116,7 +116,7 @@ export class LeaguesService {
     initialEntries?: Array<{
       displayName: string;
       userId?: string;
-      imageUrl?: string;
+      imagePath?: string;
     }>,
   ) {
     const gameId =
@@ -197,7 +197,7 @@ export class LeaguesService {
             data: {
               eventId: event.id,
               displayName: entry.displayName.trim(),
-              imageUrl: entry.imageUrl ?? null,
+              imagePath: entry.imagePath ?? null,
               userId: userId ?? null,
             },
           });

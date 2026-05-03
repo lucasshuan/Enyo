@@ -6,7 +6,7 @@ export const UPDATE_PROFILE = gql`
       id
       username
       name
-      imageUrl
+      imagePath
     }
   }
 `;

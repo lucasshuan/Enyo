@@ -115,7 +115,7 @@ model User {
   username            String    @unique
   email               String?   @unique
   emailVerified       DateTime? @map("email_verified")
-  imageUrl            String?   @map("image_url")
+  imagePath           String?   @map("image_path")
   bio                 String?
   profileColor        String?   @map("profile_color")
   country             String?
@@ -209,8 +209,8 @@ model Game {
   name               String     @unique
   slug               String     @unique
   description        String?
-  backgroundImageUrl String?    @map("background_image_url")
-  thumbnailImageUrl  String?    @map("thumbnail_image_url") // Tip: Usually 460x215
+  backgroundImagePath String?    @map("background_image_path")
+  thumbnailImagePath  String?    @map("thumbnail_image_path") // Tip: Usually 460x215
   steamUrl           String?    @map("steam_url")
   websiteUrl         String?    @map("website_url")
   status             GameStatus @default(APPROVED)
@@ -353,7 +353,7 @@ model EventEntry {
   event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   displayName String  @map("display_name")
-  imageUrl    String? @map("image_url")
+  imagePath   String? @map("image_path")
 
   // Registration status of this entry
   entryStatus EntryStatus @default(CONFIRMED) @map("entry_status")
@@ -422,7 +422,7 @@ model TeamMember {
   entry   EventEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
 
   displayName String  @map("display_name")
-  imageUrl    String? @map("image_url")
+  imagePath   String? @map("image_path")
 
   userId String? @map("user_id")
   user   User?   @relation("ConfirmedMember", fields: [userId], references: [id], onDelete: SetNull)

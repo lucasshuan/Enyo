@@ -10,6 +10,7 @@ declare module "next-auth" {
       onboardingCompleted: boolean;
       permissions: string[];
       accessToken?: string;
+      imagePath?: string | null;
     } & DefaultSession["user"];
   }
 
@@ -34,5 +35,6 @@ declare module "next-auth/jwt" {
     accessTokenExpires?: number;
     lastValidated?: number;
     error?: "AccessTokenExpired" | "SessionInvalid";
+    imagePath?: string | null;
   }
 }

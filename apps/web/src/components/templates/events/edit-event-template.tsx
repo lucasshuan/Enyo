@@ -22,7 +22,7 @@ type LeagueForEdit = {
   game: {
     name: string;
     slug: string;
-    thumbnailImageUrl?: string | null;
+    thumbnailImagePath?: string | null;
     description?: string | null;
   };
 };

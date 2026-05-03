@@ -36,7 +36,7 @@ export class InitialEntryInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  imageUrl?: string;
+  imagePath?: string;
 }
 
 @InputType()

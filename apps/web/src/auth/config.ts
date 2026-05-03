@@ -11,7 +11,7 @@ const SESSION_REVALIDATION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 type BackendJwtPayload = {
   sub: string;
   username: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
   isAdmin: boolean;
   onboardingCompleted: boolean;
   permissions?: string[];
@@ -29,7 +29,7 @@ type SessionData = {
 
 type SessionUpdatePayload = {
   username?: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
   name?: string;
   onboardingCompleted?: boolean;
 };
@@ -88,7 +88,10 @@ async function fetchSessionData(
     return { ok: true, data: (await response.json()) as SessionData };
   } catch (err) {
     // Network error / API down — don't invalidate session
-    logger.warn({ err }, "Network error during session revalidation — keeping session");
+    logger.warn(
+      { err },
+      "Network error during session revalidation — keeping session",
+    );
     return { ok: false, invalidated: false };
   }
 }
@@ -118,8 +121,8 @@ export const authOptions = {
           id: payload.sub,
           username: payload.username,
           name: payload.username,
-          image: payload.imageUrl,
-          imageUrl: payload.imageUrl,
+          image: payload.imagePath,
+          imagePath: payload.imagePath,
           isAdmin: payload.isAdmin || false,
           onboardingCompleted: payload.onboardingCompleted ?? true,
           permissions: payload.permissions || [],
@@ -134,7 +137,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
-        token.imageUrl = user.image ?? null;
+        token.imagePath = user.image ?? null;
         token.isAdmin = user.isAdmin;
         token.onboardingCompleted = user.onboardingCompleted;
         token.permissions = user.permissions ?? [];
@@ -154,8 +157,8 @@ export const authOptions = {
       if (trigger === "update" && session) {
         const sessionUpdate = session as SessionUpdatePayload;
         if (sessionUpdate.username) token.username = sessionUpdate.username;
-        if (sessionUpdate.imageUrl !== undefined)
-          token.imageUrl = sessionUpdate.imageUrl;
+        if (sessionUpdate.imagePath !== undefined)
+          token.imagePath = sessionUpdate.imagePath;
         if (sessionUpdate.name) token.name = sessionUpdate.name;
         if (sessionUpdate.onboardingCompleted !== undefined)
           token.onboardingCompleted = sessionUpdate.onboardingCompleted;
@@ -189,7 +192,7 @@ export const authOptions = {
 
         token.id = result.data.id;
         token.username = result.data.username;
-        token.imageUrl = result.data.imageUrl;
+        token.imagePath = result.data.imageUrl;
         token.isAdmin = result.data.isAdmin;
         token.onboardingCompleted = result.data.onboardingCompleted;
         token.permissions = result.data.permissions;
@@ -203,7 +206,7 @@ export const authOptions = {
       if (token && session.user) {
         session.user.id = token.id;
         session.user.username = token.username;
-        session.user.image = token.imageUrl ?? null;
+        session.user.imagePath = token.imagePath ?? null;
         session.user.isAdmin = token.isAdmin;
         session.user.onboardingCompleted = token.onboardingCompleted;
         session.user.accessToken = token.accessToken;

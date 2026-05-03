@@ -17,7 +17,6 @@ import {
   Check,
   LoaderCircle,
   Search,
-  ChevronDown,
   X,
   Swords,
 } from "lucide-react";
@@ -30,10 +29,10 @@ import confetti from "canvas-confetti";
 import { cn } from "@/lib/utils";
 import { cdnUrl } from "@/lib/cdn";
 import { Button } from "@/components/ui/button";
-import { COUNTRIES } from "@/lib/countries";
 import { checkUsernameAvailability } from "@/actions/user";
 import { completeOnboarding } from "@/actions/onboarding";
 import { getGamesSimple, type SimpleGame } from "@/actions/get-games";
+import { CountryCombobox } from "@/components/ui/country-combobox";
 
 /* ────────────────────────────── types & schema ────────────────────────────── */
 
@@ -72,155 +71,6 @@ function StepIndicator({
           )}
         </div>
       ))}
-    </div>
-  );
-}
-
-function CountryDropdown({
-  value,
-  onChange,
-  locale,
-  placeholder,
-}: {
-  value: string | null;
-  onChange: (v: string | null) => void;
-  locale: string;
-  placeholder: string;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const localizedCountries = COUNTRIES.map((c) => {
-    try {
-      const dn = new Intl.DisplayNames([locale], { type: "region" });
-      return { code: c.code, name: dn.of(c.code) || c.name };
-    } catch {
-      return c;
-    }
-  }).sort((a, b) => a.name.localeCompare(b.name, locale));
-
-  const filtered = localizedCountries.filter(
-    (c) =>
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.code.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const selected = localizedCountries.find((c) => c.code === value);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  return (
-    <div className="relative">
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "field-base field-border-default flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all",
-          !value && "text-muted",
-        )}
-      >
-        {selected ? (
-          <>
-            <span
-              className={cn(
-                "fi",
-                `fi-${selected.code.toLowerCase()}`,
-                "h-3.5 w-5 shrink-0 rounded-xs",
-              )}
-            />
-            <span className="text-foreground">{selected.name}</span>
-          </>
-        ) : (
-          <>
-            <Globe className="size-5 text-secondary/35" />
-            <span>{placeholder}</span>
-          </>
-        )}
-        <ChevronDown
-          className={cn(
-            "ml-auto size-4 text-secondary/45 transition-transform",
-            isOpen && "rotate-180",
-          )}
-        />
-      </button>
-
-      {isOpen && (
-        <div
-          ref={dropdownRef}
-          className="glass-panel absolute z-50 mt-2 max-h-60 w-full overflow-hidden rounded-2xl border border-gold-dim/35"
-        >
-          <div className="flex items-center gap-2 border-b border-gold-dim/25 px-3 py-2">
-            <Search className="size-4 text-secondary/35" />
-            <input
-              type="text"
-              className="w-full bg-transparent text-sm text-white outline-none placeholder:text-secondary/35"
-              placeholder="Search..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              autoFocus
-            />
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
-                className="text-secondary/35 hover:text-secondary/70"
-              >
-                <X className="size-3" />
-              </button>
-            )}
-          </div>
-          <div className="custom-scrollbar max-h-48 overflow-y-auto">
-            {filtered.map((c) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => {
-                  onChange(c.code);
-                  setIsOpen(false);
-                  setSearch("");
-                }}
-                className={cn(
-                  "flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-card-strong/45",
-                  value === c.code && "bg-primary/10 text-primary",
-                )}
-              >
-                <span
-                  className={cn(
-                    "fi",
-                    `fi-${c.code.toLowerCase()}`,
-                    "h-3 w-4 shrink-0 rounded-xs",
-                  )}
-                />
-                <span>{c.name}</span>
-                {value === c.code && (
-                  <Check className="text-primary ml-auto size-3.5" />
-                )}
-              </button>
-            ))}
-            {filtered.length === 0 && (
-              <p className="px-4 py-3 text-center text-sm text-secondary/35">
-                No results
-              </p>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -624,11 +474,12 @@ export function OnboardingWizard({
               name="country"
               control={control}
               render={({ field }) => (
-                <CountryDropdown
+                <CountryCombobox
                   value={field.value ?? null}
                   onChange={field.onChange}
                   locale={locale}
                   placeholder={t("country.placeholder")}
+                  clearLabel={t("country.placeholder")}
                 />
               )}
             />
@@ -712,9 +563,9 @@ export function OnboardingWizard({
                           </div>
                         )}
                         <div className="relative aspect-368/178 w-full overflow-hidden bg-card-strong/45">
-                          {game.thumbnailImageUrl ? (
+                          {game.thumbnailImagePath ? (
                             <Image
-                              src={cdnUrl(game.thumbnailImageUrl)!}
+                              src={cdnUrl(game.thumbnailImagePath)!}
                               alt={game.name}
                               fill
                               className="object-cover transition-transform duration-300 group-hover:scale-110"

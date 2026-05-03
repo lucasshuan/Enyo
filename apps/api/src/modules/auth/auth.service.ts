@@ -75,9 +75,9 @@ export class AuthService {
     if (imageUrl) {
       await this.databaseProvider.user.update({
         where: { id: user.id },
-        data: { imageUrl },
+        data: { imagePath: imageUrl },
       });
-      return { ...user, imageUrl };
+      return { ...user, imagePath: imageUrl };
     }
 
     return user;
@@ -124,7 +124,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       username: user.username,
-      imageUrl: user.imageUrl,
+      imageUrl: user.imagePath,
       isAdmin: user.isAdmin,
       onboardingCompleted: user.onboardingCompleted,
       permissions: permissionKeys,
@@ -193,7 +193,7 @@ export class AuthService {
     return {
       id: user.id,
       username: user.username,
-      imageUrl: user.imageUrl,
+      imageUrl: user.imagePath,
       isAdmin: user.isAdmin,
       onboardingCompleted: user.onboardingCompleted,
       permissions: permissions.map((p) => p.key),

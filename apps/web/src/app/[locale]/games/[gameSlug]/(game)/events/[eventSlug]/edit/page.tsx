@@ -44,7 +44,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
     game: {
       name: league.event?.game?.name ?? "",
       slug: league.event?.game?.slug ?? "",
-      thumbnailImageUrl: league.event?.game?.thumbnailImageUrl ?? null,
+      thumbnailImagePath: league.event?.game?.thumbnailImagePath ?? null,
       description: null,
     },
   };

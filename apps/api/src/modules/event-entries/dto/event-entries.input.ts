@@ -14,7 +14,7 @@ export class CreateEventEntryInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  imageUrl?: string;
+  imagePath?: string;
 
   @Field({ nullable: true })
   @IsString()

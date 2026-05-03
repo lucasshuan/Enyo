@@ -8,28 +8,17 @@ import {
   useEditProfileSchema,
   type EditProfileValues,
 } from "@/schemas/profile";
-import {
-  Globe,
-  ChevronDown,
-  Search,
-  X,
-  Check,
-  LoaderCircle,
-} from "lucide-react";
+import { X, Check, LoaderCircle } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { checkUsernameAvailability, updateProfile } from "@/actions/user";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { useSession } from "next-auth/react";
-import { COUNTRIES } from "@/lib/countries";
 import { cn } from "@/lib/utils";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { ImageUploadInput } from "@/components/ui/image-upload-input";
 import { resolveImageValue } from "@/lib/upload";
-import {
-  useComboboxKeyboard,
-  SearchComboboxDropdown,
-} from "@/components/ui/search-combobox";
+import { CountryCombobox } from "@/components/ui/country-combobox";
 
 export type UserData = {
   id: string;
@@ -38,7 +27,7 @@ export type UserData = {
   bio?: string | null;
   profileColor?: string | null;
   country?: string | null;
-  imageUrl?: string | null;
+  imagePath?: string | null;
 };
 
 const PROFILE_COLORS = [
@@ -91,12 +80,11 @@ export function EditProfileForm({
       bio: user.bio || "",
       country: user.country || null,
       profileColor: user.profileColor || PROFILE_COLORS[0],
-      imageUrl: user.imageUrl ?? null,
+      imagePath: user.imagePath ?? null,
     },
     mode: "onChange",
   });
 
-  const country = useWatch({ control, name: "country" });
   const username = useWatch({ control, name: "username" }) || "";
   const [usernameAvailability, setUsernameAvailability] = useState<{
     value: string;
@@ -106,60 +94,6 @@ export function EditProfileForm({
     status: "available",
   });
   const usernameRequestRef = useRef(0);
-
-  // Country Selection Logic
-  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
-  const [countrySearch, setCountrySearch] = useState("");
-  const countryTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const countrySearchInputRef = useRef<HTMLInputElement | null>(null);
-
-  type LocalizedCountry = { code: string; name: string };
-
-  // Localized and sorted countries
-  const localizedCountries = COUNTRIES.map((c) => {
-    try {
-      const displayNames = new Intl.DisplayNames([locale], { type: "region" });
-      return {
-        code: c.code,
-        name: displayNames.of(c.code) || c.name,
-      };
-    } catch {
-      return c;
-    }
-  }).sort((a, b) => a.name.localeCompare(b.name, locale));
-
-  const filteredCountries = localizedCountries.filter(
-    (c) =>
-      c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
-      c.code.toLowerCase().includes(countrySearch.toLowerCase()),
-  );
-
-  const selectedCountryData = localizedCountries.find(
-    (c) => c.code === country,
-  );
-
-  const {
-    highlightedIndex: countryHighlightedIndex,
-    onInputKeyDown: onCountryKeyDown,
-  } = useComboboxKeyboard<LocalizedCountry>({
-    isOpen: isCountryDropdownOpen,
-    items: filteredCountries,
-    hasPrependItem: true, // the "None" option
-    onSelectItem: (c) => {
-      setValue("country", c.code, { shouldValidate: true });
-      setIsCountryDropdownOpen(false);
-      setCountrySearch("");
-    },
-    onSelectPrepend: () => {
-      setValue("country", null, { shouldValidate: true });
-      setIsCountryDropdownOpen(false);
-      setCountrySearch("");
-    },
-    onClose: () => setIsCountryDropdownOpen(false),
-    inputRef: countrySearchInputRef,
-  });
-
-  const toggleCountryDropdown = () => setIsCountryDropdownOpen((v) => !v);
 
   // Notify parent about loading state
   useEffect(() => {
@@ -227,9 +161,9 @@ export function EditProfileForm({
     }
 
     startTransition(async () => {
-      let resolvedImageUrl: string | null;
+      let resolvedImagePath: string | null;
       try {
-        resolvedImageUrl = await resolveImageValue(values.imageUrl);
+        resolvedImagePath = await resolveImageValue(values.imagePath);
       } catch {
         toast.error("Failed to upload image.");
         return;
@@ -237,13 +171,13 @@ export function EditProfileForm({
 
       const formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
-        if (key === "imageUrl") return;
+        if (key === "imagePath") return;
         if (value !== null && value !== undefined) {
           formData.append(key, value as string);
         }
       });
-      if (resolvedImageUrl) {
-        formData.append("imageUrl", resolvedImageUrl);
+      if (resolvedImagePath) {
+        formData.append("imagePath", resolvedImagePath);
       }
 
       const result = await updateProfile(formData);
@@ -258,7 +192,7 @@ export function EditProfileForm({
       await update({
         username: values.username,
         name: values.name,
-        imageUrl: resolvedImageUrl ?? undefined,
+        imagePath: resolvedImagePath ?? undefined,
       });
 
       if (result.success && result.data) {
@@ -281,7 +215,7 @@ export function EditProfileForm({
       <div className="md:col-span-2">
         <div className="w-25">
           <Controller
-            name="imageUrl"
+            name="imagePath"
             control={control}
             render={({ field }) => (
               <ImageUploadInput
@@ -353,133 +287,19 @@ export function EditProfileForm({
       {/* Country Selector */}
       <div className="flex flex-col gap-2">
         <LabelTooltip label={t("country.label")} />
-        <div className="relative">
-          <button
-            ref={countryTriggerRef}
-            type="button"
-            onClick={toggleCountryDropdown}
-            className="focus:border-primary/50 focus:ring-primary/10 border-gold-dim/35 bg-card-strong/45 hover:bg-card-strong/60 flex w-full items-center justify-between rounded-2xl border px-5 py-3 text-sm text-white transition-all outline-none focus:ring-4"
-          >
-            <div className="flex items-center gap-3">
-              {country ? (
-                <>
-                  <div className="flex size-5 items-center justify-center overflow-hidden rounded-sm">
-                    <span
-                      className={cn(
-                        "fi",
-                        `fi-${country.toLowerCase()}`,
-                        "h-3 w-4 rounded-xs object-cover",
-                      )}
-                    />
-                  </div>
-                  <span className="font-medium text-white">
-                    {selectedCountryData?.name}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Globe className="text-secondary/35 size-5" />
-                  <span className="text-secondary/35">
-                    {t("country.placeholder")}
-                  </span>
-                </>
-              )}
-            </div>
-            <ChevronDown
-              className={cn(
-                "text-secondary/35 size-4 transition-transform",
-                isCountryDropdownOpen && "rotate-180",
-              )}
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <CountryCombobox
+              value={field.value ?? null}
+              onChange={field.onChange}
+              locale={locale}
+              placeholder={t("country.placeholder")}
+              clearLabel={t("country.placeholder")}
             />
-          </button>
-          <input type="hidden" name="country" value={country || ""} />
-
-          <SearchComboboxDropdown<LocalizedCountry>
-            isOpen={isCountryDropdownOpen}
-            anchorRef={countryTriggerRef}
-            items={filteredCountries}
-            highlightedIndex={countryHighlightedIndex}
-            onClickOutside={() => setIsCountryDropdownOpen(false)}
-            containerClassName="fixed z-9999 flex max-h-[250px] flex-col overflow-hidden rounded-2xl border border-gold-dim/35 bg-card-strong shadow-2xl"
-            listClassName="custom-scrollbar flex-1 overflow-y-auto px-1 py-1"
-            header={
-              <div className="border-gold-dim/35 relative border-b p-2">
-                <Search className="text-secondary/35 absolute top-5 left-5 size-4" />
-                <input
-                  ref={countrySearchInputRef}
-                  autoFocus
-                  type="text"
-                  value={countrySearch}
-                  onChange={(e) => setCountrySearch(e.target.value)}
-                  onKeyDown={onCountryKeyDown}
-                  placeholder="Search country..."
-                  className="bg-card-strong/45 focus:bg-card-strong/70 w-full rounded-xl border-none py-3 pr-4 pl-10 text-sm text-white outline-none"
-                />
-                {countrySearch && (
-                  <button
-                    type="button"
-                    onClick={() => setCountrySearch("")}
-                    className="text-secondary/35 absolute top-5 right-5 hover:text-white"
-                  >
-                    <X className="size-4" />
-                  </button>
-                )}
-              </div>
-            }
-            prependItem={{
-              render: (highlighted) => (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setValue("country", null, { shouldValidate: true });
-                    setIsCountryDropdownOpen(false);
-                    setCountrySearch("");
-                  }}
-                  className={cn(
-                    "hover:bg-card-strong/70 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors",
-                    highlighted
-                      ? "bg-card-strong/45"
-                      : country === null && "bg-card-strong/45",
-                  )}
-                >
-                  <Globe className="text-secondary/35 size-5" />
-                  <span className="text-sm text-white">
-                    {t("country.placeholder")}
-                  </span>
-                </button>
-              ),
-            }}
-            renderItem={(c, highlighted) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => {
-                  setValue("country", c.code, { shouldValidate: true });
-                  setIsCountryDropdownOpen(false);
-                  setCountrySearch("");
-                }}
-                className={cn(
-                  "hover:bg-card-strong/70 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors",
-                  highlighted || country === c.code ? "bg-card-strong/45" : "",
-                )}
-              >
-                <div className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-sm">
-                  <span
-                    className={cn(
-                      "fi",
-                      `fi-${c.code.toLowerCase()}`,
-                      "h-3 w-4 rounded-xs object-cover",
-                    )}
-                  />
-                </div>
-                <span className="truncate text-sm text-white">{c.name}</span>
-                {country === c.code && (
-                  <Check className="text-primary ml-auto size-4" />
-                )}
-              </button>
-            )}
-          />
-        </div>
+          )}
+        />
       </div>
 
       <div className="col-span-full flex flex-col gap-2">

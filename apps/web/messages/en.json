@@ -248,7 +248,7 @@
       },
       "country": {
         "label": "Country",
-        "placeholder": "Select your country"
+        "placeholder": "No country selected"
       },
       "submit": "Save changes",
       "submitting": "Saving...",
@@ -801,7 +801,7 @@
     "country": {
       "title": "Where are you from?",
       "subtitle": "Your country flag will appear next to your name in leaderboards.",
-      "placeholder": "Select your country",
+      "placeholder": "No country selected",
       "hint": "This is optional. You can always set it later in your profile settings."
     },
     "games": {

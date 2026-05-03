@@ -24,7 +24,7 @@ export const getEditProfileSchema = (t: TFunction) =>
       .optional(),
     country: z.string().nullable().optional(),
     profileColor: z.string().min(1, t("required")),
-    imageUrl: z
+    imagePath: z
       .union([z.instanceof(File), z.string()])
       .nullable()
       .optional(),

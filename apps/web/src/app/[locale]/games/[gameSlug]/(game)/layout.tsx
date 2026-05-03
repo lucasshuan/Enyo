@@ -32,10 +32,10 @@ export default async function GameLayout({
   return (
     <>
       <section className="relative min-h-70 w-full overflow-hidden mask-[linear-gradient(to_bottom,black_55%,transparent_100%)]">
-        {game.backgroundImageUrl ? (
+        {game.backgroundImagePath ? (
           <>
             <Image
-              src={cdnUrl(game.backgroundImageUrl)!}
+              src={cdnUrl(game.backgroundImagePath)!}
               alt=""
               fill
               priority

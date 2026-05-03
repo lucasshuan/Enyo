@@ -47,7 +47,7 @@ export function CreateEventTemplate({
             role: "ORGANIZER" as const,
             name: user.name ?? user.username,
             username: user.username,
-            imageUrl: user.image,
+            imagePath: user.imagePath,
           },
         ]
       : [],

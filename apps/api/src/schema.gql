@@ -7,7 +7,7 @@ type User {
   name: String!
   username: String!
   email: String
-  imageUrl: String
+  imagePath: String
   bio: String
   profileColor: String
   country: String
@@ -30,8 +30,8 @@ type Game {
   name: String!
   slug: String!
   description: String
-  thumbnailImageUrl: String
-  backgroundImageUrl: String
+  thumbnailImagePath: String
+  backgroundImagePath: String
   steamUrl: String
   websiteUrl: String
   status: String!
@@ -120,7 +120,7 @@ type TeamMember {
   id: ID!
   entryId: String!
   displayName: String!
-  imageUrl: String
+  imagePath: String
   userId: String
   createdAt: DateTime!
   user: User
@@ -141,7 +141,7 @@ type EventEntry {
   id: ID!
   eventId: String!
   displayName: String!
-  imageUrl: String
+  imagePath: String
   userId: String
   entryStatus: String!
   stats: JSON!
@@ -243,8 +243,8 @@ input CreateGameInput {
   name: String!
   slug: String!
   description: String
-  backgroundImageUrl: String
-  thumbnailImageUrl: String
+  backgroundImagePath: String
+  thumbnailImagePath: String
   steamUrl: String
   websiteUrl: String
   authorId: String!
@@ -254,8 +254,8 @@ input UpdateGameInput {
   name: String
   slug: String
   description: String
-  backgroundImageUrl: String
-  thumbnailImageUrl: String
+  backgroundImagePath: String
+  thumbnailImagePath: String
   steamUrl: String
   websiteUrl: String
 }
@@ -266,7 +266,7 @@ input UpdateProfileInput {
   bio: String
   profileColor: String
   country: String
-  imageUrl: String
+  imagePath: String
   onboardingCompleted: Boolean
 }
 
@@ -307,7 +307,7 @@ input InitialStaffInput {
 input InitialEntryInput {
   displayName: String!
   userId: String
-  imageUrl: String
+  imagePath: String
 }
 
 input UpdateLeagueEventInput {
@@ -339,14 +339,14 @@ input UpdateLeagueConfigInput {
 input CreateEventEntryInput {
   eventId: String!
   displayName: String!
-  imageUrl: String
+  imagePath: String
   userId: String
 }
 
 input UpdateEventEntryInput {
   eventId: String
   displayName: String
-  imageUrl: String
+  imagePath: String
   userId: String
 }
 

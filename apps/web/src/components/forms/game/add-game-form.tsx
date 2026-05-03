@@ -49,8 +49,8 @@ export function AddGameForm({
       name: "",
       slug: "",
       description: "",
-      backgroundImageUrl: "",
-      thumbnailImageUrl: "",
+      backgroundImagePath: "",
+      thumbnailImagePath: "",
       steamUrl: "",
       websiteUrl: "",
     },
@@ -93,12 +93,12 @@ export function AddGameForm({
 
   const onSubmit = async (values: AddGameValues) => {
     startTransition(async () => {
-      let backgroundImageUrl: string | null;
-      let thumbnailImageUrl: string | null;
+      let backgroundImagePath: string | null;
+      let thumbnailImagePath: string | null;
       try {
-        [backgroundImageUrl, thumbnailImageUrl] = await Promise.all([
-          resolveImageValue(values.backgroundImageUrl),
-          resolveImageValue(values.thumbnailImageUrl),
+        [backgroundImagePath, thumbnailImagePath] = await Promise.all([
+          resolveImageValue(values.backgroundImagePath),
+          resolveImageValue(values.thumbnailImagePath),
         ]);
       } catch {
         toast.error(t("uploadError"));
@@ -107,8 +107,8 @@ export function AddGameForm({
 
       const result = await createGame({
         ...values,
-        backgroundImageUrl,
-        thumbnailImageUrl,
+        backgroundImagePath,
+        thumbnailImagePath,
         steamUrl: values.steamUrl || null,
         websiteUrl: values.websiteUrl || null,
         description: values.description ?? null,
@@ -236,14 +236,14 @@ export function AddGameForm({
 
       <div>
         <Controller
-          name="backgroundImageUrl"
+          name="backgroundImagePath"
           control={control}
           render={({ field }) => (
             <ImageUploadInput
               value={field.value}
               onChange={field.onChange}
               label={t("backgroundImage.label")}
-              error={errors.backgroundImageUrl?.message}
+              error={errors.backgroundImagePath?.message}
               disabled={isPending}
             />
           )}
@@ -251,14 +251,14 @@ export function AddGameForm({
       </div>
 
       <Controller
-        name="thumbnailImageUrl"
+        name="thumbnailImagePath"
         control={control}
         render={({ field }) => (
           <ImageUploadInput
             value={field.value}
             onChange={field.onChange}
             label={t("thumbnailImage.label")}
-            error={errors.thumbnailImageUrl?.message}
+            error={errors.thumbnailImagePath?.message}
             disabled={isPending}
           />
         )}

@@ -247,9 +247,9 @@ export function GameSearchFieldset({
                 )}
               >
                 <div className="border-gold-dim/25 relative size-10 shrink-0 overflow-hidden rounded-lg border bg-black/40">
-                  {game.thumbnailImageUrl ? (
+                  {game.thumbnailImagePath ? (
                     <Image
-                      src={cdnUrl(game.thumbnailImageUrl)!}
+                      src={cdnUrl(game.thumbnailImagePath)!}
                       alt={game.name}
                       fill
                       className="object-cover"
@@ -283,9 +283,9 @@ export function GameSearchFieldset({
             <div className="animate-in fade-in zoom-in-95 flex w-full flex-col gap-4 duration-300">
               <div className="flex items-center gap-4">
                 <div className="border-gold-dim/35 relative size-16 shrink-0 overflow-hidden rounded-2xl border bg-black/40 shadow-2xl">
-                  {selectedGame.thumbnailImageUrl ? (
+                  {selectedGame.thumbnailImagePath ? (
                     <Image
-                      src={cdnUrl(selectedGame.thumbnailImageUrl)!}
+                      src={cdnUrl(selectedGame.thumbnailImagePath)!}
                       alt={selectedGame.name}
                       fill
                       className="object-cover"
@@ -346,7 +346,7 @@ interface GameDisplayFieldsetProps {
   game?: {
     name: string;
     slug: string;
-    thumbnailImageUrl?: string | null;
+    thumbnailImagePath?: string | null;
     description?: string | null;
   } | null;
 }
@@ -367,9 +367,9 @@ export function GameDisplayFieldset({ game }: GameDisplayFieldsetProps) {
         <div className="animate-in fade-in zoom-in-95 flex w-full flex-col gap-4 duration-300">
           <div className="flex items-center gap-4">
             <div className="border-gold-dim/35 relative size-16 shrink-0 overflow-hidden rounded-2xl border bg-black/40 shadow-2xl">
-              {game?.thumbnailImageUrl ? (
+              {game?.thumbnailImagePath ? (
                 <Image
-                  src={cdnUrl(game.thumbnailImageUrl)!}
+                  src={cdnUrl(game.thumbnailImagePath)!}
                   alt={game.name}
                   fill
                   className="object-cover"

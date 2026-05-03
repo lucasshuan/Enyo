@@ -26,12 +26,12 @@ import { cdnUrl } from "@/lib/cdn";
 export interface ParticipantEntry {
   localId: string;
   displayName: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
   linkedUser?: {
     userId: string;
     name: string;
     username: string;
-    imageUrl?: string | null;
+    imagePath?: string | null;
   } | null;
   claimStatus?: "PENDING" | "ACCEPTED" | "REJECTED" | null;
   hasMatches?: boolean;
@@ -54,15 +54,15 @@ function genLocalId(): string {
 
 function EntryAvatar({
   displayName,
-  imageUrl,
+  imagePath,
 }: {
   displayName: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
 }) {
-  if (imageUrl) {
+  if (imagePath) {
     return (
       <div className="relative size-9 shrink-0 overflow-hidden rounded-full">
-        <Image src={cdnUrl(imageUrl)!} alt={displayName} fill className="object-cover" />
+        <Image src={cdnUrl(imagePath)!} alt={displayName} fill className="object-cover" />
       </div>
     );
   }
@@ -270,8 +270,8 @@ export function ParticipantsFieldset({
     id: string;
     name: string;
     username: string;
-    imageUrl?: string | null;
-  }) => {
+      imagePath?: string | null;
+    }) => {
     if (!linkTargetId) {
       return;
     }
@@ -280,7 +280,7 @@ export function ParticipantsFieldset({
       userId: user.id,
       name: user.name,
       username: user.username,
-      imageUrl: user.imageUrl,
+      imagePath: user.imagePath,
     };
 
     onParticipantsChange(
@@ -363,7 +363,7 @@ export function ParticipantsFieldset({
                 <div className="flex items-start gap-3">
                   <EntryAvatar
                     displayName={entry.displayName}
-                    imageUrl={entry.linkedUser?.imageUrl ?? entry.imageUrl}
+                    imagePath={entry.linkedUser?.imagePath ?? entry.imagePath}
                   />
                   <div className="flex min-w-0 flex-1 flex-col gap-2">
                     <div className="flex min-w-0 flex-col gap-1.5">
@@ -437,9 +437,9 @@ export function ParticipantsFieldset({
                               className="border-border/40 hover:border-primary/40 flex min-w-0 items-center gap-2 rounded-full border bg-black/20 px-2.5 py-1 transition-colors"
                             >
                               <div className="relative size-5 shrink-0 overflow-hidden rounded-full">
-                                {entry.linkedUser.imageUrl ? (
+                                {entry.linkedUser.imagePath ? (
                                   <Image
-                                    src={cdnUrl(entry.linkedUser.imageUrl)!}
+                                    src={cdnUrl(entry.linkedUser.imagePath)!}
                                     alt={entry.linkedUser.name}
                                     fill
                                     className="object-cover"
@@ -550,9 +550,9 @@ export function ParticipantsFieldset({
             )}
           >
             <div className="border-gold-dim/25 relative size-9 shrink-0 overflow-hidden rounded-full border bg-black/40">
-              {user.imageUrl ? (
+              {user.imagePath ? (
                 <Image
-                  src={cdnUrl(user.imageUrl)!}
+                  src={cdnUrl(user.imagePath)!}
                   alt={user.name}
                   fill
                   className="object-cover"

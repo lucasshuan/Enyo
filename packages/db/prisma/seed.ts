@@ -10,10 +10,10 @@ const GAMES_TO_SEED = [
     slug: "superfighters-deluxe",
     description:
       "Superfighters Deluxe is a unique action game that combines brawling, shooting and platforming in dynamic sandboxy 2D levels. Lots of weapons and fun gameplay systems interlock to create absurd action-movie chaos.",
-    thumbnailImageUrl:
-      "https://dcoboi83hxoar.cloudfront.net/uploads/406f2c2e-2730-425f-9736-119a12c7d4ad.jpg",
-    backgroundImageUrl:
-      "https://dcoboi83hxoar.cloudfront.net/uploads/72b2fefd-57c7-4212-86c1-edb2d559ac4c.jpg",
+    thumbnailImagePath:
+      "games/cmo6216sl00002svwl7pqcsbn/thumbnail-5963c137-431e-4e68-b22f-320fd8eddfdd.jpg",
+    backgroundImagePath:
+      "games/cmo6216sl00002svwl7pqcsbn/background-770cd8d3-d103-49af-923c-37acaad9f1b8.jpg",
     steamUrl: "https://store.steampowered.com/app/855860/Superfighters_Deluxe/",
   },
   {
@@ -21,10 +21,10 @@ const GAMES_TO_SEED = [
     slug: "rocket-league",
     description:
       "Rocket League is a high-powered hybrid of arcade-style soccer and vehicular mayhem with easy-to-understand controls and fluid, physics-driven competition. Rocket League includes casual and competitive Online Matches, a fully-featured offline Season Mode, special “Mutators” that let you change the rules entirely, hockey and basketball-inspired Extra Modes, and more than 500 trillion possible cosmetic customization combinations.",
-    thumbnailImageUrl:
-      "https://dcoboi83hxoar.cloudfront.net/uploads/5f54b3b0-f4f2-463f-8cd9-52e4bed66ccf.jpg",
-    backgroundImageUrl:
-      "https://dcoboi83hxoar.cloudfront.net/uploads/7e77f9cb-fada-4fea-9631-9216a7cf39c1.jpg",
+    thumbnailImagePath:
+      "games/cmo6217h600012svwyjrda8ji/thumbnail-85304b72-1166-4ba5-a204-a1f555eb00f0.jpg",
+    backgroundImagePath:
+      "games/cmo6217h600012svwyjrda8ji/background-0455f5ea-30a0-48ea-92f3-7d49ca8ba23e.jpg",
     steamUrl: "https://store.steampowered.com/app/252950/Rocket_League/",
   },
 ];
@@ -37,16 +37,16 @@ async function seedGames() {
       update: {
         name: game.name,
         description: game.description,
-        thumbnailImageUrl: game.thumbnailImageUrl,
-        backgroundImageUrl: game.backgroundImageUrl,
+        thumbnailImagePath: game.thumbnailImagePath,
+        backgroundImagePath: game.backgroundImagePath,
         steamUrl: game.steamUrl,
       },
       create: {
         name: game.name,
         slug: game.slug,
         description: game.description,
-        thumbnailImageUrl: game.thumbnailImageUrl,
-        backgroundImageUrl: game.backgroundImageUrl,
+        thumbnailImagePath: game.thumbnailImagePath,
+        backgroundImagePath: game.backgroundImagePath,
         steamUrl: game.steamUrl,
       },
     });

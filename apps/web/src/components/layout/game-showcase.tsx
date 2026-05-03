@@ -14,8 +14,8 @@ export interface ShowcaseGame {
   name: string;
   slug: string;
   description?: string | null;
-  thumbnailImageUrl?: string | null;
-  backgroundImageUrl?: string | null;
+  thumbnailImagePath?: string | null;
+  backgroundImagePath?: string | null;
   leagueCount: number;
   playerCount: number;
 }
@@ -168,9 +168,9 @@ export function GameShowcase({ games, labels }: GameShowcaseProps) {
                 key={`img-${game.id}`}
                 className="animate-showcase-fade absolute inset-0"
               >
-                {game.backgroundImageUrl || game.thumbnailImageUrl ? (
+                {game.backgroundImagePath || game.thumbnailImagePath ? (
                   <Image
-                    src={cdnUrl(game.backgroundImageUrl ?? game.thumbnailImageUrl)!}
+                    src={cdnUrl(game.backgroundImagePath ?? game.thumbnailImagePath)!}
                     alt={game.name}
                     fill
                     className="object-cover"
@@ -208,9 +208,9 @@ export function GameShowcase({ games, labels }: GameShowcaseProps) {
                         : "border-white/5 opacity-50 hover:opacity-80",
                     )}
                   >
-                    {g.thumbnailImageUrl ? (
+                    {g.thumbnailImagePath ? (
                       <Image
-                        src={cdnUrl(g.thumbnailImageUrl)!}
+                        src={cdnUrl(g.thumbnailImagePath)!}
                         alt={g.name}
                         fill
                         className="object-cover"

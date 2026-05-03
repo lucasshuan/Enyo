@@ -42,26 +42,26 @@ export class AuthResolver {
     }
 
     // Move tmp upload to permanent location, delete old file if replaced
-    if (input.imageUrl !== undefined) {
+    if (input.imagePath !== undefined) {
       const current = await this.databaseProvider.user.findUnique({
         where: { id: userId },
-        select: { imageUrl: true },
+        select: { imagePath: true },
       });
 
-      if (input.imageUrl && this.storageService.isTmpPath(input.imageUrl)) {
-        const filename = input.imageUrl.split('/').pop()!;
+      if (input.imagePath && this.storageService.isTmpPath(input.imagePath)) {
+        const filename = input.imagePath.split('/').pop()!;
         const destPath = `users/${userId}/${filename}`;
         input = {
           ...input,
-          imageUrl: await this.storageService.moveFile(
-            input.imageUrl,
+          imagePath: await this.storageService.moveFile(
+            input.imagePath,
             destPath,
           ),
         };
       }
 
-      if (current?.imageUrl && current.imageUrl !== input.imageUrl) {
-        await this.storageService.deleteFile(current.imageUrl);
+      if (current?.imagePath && current.imagePath !== input.imagePath) {
+        await this.storageService.deleteFile(current.imagePath);
       }
     }
 

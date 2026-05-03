@@ -18,7 +18,7 @@ export function EventCard({ event }: EventCardProps) {
 
   const isApproved = event.event?.isApproved ?? false;
   const gameName = event.event?.game?.name ?? "";
-  const gameThumbnail = event.event?.game?.thumbnailImageUrl;
+  const gameThumbnail = event.event?.game?.thumbnailImagePath;
   const gameSlug = event.event?.game?.slug ?? "";
   const eventSlug = event.event?.slug ?? "";
   const eventName = event.event?.name ?? "";

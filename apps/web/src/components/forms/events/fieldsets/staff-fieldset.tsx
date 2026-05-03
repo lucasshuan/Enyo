@@ -26,7 +26,7 @@ export interface StaffMember {
   role: "ORGANIZER" | "MODERATOR" | "SCOREKEEPER";
   name: string;
   username: string;
-  imageUrl?: string | null;
+  imagePath?: string | null;
 }
 
 interface StaffFieldsetProps {
@@ -88,7 +88,7 @@ export function StaffFieldset({
         role: "MODERATOR",
         name: user.name,
         username: user.username,
-        imageUrl: user.imageUrl,
+        imagePath: user.imagePath,
       },
     ]);
     setQuery("");
@@ -169,9 +169,9 @@ export function StaffFieldset({
               )}
             >
               <div className="border-gold-dim/25 relative size-9 shrink-0 overflow-hidden rounded-full border bg-black/40">
-                {user.imageUrl ? (
+                {user.imagePath ? (
                   <Image
-                    src={user.imageUrl}
+                    src={user.imagePath}
                     alt={user.name}
                     fill
                     className="object-cover"
@@ -260,9 +260,9 @@ export function StaffFieldset({
             >
               {/* Avatar */}
               <div className="relative size-9 shrink-0 overflow-hidden rounded-full bg-white/10">
-                {member.imageUrl ? (
+                {member.imagePath ? (
                   <Image
-                    src={member.imageUrl}
+                    src={member.imagePath}
                     alt={member.name}
                     fill
                     className="object-cover"

@@ -31,7 +31,7 @@ export class UpdateProfileInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  imageUrl?: string;
+  imagePath?: string;
 
   @Field({ nullable: true })
   @IsOptional()

@@ -52,8 +52,8 @@ export function EditGameForm({
       name: game.name,
       slug: game.slug,
       description: game.description || "",
-      backgroundImageUrl: game.backgroundImageUrl || "",
-      thumbnailImageUrl: game.thumbnailImageUrl || "",
+      backgroundImagePath: game.backgroundImagePath || "",
+      thumbnailImagePath: game.thumbnailImagePath || "",
       steamUrl: game.steamUrl || "",
       websiteUrl: game.websiteUrl || "",
     },
@@ -98,12 +98,12 @@ export function EditGameForm({
 
   const onSubmit = async (values: EditGameValues) => {
     startTransition(async () => {
-      let backgroundImageUrl: string | null;
-      let thumbnailImageUrl: string | null;
+      let backgroundImagePath: string | null;
+      let thumbnailImagePath: string | null;
       try {
-        [backgroundImageUrl, thumbnailImageUrl] = await Promise.all([
-          resolveImageValue(values.backgroundImageUrl),
-          resolveImageValue(values.thumbnailImageUrl),
+        [backgroundImagePath, thumbnailImagePath] = await Promise.all([
+          resolveImageValue(values.backgroundImagePath),
+          resolveImageValue(values.thumbnailImagePath),
         ]);
       } catch {
         toast.error(t("uploadError") || "Failed to upload image.");
@@ -113,8 +113,8 @@ export function EditGameForm({
       const result = await updateGame(game.slug, {
         ...values,
         slug: values.slug,
-        backgroundImageUrl,
-        thumbnailImageUrl,
+        backgroundImagePath,
+        thumbnailImagePath,
         steamUrl: values.steamUrl || null,
         websiteUrl: values.websiteUrl || null,
         description: values.description ?? null,
@@ -230,14 +230,14 @@ export function EditGameForm({
 
       <div>
         <Controller
-          name="backgroundImageUrl"
+          name="backgroundImagePath"
           control={control}
           render={({ field }) => (
             <ImageUploadInput
               value={field.value}
               onChange={field.onChange}
               label={t("backgroundImage.label")}
-              error={errors.backgroundImageUrl?.message}
+              error={errors.backgroundImagePath?.message}
               disabled={isPending}
             />
           )}
@@ -245,14 +245,14 @@ export function EditGameForm({
       </div>
 
       <Controller
-        name="thumbnailImageUrl"
+        name="thumbnailImagePath"
         control={control}
         render={({ field }) => (
           <ImageUploadInput
             value={field.value}
             onChange={field.onChange}
             label={t("thumbnailImage.label")}
-            error={errors.thumbnailImageUrl?.message}
+            error={errors.thumbnailImagePath?.message}
             disabled={isPending}
           />
         )}

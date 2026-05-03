@@ -248,7 +248,7 @@
       },
       "country": {
         "label": "País",
-        "placeholder": "Selecione seu país"
+        "placeholder": "Nenhum país selecionado"
       },
       "submit": "Salvar alterações",
       "submitting": "Salvando...",
@@ -801,7 +801,7 @@
     "country": {
       "title": "De onde você é?",
       "subtitle": "A bandeira do seu país aparecerá ao lado do seu nome nos rankings.",
-      "placeholder": "Selecione seu país",
+      "placeholder": "Nenhum país selecionado",
       "hint": "Isso é opcional. Você pode definir depois nas configurações do perfil."
     },
     "games": {

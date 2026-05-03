@@ -15,6 +15,7 @@ import { GET_GAMES } from "@/lib/apollo/queries/games";
 import { GetGamesQuery } from "@/lib/apollo/generated/graphql";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 import { getServerAuthSession } from "@/auth";
+import { cdnUrl } from "@/lib/cdn";
 
 export const dynamic = "force-dynamic";
 
@@ -132,9 +133,9 @@ export default async function HomePage() {
                     <div className="relative shrink-0">
                       <div className="bg-primary/15 absolute -inset-2 rounded-full blur-lg" />
                       <div className="relative overflow-hidden rounded-full border-2 border-white/10 shadow-lg shadow-black/30">
-                        {user.image ? (
+                        {user.imagePath ? (
                           <Image
-                            src={user.image}
+                            src={cdnUrl(user.imagePath)!}
                             alt={user.name ?? "Avatar"}
                             width={40}
                             height={40}
@@ -346,8 +347,8 @@ async function PublicGamesList({ labels }: PublicGamesListProps) {
     name: game.name,
     slug: game.slug,
     description: game.description,
-    thumbnailImageUrl: game.thumbnailImageUrl,
-    backgroundImageUrl: game.backgroundImageUrl,
+    thumbnailImagePath: game.thumbnailImagePath,
+    backgroundImagePath: game.backgroundImagePath,
     leagueCount: game._count?.events || 0,
     playerCount: 0,
   }));

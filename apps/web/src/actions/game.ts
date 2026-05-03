@@ -68,13 +68,15 @@ export const updateGame = createSafeAction(
       name: string;
       slug: string;
       description: string | null;
-      backgroundImageUrl: string | null;
-      thumbnailImageUrl: string | null;
+      backgroundImagePath: string | null;
+      thumbnailImagePath: string | null;
       steamUrl: string | null;
       websiteUrl: string | null;
     },
   ) => {
     const session = await getServerAuthSession();
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
     const { data: gameData } = await getClient().query<GetGameActionsQuery>({
       query: GET_GAME_ACTIONS,
       variables: { slug: gameId },
@@ -97,8 +99,8 @@ export const updateGame = createSafeAction(
           name: data.name.trim(),
           slug: data.slug.trim(),
           description: normalizeOptionalText(data.description),
-          backgroundImageUrl: normalizeOptionalText(data.backgroundImageUrl),
-          thumbnailImageUrl: normalizeOptionalText(data.thumbnailImageUrl),
+          backgroundImagePath: normalizeOptionalText(data.backgroundImagePath),
+          thumbnailImagePath: normalizeOptionalText(data.thumbnailImagePath),
           steamUrl: normalizeOptionalText(data.steamUrl),
           websiteUrl: normalizeOptionalText(data.websiteUrl),
         },
@@ -118,8 +120,8 @@ export const createGame = createSafeAction(
     name: string;
     slug: string;
     description: string | null;
-    backgroundImageUrl: string | null;
-    thumbnailImageUrl: string | null;
+    backgroundImagePath: string | null;
+    thumbnailImagePath: string | null;
     steamUrl: string | null;
     websiteUrl: string | null;
   }) => {
@@ -143,8 +145,8 @@ export const createGame = createSafeAction(
           name,
           slug,
           description: normalizeOptionalText(data.description),
-          backgroundImageUrl: normalizeOptionalText(data.backgroundImageUrl),
-          thumbnailImageUrl: normalizeOptionalText(data.thumbnailImageUrl),
+          backgroundImagePath: normalizeOptionalText(data.backgroundImagePath),
+          thumbnailImagePath: normalizeOptionalText(data.thumbnailImagePath),
           steamUrl: normalizeOptionalText(data.steamUrl),
           websiteUrl: normalizeOptionalText(data.websiteUrl),
           authorId: session.user.id,

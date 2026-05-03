@@ -33,8 +33,8 @@ export const getEditGameSchema = (t: TFunction) => {
       .string()
       .max(500, t("descMax", { count: 500 }))
       .optional(),
-    backgroundImageUrl: imageFieldSchema,
-    thumbnailImageUrl: imageFieldSchema,
+    backgroundImagePath: imageFieldSchema,
+    thumbnailImagePath: imageFieldSchema,
     steamUrl: urlSchema,
     websiteUrl: urlSchema,
   });

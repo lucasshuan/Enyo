@@ -13,7 +13,7 @@ export class TeamMember {
   displayName: string;
 
   @Field({ nullable: true })
-  imageUrl?: string;
+  imagePath?: string;
 
   @Field({ nullable: true })
   userId?: string;
@@ -64,7 +64,7 @@ export class EventEntry {
   displayName: string;
 
   @Field({ nullable: true })
-  imageUrl?: string;
+  imagePath?: string;
 
   @Field({ nullable: true })
   userId?: string;

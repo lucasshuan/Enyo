@@ -7,7 +7,7 @@ interface UserChipProps {
   user: {
     id: string;
     name?: string | null;
-    imageUrl?: string | null;
+    imagePath?: string | null;
     username?: string | null;
   };
   className?: string;
@@ -28,9 +28,9 @@ export function UserChip({ user, className }: UserChipProps) {
       )}
     >
       <div className="relative size-6 overflow-hidden rounded-full bg-white/10">
-        {user.imageUrl ? (
+        {user.imagePath ? (
           <Image
-            src={cdnUrl(user.imageUrl)!}
+            src={cdnUrl(user.imagePath)!}
             alt={displayName}
             fill
             className="object-cover transition-transform group-hover:scale-110"

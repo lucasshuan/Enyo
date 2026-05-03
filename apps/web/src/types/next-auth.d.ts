@@ -6,7 +6,7 @@ declare module "next-auth" {
       id: string;
       username: string;
       name: string;
-      imageUrl?: string | null;
+      imagePath?: string | null;
       bio?: string | null;
       profileColor?: string | null;
       isAdmin: boolean;
@@ -21,7 +21,7 @@ declare module "next-auth" {
     username: string;
     isAdmin: boolean;
     onboardingCompleted: boolean;
-    imageUrl?: string | null;
+    imagePath?: string | null;
     accessToken?: string;
     permissions: string[];
   }
@@ -31,7 +31,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     username: string;
-    imageUrl?: string | null;
+    imagePath?: string | null;
     isAdmin: boolean;
     onboardingCompleted: boolean;
     accessToken?: string;
