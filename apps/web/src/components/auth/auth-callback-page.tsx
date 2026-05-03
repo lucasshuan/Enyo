@@ -126,7 +126,7 @@ function AuthCallbackContent() {
         <div className="relative">
           <div className="bg-primary/20 absolute -inset-8 animate-pulse rounded-full blur-2xl" />
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Bellona"
             width={40}
             height={40}

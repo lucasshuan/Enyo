@@ -44,19 +44,19 @@ export const metadata: Metadata = {
   },
   description: "Plataforma de ligas e torneios para jogos.",
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.svg",
+    apple: "/logo.svg",
   },
   openGraph: {
     title: "Bellona",
     description: "Plataforma de ligas e torneios para jogos.",
     images: [
       {
-        url: "/logo.png",
+        url: "/logo.svg",
         alt: "Bellona",
         width: 120,
         height: 120,
-        type: "image/png",
+        type: "image/svg+xml",
       },
     ],
   },

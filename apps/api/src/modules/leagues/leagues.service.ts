@@ -87,18 +87,19 @@ export class LeaguesService {
     return league ? this.mapLeague(league) : null;
   }
 
-  async findAllByGame(gameId: string, pagination: PaginationInput) {
+  async findAllByGame(gameId: string | undefined, pagination: PaginationInput) {
     const { skip, take } = pagination;
+    const where = gameId ? { event: { gameId } } : {};
 
     const [leagues, totalCount] = await Promise.all([
       this.db.league.findMany({
-        where: { event: { gameId } },
+        where,
         include: { event: true },
         orderBy: { event: { createdAt: 'desc' } },
         skip,
         take,
       }),
-      this.db.league.count({ where: { event: { gameId } } }),
+      this.db.league.count({ where }),
     ]);
 
     return {

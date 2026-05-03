@@ -11,7 +11,7 @@ export const CHECK_EVENT_SLUG = gql`
 `;
 
 export const GET_LEAGUES = gql`
-  query GetLeagues($gameId: String!, $pagination: PaginationInput) {
+  query GetLeagues($gameId: String, $pagination: PaginationInput) {
     leagues(gameId: $gameId, pagination: $pagination) {
       nodes {
         eventId

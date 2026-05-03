@@ -19,7 +19,7 @@ export async function SiteNavbar() {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2.5">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt="Bellona"
               width={28}
               height={28}

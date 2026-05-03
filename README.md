@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="apps/web/public/logo.png" alt="Bellona" width="80" />
+  <img src="apps/web/public/logo.svg" alt="Bellona" width="80" />
   <h1>Bellona</h1>
 </div>
 

@@ -48,6 +48,6 @@ export class Game {
   @Field(() => User, { nullable: true })
   author?: User;
 
-  @Field(() => GameCounts, { name: '_count', nullable: true })
-  count?: GameCounts;
+  @Field(() => GameCounts, { nullable: true })
+  _count?: GameCounts;
 }

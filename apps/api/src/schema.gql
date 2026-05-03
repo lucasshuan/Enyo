@@ -216,7 +216,7 @@ type Query {
   searchUsers(pagination: PaginationInput, query: String): PaginatedUsers!
   league(gameSlug: String!, slug: String!): League
   checkEventSlug(gameId: String!, slug: String!, excludeEventId: ID): Boolean!
-  leagues(gameId: String!, pagination: PaginationInput): PaginatedLeagues!
+  leagues(gameId: String, pagination: PaginationInput): PaginatedLeagues!
   eventEntries(eventId: ID!, pagination: PaginationInput): PaginatedEventEntries!
   eventEntry(id: ID!): EventEntry
   eventMatches(eventId: ID!): [Match!]!

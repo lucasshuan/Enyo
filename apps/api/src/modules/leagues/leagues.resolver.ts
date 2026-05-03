@@ -40,7 +40,7 @@ export class LeaguesResolver {
 
   @Query(() => PaginatedLeagues, { name: 'leagues' })
   async getLeagues(
-    @Args('gameId') gameId: string,
+    @Args('gameId', { nullable: true }) gameId?: string,
     @Args('pagination', { nullable: true }) pagination?: PaginationInput,
   ) {
     return this.leaguesService.findAllByGame(
