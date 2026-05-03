@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseProvider } from '../../database/database.provider';
+import {
+  EVENT_STAFF_CAPABILITIES,
+  type EventStaffCapability,
+} from '@bellona/core';
 
 @Injectable()
 export class EventStaffService {
@@ -13,11 +17,29 @@ export class EventStaffService {
     });
   }
 
-  async addStaff(eventId: string, userId: string, role: string) {
+  /**
+   * Insert or update a staff entry. Capabilities outside the known catalog
+   * are silently dropped to keep persisted data consistent.
+   */
+  async upsertStaff(
+    eventId: string,
+    userId: string,
+    capabilities: string[] = [],
+    isFullAccess = false,
+  ) {
+    const sanitized = this.sanitizeCapabilities(capabilities);
     return this.db.eventStaff.upsert({
       where: { eventId_userId: { eventId, userId } },
-      create: { eventId, userId, role: role as never },
-      update: { role: role as never },
+      create: {
+        eventId,
+        userId,
+        capabilities: sanitized,
+        isFullAccess,
+      },
+      update: {
+        capabilities: sanitized,
+        isFullAccess,
+      },
       include: { user: true },
     });
   }
@@ -29,26 +51,25 @@ export class EventStaffService {
   }
 
   /**
-   * Returns true if userId has at least minRole on the event.
-   * Role hierarchy: ORGANIZER > MODERATOR > SCOREKEEPER
+   * Returns true when the user has the given capability on the event,
+   * either by being a full-access member or by having it listed.
    */
-  async checkRole(
+  async hasCapability(
     eventId: string,
     userId: string,
-    minRole: 'ORGANIZER' | 'MODERATOR' | 'SCOREKEEPER',
+    capability: EventStaffCapability,
   ): Promise<boolean> {
-    const hierarchy: Record<string, number> = {
-      SCOREKEEPER: 1,
-      MODERATOR: 2,
-      ORGANIZER: 3,
-    };
-
     const staff = await this.db.eventStaff.findUnique({
       where: { eventId_userId: { eventId, userId } },
-      select: { role: true },
+      select: { capabilities: true, isFullAccess: true },
     });
-
     if (!staff) return false;
-    return hierarchy[staff.role] >= hierarchy[minRole];
+    if (staff.isFullAccess) return true;
+    return staff.capabilities.includes(capability);
+  }
+
+  private sanitizeCapabilities(capabilities: string[]): string[] {
+    const known = new Set<string>(EVENT_STAFF_CAPABILITIES);
+    return Array.from(new Set(capabilities.filter((c) => known.has(c))));
   }
 }

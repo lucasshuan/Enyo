@@ -301,7 +301,34 @@
       "cancel": "Cancelar",
       "success": "Jogo atualizado com sucesso!",
       "uploadError": "Erro ao fazer upload da imagem.",
-      "error": "Erro ao atualizar o jogo."
+      "error": "Erro ao atualizar o jogo.",
+      "staffError": "Jogo salvo, mas não foi possível aplicar as alterações de equipe.",
+      "staff": {
+        "title": "Administração do Jogo",
+        "description": "Defina quem pode ajudar a moderar esse jogo e quais áreas pode gerenciar.",
+        "searchPlaceholder": "Buscar usuário por nome ou username...",
+        "noResults": "Nenhum usuário encontrado.",
+        "you": "você",
+        "remove": "Remover membro",
+        "fullAccess": "Acesso total",
+        "fullAccessDescription": "Atua como co-proprietário, com todas as permissões concedidas.",
+        "capabilitiesHeader": "Permissões",
+        "emptyState": "Nenhum administrador ainda. Busque um usuário acima para adicionar o primeiro.",
+        "capabilities": {
+          "MANAGE_DETAILS": {
+            "label": "Gerenciar detalhes",
+            "description": "Editar nome, descrição, imagens, links e outros metadados do jogo."
+          },
+          "MANAGE_EVENTS": {
+            "label": "Gerenciar eventos",
+            "description": "Aprovar e moderar eventos criados sob esse jogo."
+          },
+          "MANAGE_STAFF": {
+            "label": "Gerenciar equipe",
+            "description": "Adicionar ou remover administradores e editar suas permissões."
+          }
+        }
+      }
     },
     "ApproveGame": {
       "trigger": "Aprovar jogo",
@@ -623,19 +650,32 @@
       },
       "staff": {
         "title": "Equipe do Evento",
-        "description": "Defina quem pode ajudar a gerenciar este evento. Você é sempre o organizador.",
-        "searchPlaceholder": "Pesquisar usuário por nome ou username...",
+        "description": "Defina quem pode ajudar a gerenciar este evento. Você mantém acesso total como criador.",
+        "searchPlaceholder": "Buscar um usuário pelo nome ou @...",
         "noResults": "Nenhum usuário encontrado.",
         "you": "você",
         "remove": "Remover membro",
-        "roleOrganizer": "Organizador",
-        "roleModerator": "Moderador",
-        "roleModeratorShort": "Moderador",
-        "roleScorekeeper": "Registrador",
-        "roleScorekeeperShort": "Registrador",
-        "organizerDesc": "Controle total do evento: editar configurações, gerenciar equipe e participantes.",
-        "moderatorDesc": "Pode gerenciar partidas, participantes e aprovar inscrições.",
-        "scorekeeperDesc": "Pode apenas registrar e editar o placar das partidas."
+        "fullAccess": "Acesso total",
+        "fullAccessDescription": "Atua como co-organizador, com todas as permissões concedidas.",
+        "capabilitiesHeader": "Permissões",
+        "capabilities": {
+          "MANAGE_DETAILS": {
+            "label": "Gerenciar detalhes",
+            "description": "Editar nome, descrição, datas, links e outros metadados do evento."
+          },
+          "MANAGE_PARTICIPANTS": {
+            "label": "Gerenciar participantes",
+            "description": "Adicionar, remover e aprovar inscrições, vínculos e participantes."
+          },
+          "MANAGE_MATCHES": {
+            "label": "Gerenciar partidas",
+            "description": "Agendar, editar e registrar resultados das partidas."
+          },
+          "MANAGE_STAFF": {
+            "label": "Gerenciar equipe",
+            "description": "Adicionar ou remover membros da equipe e editar suas permissões."
+          }
+        }
       },
       "matchFormats": {
         "title": "Tipos de Partida Permitidos",

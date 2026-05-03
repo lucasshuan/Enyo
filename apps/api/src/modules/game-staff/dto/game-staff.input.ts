@@ -1,12 +1,8 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString, IsOptional, IsArray, IsBoolean } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 
 @InputType()
-export class AddEventStaffInput {
-  @Field()
-  @IsString()
-  eventId!: string;
-
+export class GameStaffMemberInput {
   @Field()
   @IsString()
   userId!: string;

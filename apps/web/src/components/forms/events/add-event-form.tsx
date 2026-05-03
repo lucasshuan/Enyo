@@ -17,7 +17,7 @@ import { TypeFieldset } from "./fieldsets/type-fieldset";
 import { FormatFieldset } from "./fieldsets/format-fieldset";
 import { GeneralFieldset } from "./fieldsets/general-fieldset";
 import { SettingsFieldset } from "./fieldsets/settings-fieldset";
-import { StaffFieldset, type StaffMember } from "./fieldsets/staff-fieldset";
+import { StaffFieldset, type EventStaffDraft } from "./fieldsets/staff-fieldset";
 import {
   ParticipantsFieldset,
   type ParticipantEntry,
@@ -64,8 +64,8 @@ interface AddEventFormProps {
   initialGame?: SimpleGame;
   isGameFixed?: boolean;
   currentUserId?: string;
-  staffMembers?: StaffMember[];
-  onStaffChange?: (members: StaffMember[]) => void;
+  staffMembers?: EventStaffDraft[];
+  onStaffChange?: (members: EventStaffDraft[]) => void;
   participants?: ParticipantEntry[];
   onParticipantsChange?: (participants: ParticipantEntry[]) => void;
 }
@@ -293,7 +293,11 @@ export function AddEventForm({
         config,
         staff: staffMembers
           ?.filter((m) => m.userId !== currentUserId)
-          .map(({ userId, role }) => ({ userId, role })),
+          .map(({ userId, capabilities, isFullAccess }) => ({
+            userId,
+            capabilities,
+            isFullAccess,
+          })),
         participants: participants?.map(({ displayName, linkedUser }) => ({
           displayName,
           userId: linkedUser?.userId,

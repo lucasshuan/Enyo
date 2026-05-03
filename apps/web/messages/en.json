@@ -301,7 +301,34 @@
       "cancel": "Cancel",
       "success": "Game updated successfully!",
       "uploadError": "Failed to upload image.",
-      "error": "Error updating game."
+      "error": "Error updating game.",
+      "staffError": "Game saved, but staff changes failed to apply.",
+      "staff": {
+        "title": "Game Administration",
+        "description": "Define who can help moderate this game and which areas they can manage.",
+        "searchPlaceholder": "Search for a user by name or username...",
+        "noResults": "No users found.",
+        "you": "you",
+        "remove": "Remove member",
+        "fullAccess": "Full access",
+        "fullAccessDescription": "Acts as a co-owner with every capability granted.",
+        "capabilitiesHeader": "Capabilities",
+        "emptyState": "No administrators yet. Search for a user above to add the first one.",
+        "capabilities": {
+          "MANAGE_DETAILS": {
+            "label": "Manage details",
+            "description": "Edit name, description, images, links and other game metadata."
+          },
+          "MANAGE_EVENTS": {
+            "label": "Manage events",
+            "description": "Approve and moderate events created under this game."
+          },
+          "MANAGE_STAFF": {
+            "label": "Manage staff",
+            "description": "Add or remove administrators and edit their capabilities."
+          }
+        }
+      }
     },
     "ApproveGame": {
       "trigger": "Approve game",
@@ -623,19 +650,32 @@
       },
       "staff": {
         "title": "Event Staff",
-        "description": "Define who can help manage this event. You are always the organizer.",
+        "description": "Define who can help manage this event. You always retain full access as the creator.",
         "searchPlaceholder": "Search for a user by name or username...",
         "noResults": "No users found.",
         "you": "you",
         "remove": "Remove member",
-        "roleOrganizer": "Organizer",
-        "roleModerator": "Moderator",
-        "roleModeratorShort": "Moderator",
-        "roleScorekeeper": "Scorekeeper",
-        "roleScorekeeperShort": "Scorekeeper",
-        "organizerDesc": "Full event control: edit settings, manage staff and participants.",
-        "moderatorDesc": "Can manage matches, participants and approve registrations.",
-        "scorekeeperDesc": "Can only submit and edit match scores."
+        "fullAccess": "Full access",
+        "fullAccessDescription": "Acts as a co-organizer with every capability granted.",
+        "capabilitiesHeader": "Capabilities",
+        "capabilities": {
+          "MANAGE_DETAILS": {
+            "label": "Manage details",
+            "description": "Edit name, description, dates, links and other event metadata."
+          },
+          "MANAGE_PARTICIPANTS": {
+            "label": "Manage participants",
+            "description": "Add, remove and approve entries, registrations and claims."
+          },
+          "MANAGE_MATCHES": {
+            "label": "Manage matches",
+            "description": "Schedule, edit and record outcomes of matches."
+          },
+          "MANAGE_STAFF": {
+            "label": "Manage staff",
+            "description": "Add or remove staff members and edit their capabilities."
+          }
+        }
       },
       "matchFormats": {
         "title": "Allowed Match Types",

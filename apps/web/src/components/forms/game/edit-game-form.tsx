@@ -3,16 +3,31 @@
 import { useTransition, useEffect, useState, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@apollo/client/react";
 import { useEditGameSchema, type EditGameValues } from "@/schemas/game";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { updateGame, checkGameSlugAvailability } from "@/actions/game";
-import { type Game } from "@/lib/apollo/generated/graphql";
+import {
+  updateGame,
+  checkGameSlugAvailability,
+  setGameStaff,
+} from "@/actions/game";
+import {
+  type Game,
+  type GetGameStaffQuery,
+} from "@/lib/apollo/generated/graphql";
+import { GET_GAME_STAFF } from "@/lib/apollo/queries/games";
+import { useUser } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import { resolveImageValue } from "@/lib/upload";
 import { ImageUploadInput } from "@/components/ui/image-upload-input";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
+import {
+  GameStaffFieldset,
+  type GameStaffDraft,
+} from "@/components/forms/game/fieldsets/staff-fieldset";
 import { LoaderCircle, Check, X } from "lucide-react";
+import type { GameStaffCapability } from "@bellona/core";
 
 interface EditGameFormProps {
   game: Game;
@@ -32,6 +47,29 @@ export function EditGameForm({
   const t = useTranslations("Modals.EditGame");
   const schema = useEditGameSchema();
   const [isPending, startTransition] = useTransition();
+  const { user } = useUser();
+
+  const [staffMembers, setStaffMembers] = useState<GameStaffDraft[]>([]);
+
+  const { data: staffData } = useQuery<GetGameStaffQuery>(GET_GAME_STAFF, {
+    variables: { gameId: game.id },
+    fetchPolicy: "cache-and-network",
+  });
+
+  // Hydrate staff state once the query resolves.
+  useEffect(() => {
+    if (!staffData?.gameStaff) return;
+    setStaffMembers(
+      staffData.gameStaff.map((s) => ({
+        userId: s.userId,
+        name: s.user?.name ?? "",
+        username: s.user?.username ?? "",
+        imagePath: s.user?.imagePath ?? null,
+        capabilities: (s.capabilities ?? []) as GameStaffCapability[],
+        isFullAccess: s.isFullAccess,
+      })),
+    );
+  }, [staffData]);
 
   const [slugAvailability, setSlugAvailability] = useState<{
     value: string;
@@ -120,12 +158,27 @@ export function EditGameForm({
         description: values.description ?? null,
       });
 
-      if (result.success) {
-        toast.success(t("success"));
-        onSuccess(result.data?.slug ?? "");
-      } else {
+      if (!result.success) {
         toast.error(result.error || t("error"));
+        return;
       }
+
+      const staffResult = await setGameStaff(
+        game.id,
+        staffMembers.map((m) => ({
+          userId: m.userId,
+          capabilities: m.capabilities,
+          isFullAccess: m.isFullAccess,
+        })),
+      );
+
+      if (!staffResult.success) {
+        toast.error(staffResult.error || t("staffError"));
+        return;
+      }
+
+      toast.success(t("success"));
+      onSuccess(result.data?.slug ?? "");
     });
   };
 
@@ -299,6 +352,13 @@ export function EditGameForm({
           <p className="field-error-text">{errors.websiteUrl.message}</p>
         )}
       </div>
-    </form>
+
+      <div className="col-span-full mt-4 border-t border-white/5 pt-8">
+        <GameStaffFieldset
+          currentUserId={user?.id ?? ""}
+          staffMembers={staffMembers}
+          onStaffChange={setStaffMembers}
+        />
+      </div>    </form>
   );
 }

@@ -16,10 +16,16 @@ export class InitialStaffInput {
   @IsString()
   userId!: string;
 
-  @Field({ nullable: true })
-  @IsString()
+  @Field(() => [String], { nullable: true })
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
-  role?: string;
+  capabilities?: string[];
+
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isFullAccess?: boolean;
 }
 
 @InputType()

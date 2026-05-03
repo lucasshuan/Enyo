@@ -11,7 +11,7 @@ import { AddEventForm } from "@/components/forms/events/add-event-form";
 import type { AddEventSuccessData } from "@/components/forms/events/add-event-form";
 import { useUser } from "@/components/providers";
 import type { SimpleGame } from "@/actions/get-games";
-import type { StaffMember } from "@/components/forms/events/fieldsets/staff-fieldset";
+import type { EventStaffDraft } from "@/components/forms/events/fieldsets/staff-fieldset";
 import type { ParticipantEntry } from "@/components/forms/events/fieldsets/participants-fieldset";
 
 interface CreateEventTemplateProps {
@@ -39,15 +39,16 @@ export function CreateEventTemplate({
   const [isUnknownGameConfirmOpen, setIsUnknownGameConfirmOpen] =
     useState(false);
   const [participants, setParticipants] = useState<ParticipantEntry[]>([]);
-  const [staffMembers, setStaffMembers] = useState<StaffMember[]>(() =>
+  const [staffMembers, setStaffMembers] = useState<EventStaffDraft[]>(() =>
     user
       ? [
           {
             userId: user.id,
-            role: "ORGANIZER" as const,
             name: user.name ?? user.username,
             username: user.username,
             imagePath: user.imagePath,
+            capabilities: [],
+            isFullAccess: true,
           },
         ]
       : [],

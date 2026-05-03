@@ -18,21 +18,16 @@ export class EventStaffResolver {
 
   @Mutation(() => EventStaff)
   @UseGuards(GqlAuthGuard)
-  async addEventStaff(
+  async upsertEventStaff(
     @Args('input') input: AddEventStaffInput,
     @CurrentUser() user: User,
   ) {
-    // Only ORGANIZER can manage staff — checked at service layer
-    const canManage = await this.eventStaffService.checkRole(
-      input.eventId,
-      user.id,
-      'ORGANIZER',
-    );
-    if (!canManage) throw new Error('Only organizers can manage event staff');
-    return this.eventStaffService.addStaff(
+    await this.assertCanManageStaff(input.eventId, user.id);
+    return this.eventStaffService.upsertStaff(
       input.eventId,
       input.userId,
-      input.role ?? 'MODERATOR',
+      input.capabilities ?? [],
+      input.isFullAccess ?? false,
     );
   }
 
@@ -43,12 +38,18 @@ export class EventStaffResolver {
     @Args('userId', { type: () => ID }) userId: string,
     @CurrentUser() user: User,
   ) {
-    const canManage = await this.eventStaffService.checkRole(
-      eventId,
-      user.id,
-      'ORGANIZER',
-    );
-    if (!canManage) throw new Error('Only organizers can manage event staff');
+    await this.assertCanManageStaff(eventId, user.id);
     return this.eventStaffService.removeStaff(eventId, userId);
+  }
+
+  private async assertCanManageStaff(eventId: string, userId: string) {
+    const canManage = await this.eventStaffService.hasCapability(
+      eventId,
+      userId,
+      'MANAGE_STAFF',
+    );
+    if (!canManage) {
+      throw new Error('You do not have permission to manage event staff');
+    }
   }
 }

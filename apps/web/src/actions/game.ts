@@ -7,6 +7,7 @@ import {
   CREATE_GAME,
   UPDATE_GAME,
   DELETE_GAME,
+  SET_GAME_STAFF,
 } from "@/lib/apollo/queries/game-mutations";
 import {
   CREATE_LEAGUE,
@@ -19,6 +20,7 @@ import {
   ApproveGameMutation,
   RequestUploadUrlDocument,
   GetGameActionsQuery,
+  SetGameStaffMutation,
 } from "@/lib/apollo/generated/graphql";
 import { getServerAuthSession } from "@/auth";
 import {
@@ -111,6 +113,35 @@ export const updateGame = createSafeAction(
       revalidateGamePaths(result.updateGame);
     }
     return { slug: result?.updateGame?.slug ?? "" };
+  },
+);
+
+export const setGameStaff = createSafeAction(
+  "setGameStaff",
+  async (
+    gameId: string,
+    members: Array<{
+      userId: string;
+      capabilities?: string[];
+      isFullAccess?: boolean;
+    }>,
+  ) => {
+    const session = await getServerAuthSession();
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    const { data: result } = await getClient().mutate<SetGameStaffMutation>({
+      mutation: SET_GAME_STAFF,
+      variables: {
+        gameId,
+        members: members.map((m) => ({
+          userId: m.userId,
+          capabilities: m.capabilities ?? [],
+          isFullAccess: m.isFullAccess ?? false,
+        })),
+      },
+    });
+
+    return { staff: result?.setGameStaff ?? [] };
   },
 );
 
@@ -216,7 +247,7 @@ export const createLeague = createSafeAction(
     allowDraw?: boolean;
     allowedFormats?: string[];
     customFieldSchema?: unknown;
-    staff?: Array<{ userId: string; role: string }>;
+    staff?: Array<{ userId: string; capabilities?: string[]; isFullAccess?: boolean }>;
     participants?: Array<{ displayName: string; userId?: string }>;
   }) => {
     const session = await getServerAuthSession();

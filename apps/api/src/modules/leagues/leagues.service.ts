@@ -112,7 +112,11 @@ export class LeaguesService {
     eventInput: CreateLeagueEventInput,
     leagueInput: CreateLeagueConfigInput,
     authorId: string,
-    initialStaff?: Array<{ userId: string; role?: string }>,
+    initialStaff?: Array<{
+      userId: string;
+      capabilities?: string[];
+      isFullAccess?: boolean;
+    }>,
     initialEntries?: Array<{
       displayName: string;
       userId?: string;
@@ -163,12 +167,17 @@ export class LeaguesService {
         include: { event: true },
       });
 
-      // Author is automatically ORGANIZER
+      // Author is automatically created with full access (acts as owner)
       await tx.eventStaff.create({
-        data: { eventId: event.id, userId: authorId, role: 'ORGANIZER' },
+        data: {
+          eventId: event.id,
+          userId: authorId,
+          isFullAccess: true,
+          capabilities: [],
+        },
       });
 
-      // Add extra staff members (skip the author, already added as ORGANIZER)
+      // Add extra staff members (skip the author, already added with full access)
       if (initialStaff && initialStaff.length > 0) {
         for (const s of initialStaff) {
           if (s.userId !== authorId) {
@@ -176,7 +185,8 @@ export class LeaguesService {
               data: {
                 eventId: event.id,
                 userId: s.userId,
-                role: (s.role ?? 'MODERATOR') as never,
+                capabilities: s.capabilities ?? [],
+                isFullAccess: s.isFullAccess ?? false,
               },
             });
           }

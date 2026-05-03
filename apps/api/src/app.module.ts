@@ -16,6 +16,7 @@ import { LeaguesModule } from './modules/leagues/leagues.module';
 import { EventEntriesModule } from './modules/event-entries/event-entries.module';
 import { MatchesModule } from './modules/matches/matches.module';
 import { EventStaffModule } from './modules/event-staff/event-staff.module';
+import { GameStaffModule } from './modules/game-staff/game-staff.module';
 import { parseEnv } from './env';
 import { CommonModule } from './common/common.module';
 import { pinoLoggerConfig } from './common/configs/pino-logger.config';
@@ -55,6 +56,7 @@ import { AppController } from './app.controller';
     EventEntriesModule,
     MatchesModule,
     EventStaffModule,
+    GameStaffModule,
   ],
 })
 export class AppModule {}

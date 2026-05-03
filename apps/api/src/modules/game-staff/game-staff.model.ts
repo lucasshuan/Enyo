@@ -2,12 +2,12 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { User } from '../auth/user.model';
 
 @ObjectType()
-export class EventStaff {
+export class GameStaff {
   @Field(() => ID)
   id!: string;
 
   @Field()
-  eventId!: string;
+  gameId!: string;
 
   @Field()
   userId!: string;

@@ -60,12 +60,57 @@ export type MatchFormat = (typeof MATCH_FORMATS)[number];
 export const PARTICIPATION_MODES = ["SOLO", "TEAM"] as const;
 export type ParticipationMode = (typeof PARTICIPATION_MODES)[number];
 
-export const EVENT_STAFF_ROLES = [
-  "ORGANIZER",
-  "MODERATOR",
-  "SCOREKEEPER",
+/**
+ * Granular capabilities a staff member can hold for an event.
+ *
+ * Staff with `isFullAccess` bypass these checks entirely (treated as owners).
+ * Otherwise, each capability gates a specific surface:
+ * - MANAGE_DETAILS: edit event metadata, descriptions, dates, official links
+ * - MANAGE_PARTICIPANTS: manage entries, registrations, claims, approvals
+ * - MANAGE_MATCHES: schedule, edit and record outcomes of matches
+ * - MANAGE_STAFF: add/remove staff and edit their capabilities
+ */
+export const EVENT_STAFF_CAPABILITIES = [
+  "MANAGE_DETAILS",
+  "MANAGE_PARTICIPANTS",
+  "MANAGE_MATCHES",
+  "MANAGE_STAFF",
 ] as const;
-export type EventStaffRole = (typeof EVENT_STAFF_ROLES)[number];
+export type EventStaffCapability = (typeof EVENT_STAFF_CAPABILITIES)[number];
+
+export function hasEventStaffCapability(
+  staff: { capabilities: readonly string[]; isFullAccess: boolean } | null | undefined,
+  capability: EventStaffCapability,
+): boolean {
+  if (!staff) return false;
+  if (staff.isFullAccess) return true;
+  return staff.capabilities.includes(capability);
+}
+
+/**
+ * Granular capabilities a staff member can hold for a game.
+ *
+ * Staff with `isFullAccess` bypass these checks entirely (treated as owners).
+ * Otherwise, each capability gates a specific surface:
+ * - MANAGE_DETAILS: edit game metadata, descriptions, images, links
+ * - MANAGE_EVENTS: moderate events created under the game
+ * - MANAGE_STAFF: add/remove staff and edit their capabilities
+ */
+export const GAME_STAFF_CAPABILITIES = [
+  "MANAGE_DETAILS",
+  "MANAGE_EVENTS",
+  "MANAGE_STAFF",
+] as const;
+export type GameStaffCapability = (typeof GAME_STAFF_CAPABILITIES)[number];
+
+export function hasGameStaffCapability(
+  staff: { capabilities: readonly string[]; isFullAccess: boolean } | null | undefined,
+  capability: GameStaffCapability,
+): boolean {
+  if (!staff) return false;
+  if (staff.isFullAccess) return true;
+  return staff.capabilities.includes(capability);
+}
 
 export const CLAIM_INITIATORS = ["STAFF", "USER"] as const;
 export type ClaimInitiator = (typeof CLAIM_INITIATORS)[number];

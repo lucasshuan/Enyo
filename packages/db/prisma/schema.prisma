@@ -83,12 +83,6 @@ enum PermissionKey {
   manage_users
 }
 
-enum EventStaffRole {
-  ORGANIZER
-  MODERATOR
-  SCOREKEEPER
-}
-
 enum ClaimInitiator {
   STAFF
   USER
@@ -133,6 +127,7 @@ model User {
   eventEntries         EventEntry[]         @relation("ConfirmedEntry")
   teamMemberships      TeamMember[]         @relation("ConfirmedMember")
   staffRoles           EventStaff[]
+  gameStaffRoles       GameStaff[]
   entryClaims          EntryClaim[]         @relation("ClaimRequester")
   claimsReviewed       EntryClaim[]         @relation("ClaimReviewer")
   memberClaims         TeamMemberClaim[]    @relation("MemberClaimRequester")
@@ -218,6 +213,7 @@ model Game {
 
   author User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
   events Event[]
+  staff  GameStaff[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -483,8 +479,28 @@ model TeamMemberClaim {
   @@map("team_member_claims")
 }
 
+// Staff and moderators of a game (admins of the game space).
+// Independent of event staff. Granular capabilities mirror GAME_STAFF_CAPABILITIES
+// in @bellona/core. When isFullAccess=true the capabilities list is ignored.
+model GameStaff {
+  id     String @id @default(cuid())
+  gameId String @map("game_id")
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  capabilities String[] @default([])
+  isFullAccess Boolean  @default(false) @map("is_full_access")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([gameId, userId])
+  @@map("game_staff")
+}
+
 // Staff and moderators of an event
-// The event author is automatically inserted as ORGANIZER on creation
+// The event author is automatically inserted with isFullAccess=true on creation
 model EventStaff {
   id      String @id @default(cuid())
   eventId String @map("event_id")
@@ -492,7 +508,10 @@ model EventStaff {
   userId  String @map("user_id")
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  role EventStaffRole @default(MODERATOR)
+  // Granular capability keys (see EVENT_STAFF_CAPABILITIES in @bellona/core).
+  // Ignored when isFullAccess is true (user has every capability).
+  capabilities  String[] @default([])
+  isFullAccess  Boolean  @default(false) @map("is_full_access")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

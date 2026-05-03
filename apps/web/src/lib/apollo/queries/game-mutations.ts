@@ -47,3 +47,20 @@ export const DELETE_GAME = gql`
     }
   }
 `;
+
+export const SET_GAME_STAFF = gql`
+  mutation SetGameStaff($gameId: ID!, $members: [GameStaffMemberInput!]!) {
+    setGameStaff(gameId: $gameId, members: $members) {
+      id
+      userId
+      capabilities
+      isFullAccess
+      user {
+        id
+        name
+        username
+        imagePath
+      }
+    }
+  }
+`;

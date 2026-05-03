@@ -48,6 +48,23 @@ export const GET_GAME = gql`
     }
   }
 `;
+
+export const GET_GAME_STAFF = gql`
+  query GetGameStaff($gameId: ID!) {
+    gameStaff(gameId: $gameId) {
+      id
+      userId
+      capabilities
+      isFullAccess
+      user {
+        id
+        name
+        username
+        imagePath
+      }
+    }
+  }
+`;
 export const GET_GAME_ACTIONS = gql`
   query GetGameActions($slug: String!) {
     game(slug: $slug) {

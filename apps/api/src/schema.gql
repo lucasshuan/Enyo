@@ -72,7 +72,8 @@ type EventStaff {
   id: ID!
   eventId: String!
   userId: String!
-  role: String!
+  capabilities: [String!]!
+  isFullAccess: Boolean!
   createdAt: DateTime!
   user: User
 }
@@ -192,6 +193,16 @@ type Match {
   attachments: [MatchAttachment!]
 }
 
+type GameStaff {
+  id: ID!
+  gameId: String!
+  userId: String!
+  capabilities: [String!]!
+  isFullAccess: Boolean!
+  createdAt: DateTime!
+  user: User
+}
+
 """JSON custom scalar type"""
 scalar JSON
 
@@ -211,6 +222,7 @@ type Query {
   eventMatches(eventId: ID!): [Match!]!
   match(id: ID!): Match
   eventStaff(eventId: ID!): [EventStaff!]!
+  gameStaff(gameId: ID!): [GameStaff!]!
 }
 
 input PaginationInput {
@@ -235,8 +247,10 @@ type Mutation {
   createMatch(input: CreateMatchInput!): Match!
   updateMatch(id: ID!, input: UpdateMatchInput!): Match!
   recordMatchOutcome(input: RecordOutcomeInput!): Match!
-  addEventStaff(input: AddEventStaffInput!): EventStaff!
+  upsertEventStaff(input: AddEventStaffInput!): EventStaff!
   removeEventStaff(eventId: ID!, userId: ID!): EventStaff!
+  setGameStaff(gameId: ID!, members: [GameStaffMemberInput!]!): [GameStaff!]!
+  removeGameStaff(gameId: ID!, userId: ID!): GameStaff!
 }
 
 input CreateGameInput {
@@ -301,7 +315,8 @@ input CreateLeagueConfigInput {
 
 input InitialStaffInput {
   userId: String!
-  role: String
+  capabilities: [String!]
+  isFullAccess: Boolean
 }
 
 input InitialEntryInput {
@@ -395,5 +410,12 @@ input RecordOutcomeInput {
 input AddEventStaffInput {
   eventId: String!
   userId: String!
-  role: String
+  capabilities: [String!]
+  isFullAccess: Boolean
+}
+
+input GameStaffMemberInput {
+  userId: String!
+  capabilities: [String!]
+  isFullAccess: Boolean
 }
