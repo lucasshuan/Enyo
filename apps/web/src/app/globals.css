@@ -456,6 +456,7 @@ button:disabled {
   inset: 0;
   border: 1px solid var(--gold-dim);
   border-radius: inherit;
+  corner-shape: squircle;
   pointer-events: none;
   z-index: 10;
   transition: border-color 0.2s ease;

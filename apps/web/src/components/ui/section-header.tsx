@@ -32,7 +32,7 @@ export function SectionHeader({
             <div className="bg-primary h-px w-8 shrink-0 rounded-full" />
           </div>
           {description && (
-            <p className="text-muted/45 mt-0.5 max-w-3xl text-xs leading-relaxed">
+            <p className="text-muted/45 mt-0.5 max-w-3xl text-sm leading-relaxed">
               {description}
             </p>
           )}
