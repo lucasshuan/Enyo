@@ -98,7 +98,7 @@ export function EloMatchSimulator({
   }
 
   const expected = computeExpected(eloA, eloB);
-  const delta = !isNaN(sA) ? Math.round(k * (sA - expected)) : null;
+  const delta = !isNaN(sA) ? k * (sA - expected) : null;
   const matchLabelKey = getMatchLabel(scoreA, scoreB);
 
   const sColor = isNaN(sA)
@@ -220,7 +220,7 @@ export function EloMatchSimulator({
                   deltaColor,
                 )}
               >
-                {delta === null ? "—" : delta >= 0 ? `+${delta}` : `${delta}`}
+                {delta === null ? "—" : delta >= 0 ? `+${delta.toFixed(2)}` : delta.toFixed(2)}
               </span>
               <span className="text-secondary/35 text-[9px]">{t("pts")}</span>
             </div>
@@ -261,7 +261,7 @@ function SimInput({ value, onChange, accent, wide }: SimInputProps) {
         const raw = e.target.value;
         setDisplay(raw);
         const v = parseFloat(raw);
-        if (!isNaN(v) && v >= 0) onChange(Math.floor(v));
+        if (!isNaN(v) && v >= 0) onChange(v);
       }}
       className={cn(
         "border-gold-dim/35 rounded-lg border bg-white/6 py-1 text-center",

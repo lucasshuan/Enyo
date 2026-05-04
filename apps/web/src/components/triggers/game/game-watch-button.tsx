@@ -34,6 +34,7 @@ export function GameWatchButton({
     boolean | null
   >(null);
   const [ringKey, setRingKey] = useState(0);
+  const [localCount, setLocalCount] = useState<number | null>(null);
 
   const { data: followData } = useQuery(IsFollowingGameDocument, {
     variables: { gameId },
@@ -50,9 +51,8 @@ export function GameWatchButton({
   const isFollowing = optimisticFollowing ?? serverFollowing ?? false;
 
   // Use fresh count from network; fall back to prop while loading
-  const liveCount = countData?.gameFollowCount ?? followCount;
-  const [optimisticCountDelta, setOptimisticCountDelta] = useState(0);
-  const displayCount = liveCount + optimisticCountDelta;
+  const serverCount = countData?.gameFollowCount;
+  const displayCount = localCount ?? serverCount ?? followCount;
 
   const [toggleFollow, { loading }] = useMutation(ToggleGameFollowDocument);
 
@@ -63,21 +63,14 @@ export function GameWatchButton({
 
     const nextState = !isFollowing;
     setOptimisticFollowing(nextState);
-    setOptimisticCountDelta((d) => d + (nextState ? 1 : -1));
+    setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? 1 : -1));
     setRingKey((k) => k + 1);
 
     try {
-      await toggleFollow({
-        variables: { gameId },
-        refetchQueries: [
-          { query: GameFollowCountDocument, variables: { gameId } },
-        ],
-      });
-      // After refetch resolves, liveCount is fresh — clear the delta
-      setOptimisticCountDelta(0);
+      await toggleFollow({ variables: { gameId } });
     } catch {
       setOptimisticFollowing(!nextState);
-      setOptimisticCountDelta((d) => d + (nextState ? -1 : 1));
+      setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? -1 : 1));
     }
   };
 

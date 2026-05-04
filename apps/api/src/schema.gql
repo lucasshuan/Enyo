@@ -80,47 +80,6 @@ type EventStaff {
   user: User
 }
 
-type Event {
-  id: ID!
-  type: String!
-  participationMode: String!
-  name: String!
-  slug: String!
-  description: String
-  about: String
-  thumbnailImagePath: String
-  status: String!
-  visibility: String!
-  isApproved: Boolean!
-  startDate: DateTime
-  endDate: DateTime
-  registrationsEnabled: Boolean!
-  registrationStartDate: DateTime
-  registrationEndDate: DateTime
-  maxParticipants: Float
-  requiresApproval: Boolean!
-  waitlistEnabled: Boolean!
-  officialLinks: JSON
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  league: League
-  staff: [EventStaff!]
-  followCount: Float!
-  game: Game!
-}
-
-type PaginatedUsers {
-  nodes: [User!]!
-  totalCount: Int!
-  hasNextPage: Boolean!
-}
-
-type PaginatedLeagues {
-  nodes: [League!]!
-  totalCount: Int!
-  hasNextPage: Boolean!
-}
-
 type TeamMember {
   id: ID!
   entryId: String!
@@ -155,6 +114,49 @@ type EventEntry {
   user: User
   members: [TeamMember!]
   claims: [EntryClaim!]
+}
+
+type Event {
+  id: ID!
+  type: String!
+  participationMode: String!
+  name: String!
+  slug: String!
+  description: String
+  about: String
+  thumbnailImagePath: String
+  status: String!
+  visibility: String!
+  isApproved: Boolean!
+  startDate: DateTime
+  endDate: DateTime
+  registrationsEnabled: Boolean!
+  registrationStartDate: DateTime
+  registrationEndDate: DateTime
+  maxParticipants: Float
+  requiresApproval: Boolean!
+  waitlistEnabled: Boolean!
+  officialLinks: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  league: League
+  staff: [EventStaff!]
+  topEntries: [EventEntry!]
+  followCount: Float!
+  entriesCount: Float!
+  game: Game!
+}
+
+type PaginatedUsers {
+  nodes: [User!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+type PaginatedLeagues {
+  nodes: [League!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
 }
 
 type PaginatedEventEntries {

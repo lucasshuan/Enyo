@@ -34,6 +34,17 @@ export const GET_LEAGUES = gql`
             thumbnailImagePath
           }
           followCount
+          entriesCount
+          topEntries {
+            id
+            displayName
+            imagePath
+            stats
+            user {
+              imagePath
+              country
+            }
+          }
         }
       }
       totalCount
@@ -73,6 +84,7 @@ export const GET_LEAGUE = gql`
         thumbnailImagePath
         createdAt
         updatedAt
+        followCount
         game {
           id
           name
@@ -81,6 +93,32 @@ export const GET_LEAGUE = gql`
           status
         }
       }
+    }
+  }
+`;
+
+export const GET_EVENT_ENTRIES = gql`
+  query GetEventEntries($eventId: ID!, $take: Int, $skip: Int) {
+    eventEntries(
+      eventId: $eventId
+      pagination: { take: $take, skip: $skip }
+    ) {
+      nodes {
+        id
+        displayName
+        imagePath
+        entryStatus
+        stats
+        user {
+          id
+          name
+          username
+          imagePath
+          country
+        }
+      }
+      totalCount
+      hasNextPage
     }
   }
 `;

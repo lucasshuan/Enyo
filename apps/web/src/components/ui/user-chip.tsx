@@ -23,11 +23,11 @@ export function UserChip({ user, className }: UserChipProps) {
     <Link
       href={profileHref}
       className={cn(
-        "group inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 p-1 pr-3 transition-all hover:translate-y-0 hover:border-white/10 hover:bg-white/10",
+        "group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-card px-2 py-1 transition-all hover:border-gold/40 hover:bg-card-strong",
         className,
       )}
     >
-      <div className="relative size-6 overflow-hidden rounded-full bg-white/10">
+      <div className="relative size-5 shrink-0 overflow-hidden rounded-md bg-white/10">
         {user.imagePath ? (
           <Image
             src={cdnUrl(user.imagePath)!}
@@ -36,12 +36,12 @@ export function UserChip({ user, className }: UserChipProps) {
             className="object-cover transition-transform group-hover:scale-110"
           />
         ) : (
-          <div className="flex size-full items-center justify-center text-[10px] font-bold text-white/40">
+          <div className="flex size-full items-center justify-center text-[9px] font-bold text-white/50">
             {displayName.slice(0, 2).toUpperCase()}
           </div>
         )}
       </div>
-      <span className="text-sm font-medium text-white/80 transition-colors group-hover:text-white">
+      <span className="text-sm font-medium text-white/75 transition-colors group-hover:text-white">
         {displayName}
       </span>
     </Link>

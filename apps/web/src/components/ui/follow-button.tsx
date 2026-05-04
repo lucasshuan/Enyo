@@ -35,7 +35,7 @@ export function FollowButton({
   const [optimisticFollowing, setOptimisticFollowing] = useState<
     boolean | null
   >(null);
-  const [optimisticCountDelta, setOptimisticCountDelta] = useState(0);
+  const [localCount, setLocalCount] = useState<number | null>(null);
 
   const { data: followGameData } = useQuery(IsFollowingGameDocument, {
     variables: { gameId: targetId },
@@ -68,12 +68,12 @@ export function FollowButton({
 
   const isFollowing = optimisticFollowing ?? serverFollowing ?? false;
 
-  const liveCount =
+  const serverCount =
     targetType === "GAME"
-      ? (gameCountData?.gameFollowCount ?? followCount)
-      : (eventCountData?.eventFollowCount ?? followCount);
+      ? gameCountData?.gameFollowCount
+      : eventCountData?.eventFollowCount;
 
-  const displayCount = liveCount + optimisticCountDelta;
+  const displayCount = localCount ?? serverCount ?? followCount;
 
   const [toggleGameFollow, { loading: gameLoading }] = useMutation(
     ToggleGameFollowDocument,
@@ -91,24 +91,18 @@ export function FollowButton({
 
     const nextState = !isFollowing;
     setOptimisticFollowing(nextState);
-    setOptimisticCountDelta((d) => d + (nextState ? 1 : -1));
-
-    const refetchQuery =
-      targetType === "GAME"
-        ? { query: GameFollowCountDocument, variables: { gameId: targetId } }
-        : { query: EventFollowCountDocument, variables: { eventId: targetId } };
+    setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? 1 : -1));
 
     try {
       if (targetType === "GAME") {
-        await toggleGameFollow({ variables: { gameId: targetId }, refetchQueries: [refetchQuery] });
+        await toggleGameFollow({ variables: { gameId: targetId } });
       } else {
-        await toggleEventFollow({ variables: { eventId: targetId }, refetchQueries: [refetchQuery] });
+        await toggleEventFollow({ variables: { eventId: targetId } });
       }
-      setOptimisticCountDelta(0);
     } catch {
       // revert
       setOptimisticFollowing(!nextState);
-      setOptimisticCountDelta((d) => d + (nextState ? -1 : 1));
+      setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? -1 : 1));
     }
   };
 

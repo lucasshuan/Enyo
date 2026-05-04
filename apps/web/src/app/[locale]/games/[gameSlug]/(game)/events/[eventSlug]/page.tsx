@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { getServerAuthSession } from "@/auth";
 import { canManageLeagues } from "@/lib/server/permissions";
 import { GET_EVENT_META } from "@/lib/apollo/queries/events";
-import { GET_LEAGUE } from "@/lib/apollo/queries/leagues";
+import { GET_LEAGUE, GET_EVENT_ENTRIES } from "@/lib/apollo/queries/leagues";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
-import { type GetLeagueQuery } from "@/lib/apollo/generated/graphql";
+import { type GetLeagueQuery, type GetEventEntriesQuery } from "@/lib/apollo/generated/graphql";
+import { EloLeagueTemplate } from "@/components/templates/events/league/elo-league-template";
 
 interface EventPageProps {
   params: Promise<{
@@ -55,13 +56,36 @@ async function EventPageContent({
 
     if (!data?.league) notFound();
 
+    const league = data.league;
+    const eventId = league.event?.id;
+
+    const entriesData = eventId
+      ? await safeServerQuery<GetEventEntriesQuery>({
+          query: GET_EVENT_ENTRIES,
+          variables: { eventId, take: 1000, skip: 0 },
+        })
+      : null;
+
+    const entries = entriesData?.eventEntries ?? {
+      nodes: [],
+      totalCount: 0,
+      hasNextPage: false,
+    };
+
+    // Check if current user is already registered
+    const userId = session?.user?.id;
+    const isRegistered = userId
+      ? entries.nodes.some((e) => e.user?.id === userId)
+      : false;
+
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center p-12 text-center">
-        <h1 className="text-3xl font-bold">{data.league.event?.name}</h1>
-        <p className="text-muted mt-4">
-          League details — {data.league.classificationSystem}
-        </p>
-      </div>
+      <EloLeagueTemplate
+        league={league}
+        entries={entries}
+        session={session}
+        isEditor={isEditor}
+        isRegistered={isRegistered}
+      />
     );
   }
 

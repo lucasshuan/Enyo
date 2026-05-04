@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { League } from '../leagues/league.model';
 import { EventStaff } from '../event-staff/event-staff.model';
+import { EventEntry } from '../event-entries/event-entry.model';
 
 @ObjectType()
 export class Event {
@@ -76,9 +77,15 @@ export class Event {
   @Field(() => [EventStaff], { nullable: true })
   staff?: EventStaff[];
 
+  @Field(() => [EventEntry], { nullable: true })
+  topEntries?: EventEntry[];
+
   // Not exposed as a GraphQL field — used by EventsResolver.getGame(@Parent())
   gameId: string;
 
   @Field(() => Number)
   followCount: number;
+
+  @Field(() => Number)
+  entriesCount: number;
 }

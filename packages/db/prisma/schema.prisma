@@ -39,7 +39,7 @@ enum MatchOutcome {
 }
 
 enum EventStatus {
-  PENDING
+  DRAFT
   REGISTRATION
   ACTIVE
   FINISHED
@@ -234,7 +234,7 @@ model Event {
 
   type              EventType
   participationMode ParticipationMode @default(SOLO) @map("participation_mode")
-  status            EventStatus       @default(PENDING)
+  status            EventStatus       @default(DRAFT)
   visibility        EventVisibility   @default(PUBLIC)
 
   name                String
@@ -252,7 +252,6 @@ model Event {
   requiresApproval      Boolean   @default(false) @map("requires_approval")
   waitlistEnabled       Boolean   @default(false) @map("waitlist_enabled")
   officialLinks         Json?     @map("official_links")
-  approvedAt            DateTime? @map("approved_at")
 
   authorId String? @map("author_id")
   author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
@@ -326,7 +325,7 @@ model TournamentPhase {
   order  Int         // position in sequence (1, 2, 3…)
   name   String
   type   PhaseType
-  status EventStatus @default(PENDING)
+  status EventStatus @default(DRAFT)
 
   // Phase config as JSON — shape depends on type
   // ROUND_ROBIN / ELO_RATING: same keys as League.config

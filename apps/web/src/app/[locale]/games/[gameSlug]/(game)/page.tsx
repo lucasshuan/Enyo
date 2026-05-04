@@ -130,6 +130,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
           gameId={game.id}
           followCount={game.followCount ?? 0}
         />
+        <hr className="border-border/50" />
         <section className="space-y-6">
           <SectionHeader
             title={t("eventsTitle")}

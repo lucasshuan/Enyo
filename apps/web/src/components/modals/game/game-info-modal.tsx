@@ -78,6 +78,7 @@ export function GameInfoModal({ isOpen, onClose, game }: GameInfoModalProps) {
     <InfoModal
       isOpen={isOpen}
       onClose={onClose}
+      className="sm:max-w-3xl lg:max-w-4xl"
       title={game.name}
       subtitle={game.slug}
       heroImageSrc={

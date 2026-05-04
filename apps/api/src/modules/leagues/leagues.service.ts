@@ -48,13 +48,42 @@ export class LeaguesService {
       authorId: string | null;
       createdAt: Date;
       updatedAt: Date;
+      _count?: { entries: number };
+      entries?: Array<{
+        id: string;
+        displayName: string;
+        imagePath: string | null;
+        userId: string | null;
+        entryStatus: string;
+        stats: Prisma.JsonValue;
+        createdAt: Date;
+        user?: { imagePath: string | null; country: string | null } | null;
+      }>;
     };
   }) {
+    const { entries, ...restEvent } = league.event;
     return {
       ...league,
       event: {
-        ...league.event,
+        ...restEvent,
         isApproved: !!league.event.approvedAt,
+        entriesCount: league.event._count?.entries ?? 0,
+        topEntries: (entries ?? [])
+          .slice()
+          .sort((a, b) => {
+            const getScore = (s: Prisma.JsonValue) => {
+              if (!s || typeof s !== 'object' || Array.isArray(s)) return 0;
+              const r = s as Record<string, unknown>;
+              return Number(r.elo ?? r.currentElo ?? r.points ?? 0);
+            };
+            return getScore(b.stats) - getScore(a.stats);
+          })
+          .slice(0, 5)
+          .map((e) => ({
+            ...e,
+            eventId: league.eventId,
+            stats: e.stats ?? {},
+          })),
       },
     };
   }
@@ -103,7 +132,20 @@ export class LeaguesService {
     const [leagues, totalCount] = await Promise.all([
       this.db.league.findMany({
         where,
-        include: { event: true },
+        include: {
+          event: {
+            include: {
+              _count: { select: { entries: true } },
+              entries: {
+                where: { entryStatus: 'CONFIRMED' },
+                take: 50,
+                include: {
+                  user: { select: { imagePath: true, country: true } },
+                },
+              },
+            },
+          },
+        },
         orderBy: { event: { createdAt: 'desc' } },
         skip,
         take,

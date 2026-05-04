@@ -177,6 +177,7 @@
   },
   "League": {
     "playersCount": "jogadores",
+    "players": "{count, plural, one {# jogador} other {# jogadores}}",
     "elo": "Pontos",
     "noPlayers": "Este evento ainda não tem jogadores.",
     "clickToViewFullLeague": "Clique para ver a liga completa",
@@ -203,6 +204,31 @@
     "loginToRegister": "Faça login para participar",
     "alreadyRegistered": "Já registrado",
     "noDescription": "Sem descrição."
+  },
+  "EventPage": {
+    "eyebrow": "Evento",
+    "watchEvent": "Acompanhar Evento",
+    "watching": "Acompanhando",
+    "watchersTooltip": "{count} acompanhando",
+    "share": "Compartilhe",
+    "copied": "Copiado!",
+    "aboutTitle": "Sobre",
+    "leaderboardTitle": "Classificação",
+    "leaderboardDescription": "Ranking atualizado em tempo real com base nos resultados das partidas.",
+    "viewFullLeaderboard": "Ver todos",
+    "participant": "participante",
+    "participants": "participantes",
+    "register": "Registrar-se",
+    "alreadyRegistered": "Você já está inscrito",
+    "alreadyRegisteredHint": "Boa sorte no evento!",
+    "loginToRegister": "Faça login para participar",
+    "loginToRegisterHint": "Você precisa estar logado para se inscrever.",
+    "registrationsClosed": "Inscrições encerradas",
+    "eventFull": "Evento lotado"
+  },
+  "LeaderboardPage": {
+    "title": "Classificação Completa",
+    "backToEvent": "Voltar ao evento"
   },
   "SiteFooter": {
     "copyright": "Bellona © 2026"
@@ -269,6 +295,18 @@
       "submitting": "Salvando...",
       "cancel": "Cancelar",
       "success": "Perfil atualizado com sucesso!"
+    },
+    "EventRegistration": {
+      "title": "Participar do Evento",
+      "description": "Escolha o nome com que você vai aparecer na classificação.",
+      "displayNameLabel": "Nome no evento",
+      "displayNamePlaceholder": "Seu nome de jogador...",
+      "displayNameHint": "Este nome aparecerá na tabela de classificação.",
+      "submit": "Confirmar Inscrição",
+      "submitting": "Registrando...",
+      "cancel": "Cancelar",
+      "successToast": "Inscrição realizada com sucesso!",
+      "errorToast": "Erro ao se inscrever. Tente novamente."
     },
     "RegisterConfirm": {
       "title": "Confirmar Inscrição",

@@ -96,6 +96,7 @@
     "leagueType": "League",
     "tournamentType": "Tournament",
     "noPlayers": "No players yet.",
+    "players": "{count, plural, one {# player} other {# players}}",
     "searchPlaceholder": "Search events...",
     "sortRecent": "Most Recent",
     "sortAlphabetical": "Alphabetical (A-Z)",
@@ -204,6 +205,31 @@
     "alreadyRegistered": "Already registered",
     "noDescription": "No description."
   },
+  "EventPage": {
+    "eyebrow": "Event",
+    "watchEvent": "Follow Event",
+    "watching": "Following",
+    "watchersTooltip": "{count} following",
+    "share": "Share",
+    "copied": "Copied!",
+    "aboutTitle": "About",
+    "leaderboardTitle": "Leaderboard",
+    "leaderboardDescription": "Real-time ranking updated based on match results.",
+    "viewFullLeaderboard": "View all",
+    "participant": "participant",
+    "participants": "participants",
+    "register": "Register",
+    "alreadyRegistered": "You're already registered",
+    "alreadyRegisteredHint": "Good luck in the event!",
+    "loginToRegister": "Log in to join",
+    "loginToRegisterHint": "You need to be logged in to register.",
+    "registrationsClosed": "Registrations closed",
+    "eventFull": "Event is full"
+  },
+  "LeaderboardPage": {
+    "title": "Full Leaderboard",
+    "backToEvent": "Back to event"
+  },
   "SiteFooter": {
     "copyright": "Bellona © 2026"
   },
@@ -269,6 +295,18 @@
       "submitting": "Saving...",
       "cancel": "Cancel",
       "success": "Profile updated successfully!"
+    },
+    "EventRegistration": {
+      "title": "Join Event",
+      "description": "Choose the name that will appear in the leaderboard.",
+      "displayNameLabel": "Display name",
+      "displayNamePlaceholder": "Your player name...",
+      "displayNameHint": "This name will appear in the leaderboard.",
+      "submit": "Confirm Registration",
+      "submitting": "Registering...",
+      "cancel": "Cancel",
+      "successToast": "Registered successfully!",
+      "errorToast": "Error registering. Please try again."
     },
     "RegisterConfirm": {
       "title": "Confirm Registration",
