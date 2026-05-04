@@ -7,6 +7,9 @@ import { Save, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MultiStepFormLayout } from "@/components/ui/multi-step-form-layout";
 import { EditEventForm } from "@/components/forms/events/edit-event-form";
+import { useUser } from "@/components/providers";
+import type { EventStaffDraft } from "@/components/forms/events/fieldsets/staff-fieldset";
+import type { ParticipantEntry } from "@/components/forms/events/fieldsets/participants-fieldset";
 
 type LeagueForEdit = {
   eventId: string;
@@ -16,6 +19,8 @@ type LeagueForEdit = {
   description?: string | null;
   about?: string | null;
   thumbnailImagePath?: string | null;
+  type: "LEAGUE" | "TOURNAMENT";
+  participationMode: "SOLO" | "TEAM";
   classificationSystem: "ELO" | "POINTS";
   allowDraw: boolean;
   config: Record<string, unknown>;
@@ -54,17 +59,35 @@ export function EditEventTemplate({
 }: EditEventTemplateProps) {
   const t = useTranslations("Modals.EditEvent");
   const router = useRouter();
+  const { user } = useUser();
 
   const [isPending, setIsPending] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [isStepValid, setIsStepValid] = useState(true);
+  const [participants, setParticipants] = useState<ParticipantEntry[]>([]);
+  const [staffMembers, setStaffMembers] = useState<EventStaffDraft[]>(() =>
+    user
+      ? [
+          {
+            userId: user.id,
+            name: user.name ?? user.username,
+            username: user.username,
+            imagePath: user.imagePath,
+            capabilities: [],
+            isFullAccess: true,
+          },
+        ]
+      : [],
+  );
 
   const steps = [
     { label: t("steps.game") },
+    { label: t("steps.structure") },
     { label: t("steps.format") },
-    { label: t("steps.general") },
+    { label: t("steps.details") },
     { label: t("steps.access") },
-    { label: t("steps.matchFormats") },
+    { label: t("steps.participants") },
+    { label: t("steps.staff") },
   ];
 
   const handleSuccess = () => {
@@ -105,6 +128,11 @@ export function EditEventTemplate({
           onStepValidationChange={setIsStepValid}
           currentStep={currentStep}
           formId={FORM_ID}
+          participants={participants}
+          onParticipantsChange={setParticipants}
+          currentUserId={user?.id}
+          staffMembers={staffMembers}
+          onStaffChange={setStaffMembers}
         />
       )}
     </MultiStepFormLayout>

@@ -83,20 +83,14 @@ export function GameCard({
           )}
         </div>
 
-        <div className="mb-4 flex items-start justify-between gap-4">
+        <div className="mb-4 flex items-start gap-4">
           <p className="text-muted line-clamp-2 flex-1 text-xs leading-4">
             {game.description ?? fallbackDescription}
           </p>
-          <div className="flex h-5 items-center">
-            <ChevronRight className={cn(
-              "text-gold/80 size-5 shrink-0 transition-all duration-200",
-              !isFollowHovered && "group-hover:translate-x-1 group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
-            )} />
-          </div>
         </div>
 
         <div
-          className="pointer-events-auto self-start"
+          className="pointer-events-auto flex items-center justify-between"
           onMouseEnter={() => setIsFollowHovered(true)}
           onMouseLeave={() => setIsFollowHovered(false)}
         >
@@ -105,6 +99,10 @@ export function GameCard({
             targetType="GAME"
             followCount={game.followCount}
           />
+          <ChevronRight className={cn(
+            "text-gold/80 size-5 shrink-0 transition-all duration-200",
+            !isFollowHovered && "group-hover:translate-x-1 group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
+          )} />
         </div>
       </div>
     </div>

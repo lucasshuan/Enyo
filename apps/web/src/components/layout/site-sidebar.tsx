@@ -7,8 +7,8 @@ import Image from "next/image";
 import {
   LayoutDashboard,
   Gamepad2,
-  Trophy,
-  BarChart3,
+  Table,
+  ListOrdered,
   User,
   Users,
   History,
@@ -467,7 +467,6 @@ function SidebarBody({
 
   const t = useTranslations("Sidebar");
   const tUser = useTranslations("Sidebar.userMenu");
-  const pathname = usePathname();
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const effective = isMobile ? false : collapsed;
@@ -520,11 +519,11 @@ function SidebarBody({
         titleKey: "discover",
         items: [
           { href: "/games", labelKey: "games", icon: Gamepad2 },
-          { href: "/events", labelKey: "events", icon: Trophy },
+          { href: "/leagues", labelKey: "leagues", icon: Table },
           {
             href: "/leaderboards",
             labelKey: "leaderboards",
-            icon: BarChart3,
+            icon: ListOrdered,
             soon: true,
           },
         ],

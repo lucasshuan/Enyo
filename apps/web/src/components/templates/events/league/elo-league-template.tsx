@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChevronLeft, Trophy, Lock, Globe } from "lucide-react";
+import { ChevronLeft, Trophy } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Route } from "next";
@@ -126,13 +126,13 @@ export async function EloLeagueTemplate({
             className="rounded-3xl"
             borderClassName="bg-[color-mix(in_srgb,var(--gold)_45%,transparent)]"
           >
-            <div className="relative space-y-0">
-              {/* Event thumbnail */}
-              {event.thumbnailImagePath && (
-                <div
-                  className="relative w-full overflow-hidden rounded-t-3xl"
-                  style={{ aspectRatio: "92/43" }}
-                >
+            <div className="space-y-0">
+              {/* Thumbnail — always shown, gradient fallback when no image */}
+              <div
+                className="relative w-full overflow-hidden rounded-t-3xl"
+                style={{ aspectRatio: "368/178" }}
+              >
+                {event.thumbnailImagePath ? (
                   <Image
                     src={cdnUrl(event.thumbnailImagePath)!}
                     alt={event.name}
@@ -140,12 +140,13 @@ export async function EloLeagueTemplate({
                     className="object-cover"
                     sizes="320px"
                   />
-                </div>
-              )}
+                ) : (
+                  <div className="from-primary/20 to-primary/5 h-full w-full bg-linear-to-br" />
+                )}
 
-              <div className="relative p-5">
+                {/* Manage actions — over the thumbnail */}
                 {isEditor && (
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 right-3 z-10">
                     <EventManageActions
                       eventId={event.id}
                       eventName={event.name}
@@ -154,6 +155,9 @@ export async function EloLeagueTemplate({
                     />
                   </div>
                 )}
+              </div>
+
+              <div className="p-5">
                 {/* Title + description */}
                 <div className="mb-4">
                   <div className="mb-2">
@@ -199,26 +203,6 @@ export async function EloLeagueTemplate({
                     </dd>
                   </div>
 
-                  {/* Visibilidade */}
-                  <div className="flex items-center justify-between gap-3">
-                    <dt className="text-muted/60 shrink-0 text-[11px] font-medium">
-                      Visibilidade
-                    </dt>
-                    <dd className="text-foreground/80 inline-flex items-center gap-1 text-right text-[12px] font-medium">
-                      {event.visibility === "PRIVATE" ? (
-                        <>
-                          <Lock className="size-3" />
-                          Privado
-                        </>
-                      ) : (
-                        <>
-                          <Globe className="size-3" />
-                          Público
-                        </>
-                      )}
-                    </dd>
-                  </div>
-
                   {/* Início */}
                   {event.startDate && (
                     <div className="flex items-center justify-between gap-3">
@@ -243,6 +227,38 @@ export async function EloLeagueTemplate({
                     </div>
                   )}
 
+                  {/* Reg. início */}
+                  {event.registrationStartDate && (
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-muted/60 shrink-0 text-[11px] font-medium">
+                        Reg. início
+                      </dt>
+                      <dd className="text-foreground/80 text-right text-[12px] font-medium tabular-nums">
+                        {formatDate(event.registrationStartDate, "pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </dd>
+                    </div>
+                  )}
+
+                  {/* Reg. fim */}
+                  {event.registrationEndDate && (
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-muted/60 shrink-0 text-[11px] font-medium">
+                        Reg. fim
+                      </dt>
+                      <dd className="text-foreground/80 text-right text-[12px] font-medium tabular-nums">
+                        {formatDate(event.registrationEndDate, "pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </dd>
+                    </div>
+                  )}
+
                   {/* Participantes */}
                   <div className="flex items-center justify-between gap-3">
                     <dt className="text-muted/60 shrink-0 text-[11px] font-medium">
@@ -256,6 +272,20 @@ export async function EloLeagueTemplate({
                           / {event.maxParticipants}
                         </span>
                       )}
+                    </dd>
+                  </div>
+
+                  {/* Criado em */}
+                  <div className="flex items-center justify-between gap-3">
+                    <dt className="text-muted/60 shrink-0 text-[11px] font-medium">
+                      Criado em
+                    </dt>
+                    <dd className="text-foreground/80 text-right text-[12px] font-medium tabular-nums">
+                      {formatDate(event.createdAt, "pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
                     </dd>
                   </div>
                 </dl>
@@ -286,7 +316,7 @@ export async function EloLeagueTemplate({
 
         {/* About section */}
         {event.about && (
-          <section className="space-y-4 pt-4">
+          <section className="space-y-4">
             <SectionHeader title={t("aboutTitle")} />
             <div
               className="prose prose-sm text-foreground/80 [&_em]:text-foreground/70 [&_h2]:text-foreground [&_h3]:text-foreground [&_strong]:text-foreground max-w-none [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:pl-5"
@@ -296,7 +326,7 @@ export async function EloLeagueTemplate({
         )}
 
         {/* Leaderboard section */}
-        <section className="space-y-4 pt-4">
+        <section className="space-y-4">
           <SectionHeader
             title={t("leaderboardTitle")}
             description={t("leaderboardDescription")}

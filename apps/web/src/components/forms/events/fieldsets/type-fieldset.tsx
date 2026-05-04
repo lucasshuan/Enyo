@@ -1,6 +1,6 @@
 "use client";
 
-import { Layers, User, Users, Trophy, Swords } from "lucide-react";
+import { Layers, Table, User, Users, Trophy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LabelTooltip } from "@/components/ui/label-tooltip";
 import { MatchFormatsFieldset } from "./match-formats-fieldset";
@@ -11,6 +11,7 @@ interface TypeFieldsetProps {
   onParticipationModeChange: (mode: "SOLO" | "TEAM") => void;
   eventType: "LEAGUE" | "TOURNAMENT" | null;
   onEventTypeChange: (type: "LEAGUE" | "TOURNAMENT") => void;
+  readonly?: boolean;
 }
 
 export function TypeFieldset({
@@ -18,6 +19,7 @@ export function TypeFieldset({
   onParticipationModeChange,
   eventType,
   onEventTypeChange,
+  readonly = false,
 }: TypeFieldsetProps) {
   const t = useTranslations("Modals.AddEvent");
 
@@ -44,16 +46,21 @@ export function TypeFieldset({
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
-              onClick={() => onEventTypeChange("LEAGUE")}
+              onClick={() => !readonly && onEventTypeChange("LEAGUE")}
+              disabled={readonly}
               className={cn(
                 "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
+                readonly && "cursor-default",
                 eventType === "LEAGUE"
                   ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                  : "border-gold-dim/25 bg-card-strong/45 text-secondary/45 hover:bg-card-strong/70",
+                  : "border-gold-dim/25 bg-card-strong/45 text-secondary/45",
+                !readonly &&
+                  eventType !== "LEAGUE" &&
+                  "hover:bg-card-strong/70",
               )}
             >
               <div className="flex items-center gap-2">
-                <Trophy className="size-4" />
+                <Table className="size-4" />
                 <span className="text-sm font-bold">
                   {t("eventType.league")}
                 </span>
@@ -69,7 +76,7 @@ export function TypeFieldset({
             >
               <div className="flex w-full items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <Swords className="text-secondary/45 size-4" />
+                  <Trophy className="text-secondary/45 size-4" />
                   <span className="text-secondary/45 text-sm font-bold">
                     {t("eventType.tournament")}
                   </span>
@@ -91,12 +98,17 @@ export function TypeFieldset({
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
-                onClick={() => onParticipationModeChange("SOLO")}
+                onClick={() => !readonly && onParticipationModeChange("SOLO")}
+                disabled={readonly}
                 className={cn(
                   "flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all",
+                  readonly && "cursor-default",
                   participationMode === "SOLO"
                     ? "border-primary/50 bg-primary/10 text-primary shadow-primary/10 shadow-lg"
-                    : "border-gold-dim/25 bg-card-strong/45 text-secondary/45 hover:bg-card-strong/70",
+                    : "border-gold-dim/25 bg-card-strong/45 text-secondary/45",
+                  !readonly &&
+                    participationMode !== "SOLO" &&
+                    "hover:bg-card-strong/70",
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -133,7 +145,7 @@ export function TypeFieldset({
           </div>
         )}
 
-        {eventType === "LEAGUE" && participationMode !== null && (
+        {!readonly && eventType === "LEAGUE" && participationMode !== null && (
           <div className="animate-in fade-in slide-in-from-top-3 duration-400">
             <MatchFormatsFieldset />
           </div>

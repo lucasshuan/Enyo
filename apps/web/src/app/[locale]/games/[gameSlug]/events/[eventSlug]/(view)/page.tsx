@@ -4,7 +4,10 @@ import { canManageLeagues } from "@/lib/server/permissions";
 import { GET_EVENT_META } from "@/lib/apollo/queries/events";
 import { GET_LEAGUE, GET_EVENT_ENTRIES } from "@/lib/apollo/queries/leagues";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
-import { type GetLeagueQuery, type GetEventEntriesQuery } from "@/lib/apollo/generated/graphql";
+import {
+  type GetLeagueQuery,
+  type GetEventEntriesQuery,
+} from "@/lib/apollo/generated/graphql";
 import { EloLeagueTemplate } from "@/components/templates/events/league/elo-league-template";
 
 interface EventPageProps {
@@ -34,7 +37,6 @@ async function EventPageContent({
   const session = await getServerAuthSession();
   const isEditor = canManageLeagues(session);
 
-  // Resolve event type first
   const metaData = await safeServerQuery<{
     eventMeta: { id: string; type: string } | null;
   }>({
@@ -72,10 +74,9 @@ async function EventPageContent({
       hasNextPage: false,
     };
 
-    // Check if current user is already registered
     const userId = session?.user?.id;
     const isRegistered = userId
-      ? entries.nodes.some((e) => e.user?.id === userId)
+      ? entries.nodes.some((entry) => entry.user?.id === userId)
       : false;
 
     return (
@@ -89,7 +90,6 @@ async function EventPageContent({
     );
   }
 
-  // Fallback for future event types (Tournaments, etc.)
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center p-12 text-center">
       <h1 className="text-3xl font-bold">{eventSlug}</h1>

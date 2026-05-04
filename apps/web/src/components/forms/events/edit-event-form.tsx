@@ -9,10 +9,14 @@ import { resolveImageValue } from "@/lib/utils/upload";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { GameDisplayFieldset } from "./fieldsets/game-fieldset";
-import { LeagueConfigFieldset } from "./fieldsets/league-config-fieldset";
+import { TypeFieldset } from "./fieldsets/type-fieldset";
+import { FormatFieldset } from "./fieldsets/format-fieldset";
 import { GeneralFieldset } from "./fieldsets/general-fieldset";
 import { SettingsFieldset } from "./fieldsets/settings-fieldset";
-import { MatchFormatsFieldset } from "./fieldsets/match-formats-fieldset";
+import { ParticipantsFieldset } from "./fieldsets/participants-fieldset";
+import { StaffFieldset } from "./fieldsets/staff-fieldset";
+import type { ParticipantEntry } from "./fieldsets/participants-fieldset";
+import type { EventStaffDraft } from "./fieldsets/staff-fieldset";
 
 type LeagueForEdit = {
   eventId: string;
@@ -22,6 +26,8 @@ type LeagueForEdit = {
   description?: string | null;
   about?: string | null;
   thumbnailImagePath?: string | null;
+  type: "LEAGUE" | "TOURNAMENT";
+  participationMode: "SOLO" | "TEAM";
   classificationSystem: "ELO" | "POINTS";
   allowDraw?: boolean | null;
   config: Record<string, unknown>;
@@ -53,6 +59,29 @@ interface EditEventFormProps {
   onStepValidationChange?: (isValid: boolean) => void;
   currentStep: number;
   formId: string;
+  participants?: ParticipantEntry[];
+  onParticipantsChange?: (participants: ParticipantEntry[]) => void;
+  currentUserId?: string;
+  staffMembers?: EventStaffDraft[];
+  onStaffChange?: (members: EventStaffDraft[]) => void;
+}
+
+function normalizeParticipantName(name: string): string {
+  return name.trim().toLocaleLowerCase();
+}
+
+function areParticipantsValid(
+  participants: ParticipantEntry[] | undefined,
+): boolean {
+  if (!participants || participants.length === 0) return true;
+  const counts = new Map<string, number>();
+  for (const participant of participants) {
+    const normalizedName = normalizeParticipantName(participant.displayName);
+    if (!normalizedName) return false;
+    counts.set(normalizedName, (counts.get(normalizedName) ?? 0) + 1);
+    if ((counts.get(normalizedName) ?? 0) > 1) return false;
+  }
+  return true;
 }
 
 export function EditEventForm({
@@ -63,6 +92,11 @@ export function EditEventForm({
   onStepValidationChange,
   currentStep,
   formId,
+  participants,
+  onParticipantsChange,
+  currentUserId,
+  staffMembers,
+  onStaffChange,
 }: EditEventFormProps) {
   const t = useTranslations("Modals.EditEvent");
   const schema = useEditLeagueSchema();
@@ -121,7 +155,6 @@ export function EditEventForm({
 
   const name = watch("name") ?? "";
   const slug = watch("slug") ?? "";
-  const allowedFormats = watch("allowedFormats") ?? [];
 
   const handleSlugStatusChange = useCallback(
     (checking: boolean, conflict: boolean) => {
@@ -148,20 +181,16 @@ export function EditEventForm({
   }, [isFormValid, onValidationChange]);
 
   useEffect(() => {
-    let valid = false;
+    let valid = true;
 
-    if (currentStep === 0) {
-      valid = true;
-    } else if (currentStep === 1) {
-      valid = true;
-    } else if (currentStep === 2) {
+    if (currentStep === 3) {
+      // General step: name + slug must be filled and no conflict
       valid = name.trim().length >= 2 && slug.trim().length >= 2;
       if (valid) valid = !isSlugChecking && !hasSlugConflict;
-    } else if (currentStep === 3) {
-      valid = true;
-    } else if (currentStep === 4) {
-      valid = allowedFormats.length > 0;
+    } else if (currentStep === 5) {
+      valid = areParticipantsValid(participants);
     }
+    // All other steps default to true — data is pre-filled
 
     onStepValidationChange?.(valid);
   }, [
@@ -170,7 +199,7 @@ export function EditEventForm({
     slug,
     isSlugChecking,
     hasSlugConflict,
-    allowedFormats.length,
+    participants,
     onStepValidationChange,
   ]);
 
@@ -245,17 +274,39 @@ export function EditEventForm({
       >
         {currentStep === 0 && <GameDisplayFieldset game={league.game} />}
         {currentStep === 1 && (
-          <LeagueConfigFieldset disableRatingSystemChange />
+          <TypeFieldset
+            eventType={league.type}
+            onEventTypeChange={() => {}}
+            participationMode={league.participationMode}
+            onParticipationModeChange={() => {}}
+            readonly
+          />
         )}
-        {currentStep === 2 && (
+        {currentStep === 2 && <FormatFieldset disableRatingSystemChange />}
+        {currentStep === 3 && (
           <GeneralFieldset
             onSlugStatusChange={handleSlugStatusChange}
             checkSlugAvailability={checkSlugAvailability}
             originalSlug={league.slug}
           />
         )}
-        {currentStep === 3 && <SettingsFieldset allowAllStatuses />}
-        {currentStep === 4 && <MatchFormatsFieldset />}
+        {currentStep === 4 && <SettingsFieldset allowAllStatuses />}
+        {currentStep === 5 && participants && onParticipantsChange && (
+          <ParticipantsFieldset
+            participants={participants}
+            onParticipantsChange={onParticipantsChange}
+          />
+        )}
+        {currentStep === 6 &&
+          currentUserId &&
+          staffMembers &&
+          onStaffChange && (
+            <StaffFieldset
+              currentUserId={currentUserId}
+              staffMembers={staffMembers}
+              onStaffChange={onStaffChange}
+            />
+          )}
       </form>
     </FormProvider>
   );

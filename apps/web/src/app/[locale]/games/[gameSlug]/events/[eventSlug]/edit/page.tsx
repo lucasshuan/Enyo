@@ -38,6 +38,10 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
     description: league.event?.description ?? null,
     about: league.event?.about ?? null,
     thumbnailImagePath: league.event?.thumbnailImagePath ?? null,
+    type: (league.event?.type ?? "LEAGUE") as "LEAGUE" | "TOURNAMENT",
+    participationMode: (league.event?.participationMode ?? "SOLO") as
+      | "SOLO"
+      | "TEAM",
     classificationSystem: league.classificationSystem as "ELO" | "POINTS",
     allowDraw: league.allowDraw,
     config: (league.config ?? {}) as Record<string, unknown>,
@@ -59,7 +63,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
       name: league.event?.game?.name ?? "",
       slug: league.event?.game?.slug ?? "",
       thumbnailImagePath: league.event?.game?.thumbnailImagePath ?? null,
-      description: null,
+      description: league.event?.game?.description ?? null,
     },
   };
 

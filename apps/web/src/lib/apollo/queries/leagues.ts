@@ -25,6 +25,8 @@ export const GET_LEAGUES = gql`
           slug
           type
           isApproved
+          status
+          thumbnailImagePath
           startDate
           endDate
           game {
@@ -69,6 +71,7 @@ export const GET_LEAGUE = gql`
         description
         about
         type
+        participationMode
         isApproved
         status
         visibility
@@ -90,6 +93,7 @@ export const GET_LEAGUE = gql`
           name
           slug
           thumbnailImagePath
+          description
           status
         }
       }

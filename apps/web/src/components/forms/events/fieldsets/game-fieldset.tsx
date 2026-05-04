@@ -390,7 +390,7 @@ export function GameDisplayFieldset({ game }: GameDisplayFieldsetProps) {
             </div>
           </div>
           <p className="text-secondary/55 line-clamp-3 text-sm leading-relaxed">
-            {game?.description ?? "No description."}
+            {game?.description ?? t("gameSelect.noDescription")}
           </p>
         </div>
       </div>

@@ -16,6 +16,8 @@ import {
   Globe,
   Hash,
   Info,
+  Pencil,
+  Archive,
   ShieldCheck,
   User,
 } from "lucide-react";
@@ -23,6 +25,7 @@ import {
 import { InfoModal } from "@/components/ui/info-modal";
 import { FollowButton } from "@/components/ui/follow-button";
 import { InfoSection } from "@/components/ui/info-section";
+import { DeleteGameModal } from "@/components/modals/game/delete-game-modal";
 import { InfoField } from "@/components/ui/info-field";
 import {
   GET_GAME_STAFF,
@@ -43,13 +46,15 @@ interface GameInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
   game: Game;
+  canEdit?: boolean;
 }
 
-export function GameInfoModal({ isOpen, onClose, game }: GameInfoModalProps) {
+export function GameInfoModal({ isOpen, onClose, game, canEdit }: GameInfoModalProps) {
   const t = useTranslations("Modals.GameInfo");
   const locale = useLocale();
   const pathname = usePathname();
   const [adminsExpanded, setAdminsExpanded] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const gamePagePath = `/games/${game.slug}`;
   const isOnGamePage =
@@ -75,10 +80,11 @@ export function GameInfoModal({ isOpen, onClose, game }: GameInfoModalProps) {
   const totalAdminCount = staff.length + extraManagers.length;
 
   return (
-    <InfoModal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="sm:max-w-3xl lg:max-w-4xl"
+    <>
+      <InfoModal
+        isOpen={isOpen}
+        onClose={onClose}
+        className="sm:max-w-3xl lg:max-w-4xl"
       title={game.name}
       subtitle={game.slug}
       heroImageSrc={
@@ -111,6 +117,24 @@ export function GameInfoModal({ isOpen, onClose, game }: GameInfoModalProps) {
             <ArrowUpRight className="size-3.5" />
             {t("viewGame")}
           </a>
+          {canEdit && (
+            <>
+              <a
+                href={`/games/${game.slug}/edit`}
+                className="flex items-center gap-1.5 rounded-xl border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-medium text-white/70 backdrop-blur-sm transition-colors hover:border-white/40 hover:text-white"
+              >
+                <Pencil className="size-3.5" />
+                {t("editGame")}
+              </a>
+              <button
+                onClick={() => setIsDeleteOpen(true)}
+                className="flex items-center gap-1.5 rounded-xl border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-medium text-white/70 backdrop-blur-sm transition-colors hover:border-red-500/40 hover:bg-red-500/15 hover:text-red-400"
+              >
+                <Archive className="size-3.5" />
+                {t("archiveGame")}
+              </button>
+            </>
+          )}
         </div>
       }
     >
@@ -361,5 +385,16 @@ export function GameInfoModal({ isOpen, onClose, game }: GameInfoModalProps) {
         )}
       </div>
     </InfoModal>
+
+    {canEdit && (
+      <DeleteGameModal
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        gameSlug={game.slug}
+        gameName={game.name}
+        eventCount={game._count?.events ?? 0}
+      />
+    )}
+  </>
   );
 }

@@ -117,7 +117,7 @@ export default async function EventsPage({
 
 function EventsGridSkeleton() {
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <EventCardSkeleton key={i} />
       ))}
@@ -177,7 +177,7 @@ async function EventsGrid({
   }
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {events.map((event) => (
         <EventCard key={event.eventId} event={event} />
       ))}

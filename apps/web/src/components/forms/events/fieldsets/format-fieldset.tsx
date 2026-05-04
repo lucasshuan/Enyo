@@ -3,7 +3,12 @@
 import { Layers } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LeagueConfigFieldset } from "./league-config-fieldset";
-export function FormatFieldset() {
+
+interface FormatFieldsetProps {
+  disableRatingSystemChange?: boolean;
+}
+
+export function FormatFieldset({ disableRatingSystemChange }: FormatFieldsetProps) {
   const t = useTranslations("Modals.AddEvent");
 
   return (
@@ -22,7 +27,7 @@ export function FormatFieldset() {
       </div>
 
       <div className="animate-in fade-in slide-in-from-top-3 space-y-10 duration-400">
-        <LeagueConfigFieldset />
+        <LeagueConfigFieldset disableRatingSystemChange={disableRatingSystemChange} />
       </div>
     </section>
   );

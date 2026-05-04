@@ -7,13 +7,13 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { canEditGame } from "@/lib/server/permissions";
-import { LeagueCard } from "@/components/cards/league-card";
-import { ChevronLeft, Ghost } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 import { GameInfoCard } from "@/components/triggers/game/game-info-card";
 import { AddEventButton } from "@/components/triggers/game/add-event-button";
 import { GameActionBar } from "@/components/triggers/game/game-action-bar";
+import { GameEventsSection } from "@/components/ui/game-events-section";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
 import type { SimpleGame } from "@/actions/game";
 
@@ -33,14 +33,19 @@ import {
 
 const getCachedGame = (slug: string) =>
   unstable_cache(
-    () => safeServerQuery<GetGameQuery>({ query: GET_GAME, variables: { slug } }),
+    () =>
+      safeServerQuery<GetGameQuery>({ query: GET_GAME, variables: { slug } }),
     ["game", slug],
     { tags: ["games"], revalidate: 300 },
   )();
 
 const getCachedGameLeagues = (gameId: string, slug: string) =>
   unstable_cache(
-    () => safeServerQuery<GetLeaguesQuery>({ query: GET_LEAGUES, variables: { gameId } }),
+    () =>
+      safeServerQuery<GetLeaguesQuery>({
+        query: GET_LEAGUES,
+        variables: { gameId },
+      }),
     ["game-leagues", slug],
     { tags: ["events"], revalidate: 300 },
   )();
@@ -126,10 +131,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
       }
     >
       <div className="space-y-6">
-        <GameActionBar
-          gameId={game.id}
-          followCount={game.followCount ?? 0}
-        />
+        <GameActionBar gameId={game.id} followCount={game.followCount ?? 0} />
         <hr className="border-border/50" />
         <section className="space-y-6">
           <SectionHeader
@@ -144,27 +146,7 @@ async function GamePageContent({ gameSlug }: { gameSlug: string }) {
             }
           />
 
-          {leagues.length > 0 ? (
-            <div className="grid gap-5 xl:grid-cols-2">
-              {leagues.map((league: (typeof leagues)[number]) => (
-                <LeagueCard
-                  key={league.eventId}
-                  league={league}
-                  game={gameSlug}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
-              <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-white/5">
-                <Ghost className="size-8 text-white/20" />
-              </div>
-              <p className="text-base font-medium">{t("noEvents")}</p>
-              <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
-                {t("noEventsDescription")}
-              </p>
-            </div>
-          )}
+          <GameEventsSection leagues={leagues} gameSlug={gameSlug} />
         </section>
       </div>
     </SidebarPageLayout>
