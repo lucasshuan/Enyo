@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import type { Route } from "next";
-import { ShieldCheck, Table, Trophy } from "lucide-react";
+import { type LucideIcon, ShieldCheck, Table, Trophy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import { SegmentedTabs, type SegmentedTabItem } from "@/components/ui/tabs";
 import { LeagueCard } from "@/components/cards/league-card";
 import { type GetLeaguesQuery } from "@/lib/apollo/generated/graphql";
 import { cn } from "@/lib/utils/helpers";
@@ -103,169 +104,123 @@ export function GameEventsSection({
   const visibleCompactLeagues = compactLeagues.slice(0, compactCount);
   const hasMoreCompactLeagues =
     visibleCompactLeagues.length < compactLeagues.length;
-
-  if (sortedLeagues.length === 0) {
-    return (
-      <div className="space-y-5">
-        <div
-          className="flex flex-wrap items-center gap-2"
-          role="tablist"
-          aria-label={t("eventsTitle")}
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === "leagues"}
-            onClick={() => setActiveTab("leagues")}
-            className={cn(
-              "inline-flex h-9 items-center gap-2 rounded-xl border px-3 text-sm font-medium transition-colors",
-              activeTab === "leagues"
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border text-muted hover:text-foreground bg-white/3",
-            )}
-          >
-            <Table className="size-4" />
-            {t("leagueTab")}
-            <span className="rounded-full bg-white/10 px-1.5 text-[10px] font-bold text-white/70">
-              0
-            </span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === "tournaments"}
-            onClick={() => setActiveTab("tournaments")}
-            className={cn(
-              "inline-flex h-9 items-center gap-2 rounded-xl border px-3 text-sm font-medium transition-colors",
-              activeTab === "tournaments"
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border text-muted hover:text-foreground bg-white/3",
-            )}
-          >
-            <Trophy className="size-4" />
-            <span>{t("tournamentTab")}</span>
-            <span className="rounded-full bg-white/10 px-1.5 text-[10px] font-bold text-white/70">
-              0
-            </span>
-          </button>
-        </div>
-
-        <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
-          <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-white/5">
-            <Trophy className="size-8 text-white/20" />
-          </div>
-          <p className="text-base font-medium">
-            {activeTab === "leagues" ? t("noLeagues") : t("noTournaments")}
-          </p>
-          <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
-            {activeTab === "leagues"
-              ? t("noLeaguesDescription")
-              : t("noTournamentsDescription")}
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const tabs: SegmentedTabItem<"leagues" | "tournaments">[] = [
+    {
+      id: "leagues",
+      label: t("leagueTab"),
+      count: sortedLeagues.length,
+      icon: Table,
+    },
+    {
+      id: "tournaments",
+      label: t("tournamentTab"),
+      count: 0,
+      icon: Trophy,
+    },
+  ];
 
   return (
     <div className="space-y-5">
-      <div
-        className="flex flex-wrap items-center gap-2"
-        role="tablist"
-        aria-label={t("eventsTitle")}
-      >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === "leagues"}
-          onClick={() => setActiveTab("leagues")}
-          className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-xl border px-3 text-sm font-medium transition-colors",
-            activeTab === "leagues"
-              ? "border-primary bg-primary/10 text-primary"
-              : "border-border text-muted hover:text-foreground bg-white/3",
-          )}
-        >
-          <Table className="size-4" />
-          {t("leagueTab")}
-          <span className="rounded-full bg-white/10 px-1.5 text-[10px] font-bold text-white/70">
-            {sortedLeagues.length}
-          </span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === "tournaments"}
-          onClick={() => setActiveTab("tournaments")}
-          className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-xl border px-3 text-sm font-medium transition-colors",
-            activeTab === "tournaments"
-              ? "border-primary bg-primary/10 text-primary"
-              : "border-border text-muted hover:text-foreground bg-white/3",
-          )}
-        >
-          <Trophy className="size-4" />
-          <span>{t("tournamentTab")}</span>
-          <span className="rounded-full bg-white/10 px-1.5 text-[10px] font-bold text-white/70">
-            0
-          </span>
-        </button>
-      </div>
+      <SegmentedTabs
+        tabs={tabs}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel={t("eventsTitle")}
+        className="max-w-96 min-w-82"
+      />
 
       {activeTab === "leagues" && (
-        <>
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {mainLeagues.map((league) => (
-              <LeagueCard
-                key={league.eventId}
-                league={league}
-                game={gameSlug}
-              />
-            ))}
-          </div>
+        <div
+          id="leagues-panel"
+          role="tabpanel"
+          aria-labelledby="leagues-tab"
+          className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+        >
+          {sortedLeagues.length > 0 ? (
+            <div className="space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                {mainLeagues.map((league) => (
+                  <LeagueCard
+                    key={league.eventId}
+                    league={league}
+                    game={gameSlug}
+                  />
+                ))}
+              </div>
 
-          {visibleCompactLeagues.length > 0 && (
-            <div className="space-y-2">
-              {visibleCompactLeagues.map((league) => (
-                <CompactLeagueRow
-                  key={league.eventId}
-                  league={league}
-                  gameSlug={gameSlug}
-                  t={t}
-                />
-              ))}
-            </div>
-          )}
+              {visibleCompactLeagues.length > 0 && (
+                <div className="space-y-2">
+                  {visibleCompactLeagues.map((league) => (
+                    <CompactLeagueRow
+                      key={league.eventId}
+                      league={league}
+                      gameSlug={gameSlug}
+                      t={t}
+                    />
+                  ))}
+                </div>
+              )}
 
-          {hasMoreCompactLeagues && (
-            <div className="flex justify-center pt-1">
-              <button
-                type="button"
-                onClick={() =>
-                  setCompactCount((current) => current + COMPACT_INCREMENT)
-                }
-                className="border-gold-dim/35 bg-card-strong/50 text-secondary hover:border-gold-dim/55 hover:text-foreground h-10 rounded-xl border px-4 text-sm font-medium transition-all"
-              >
-                {t("showMoreLeagues")}
-              </button>
+              {hasMoreCompactLeagues && (
+                <div className="flex justify-center pt-1">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCompactCount((current) => current + COMPACT_INCREMENT)
+                    }
+                    className="border-gold-dim/35 bg-card-strong/50 text-secondary hover:border-gold-dim/55 hover:text-foreground h-10 rounded-xl border px-4 text-sm font-medium transition-all"
+                  >
+                    {t("showMoreLeagues")}
+                  </button>
+                </div>
+              )}
             </div>
+          ) : (
+            <EmptyEventState
+              icon={Table}
+              title={t("noLeagues")}
+              description={t("noLeaguesDescription")}
+            />
           )}
-        </>
+        </div>
       )}
 
       {activeTab === "tournaments" && (
-        <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
-          <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-white/5">
-            <Trophy className="size-8 text-white/20" />
-          </div>
-          <p className="text-base font-medium">{t("noTournaments")}</p>
-          <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
-            {t("noTournamentsDescription")}
-          </p>
+        <div
+          id="tournaments-panel"
+          role="tabpanel"
+          aria-labelledby="tournaments-tab"
+          className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+        >
+          <EmptyEventState
+            icon={Trophy}
+            title={t("noTournaments")}
+            description={t("noTournamentsDescription")}
+          />
         </div>
       )}
+    </div>
+  );
+}
+
+function EmptyEventState({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
+      <div className="border-border/40 bg-card-strong/60 mb-4 flex size-16 items-center justify-center rounded-2xl border">
+        <Icon className="text-muted/30 size-8" />
+      </div>
+      <p className="text-base font-medium">{title}</p>
+      <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
+        {description}
+      </p>
     </div>
   );
 }
