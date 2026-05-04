@@ -23,7 +23,7 @@ export function UserChip({ user, className }: UserChipProps) {
     <Link
       href={profileHref}
       className={cn(
-        "group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-card px-2 py-1 transition-all hover:border-gold/40 hover:bg-card-strong",
+        "group bg-card hover:border-gold/40 hover:bg-card-strong inline-flex items-center gap-2 rounded-lg border border-white/10 p-1 transition-all",
         className,
       )}
     >

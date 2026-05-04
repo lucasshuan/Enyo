@@ -25,7 +25,7 @@ export function InfoSection({
   return (
     <section className={cn("space-y-3", className)}>
       <div className="flex items-center gap-2">
-        {Icon && <Icon className="text-primary/50 size-3.5 shrink-0" />}
+        {Icon && <Icon className="text-primary size-3.5 shrink-0" />}
         <span className="text-muted text-[10px] font-semibold tracking-widest uppercase">
           {title}
         </span>

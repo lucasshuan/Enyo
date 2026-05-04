@@ -215,7 +215,7 @@ function EmptyEventState({
   return (
     <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
       <div className="border-border/40 bg-card-strong/60 mb-4 flex size-16 items-center justify-center rounded-2xl border">
-        <Icon className="text-muted/30 size-8" />
+        <Icon className="text-muted size-8" />
       </div>
       <p className="text-base font-medium">{title}</p>
       <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">

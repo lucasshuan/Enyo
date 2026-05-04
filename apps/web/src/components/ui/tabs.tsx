@@ -16,7 +16,7 @@ interface ProfileTabsProps {
 export function ProfileTabs({ tabs, className }: ProfileTabsProps) {
   return (
     <div className={cn("border-b-2 border-white/10", className)}>
-      <nav className="relative -mb-[2px] flex space-x-10" aria-label="Tabs">
+      <nav className="relative -mb-0.5 flex space-x-10" aria-label="Tabs">
         {tabs.map((tab) => (
           <div
             key={tab.id}
