@@ -75,7 +75,7 @@ export function EventHero({
   const participantCount = entries.totalCount;
 
   return (
-    <section className="bg-card/25 relative isolate overflow-hidden">
+    <section className="bg-card/25 relative isolate min-h-[420px] overflow-hidden">
       <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]">
         {backgroundSrc ? (
           <Image

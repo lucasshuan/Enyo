@@ -69,7 +69,7 @@ export default async function EventViewLayout({
 
   const { game } = gameData;
   const { league } = leagueData;
-  const entriesData = await getCachedEventEntries(league.event.id);
+  const entriesData = await getCachedEventEntries(league.event!.id);
   const entries = entriesData?.eventEntries ?? EMPTY_ENTRIES;
   const userId = session?.user?.id;
   const isRegistered = userId
@@ -90,7 +90,7 @@ export default async function EventViewLayout({
       />
       <EventRouteTabs
         gameSlug={game.slug}
-        eventSlug={league.event.slug}
+        eventSlug={league.event!.slug}
         participantCount={entries.totalCount}
       />
       <div className="w-full">{children}</div>

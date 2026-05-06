@@ -34,7 +34,7 @@ export function GameHero({
 
   return (
     <>
-      <section className="bg-card/25 relative isolate overflow-hidden">
+      <section className="bg-card/25 relative isolate min-h-[420px] overflow-hidden">
         {/* Background + color overlays wrapped so only they fade to transparent at bottom */}
         <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]">
           {backgroundSrc ? (
