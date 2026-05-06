@@ -10,10 +10,7 @@ interface AddPlayerFormProps {
   formId: string;
 }
 
-export function AddPlayerForm({
-  formId,
-  onValidationChange,
-}: AddPlayerFormProps) {
+export function AddPlayerForm({ formId }: AddPlayerFormProps) {
   const t = useTranslations("Modals.AddPlayer");
   // Players are now managed via EventEntries. This form is a stub.
   return (

@@ -87,51 +87,47 @@ export function EventWatchButton({
         disabled={loading}
         aria-pressed={isFollowing}
         className={cn(
-          "group focus-visible:ring-gold/40 relative flex h-10 w-60 items-center gap-2.5 overflow-hidden rounded-xl px-3 font-medium transition-all duration-300 focus-visible:ring-2 focus-visible:outline-none",
+          "group relative flex h-10 w-60 items-center gap-2.5 overflow-hidden rounded-xl border px-3 font-medium shadow-[inset_0_1px_0_rgb(255_255_255/0.10),0_10px_24px_-16px_rgb(0_0_0/0.9)] transition-all duration-300 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.99]",
           isFollowing
-            ? "border-primary/60 bg-primary/25 hover:bg-primary/30 border text-white shadow-[0_0_14px_0px_color-mix(in_srgb,var(--primary)_35%,transparent)]"
-            : "border-gold-dim/50 bg-card-strong/80 text-gold/80 hover:border-gold/60 hover:text-gold border",
-          loading && "opacity-60",
+            ? "border-gold/35 hover:border-gold/55 focus-visible:ring-primary/45 bg-[linear-gradient(180deg,var(--primary)_0%,var(--primary-strong)_100%)] text-white hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.15),0_0_18px_color-mix(in_srgb,var(--primary)_36%,transparent)]"
+            : "border-gold-dim/45 text-gold/80 hover:border-gold/60 hover:text-gold focus-visible:ring-gold/35 bg-[linear-gradient(180deg,#26211c_0%,#151312_100%)] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.13),0_0_16px_color-mix(in_srgb,var(--gold)_16%,transparent)]",
+          loading && "cursor-wait",
         )}
       >
-      {/* Subtle background tint */}
-      <span
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute inset-0 transition-opacity duration-300",
-          isFollowing
-            ? "bg-[radial-gradient(ellipse_70%_80%_at_10%_50%,color-mix(in_srgb,var(--primary)_20%,transparent),transparent)]"
-            : "bg-[radial-gradient(ellipse_60%_80%_at_10%_50%,color-mix(in_srgb,var(--gold)_8%,transparent),transparent)] opacity-0 group-hover:opacity-100",
-        )}
-      />
-
-      {/* Bell icon */}
-      <span className="relative shrink-0">
         {loading ? (
-          <LoaderCircle className="size-4 animate-spin" />
-        ) : isFollowing ? (
-          <Bell
-            key={ringKey}
-            className="animate-bell-ring size-4 fill-white/30 text-white transition-none"
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-black/20"
           />
-        ) : (
-          <BellPlus className="size-4" />
-        )}
-      </span>
+        ) : null}
 
-      {/* Label */}
-      <span className="relative flex-1 text-left text-sm">
-        {isFollowing ? t("watching") : t("watchEvent")}
-      </span>
+        {/* Bell icon */}
+        <span className="relative shrink-0">
+          {loading ? (
+            <LoaderCircle className="size-4 animate-spin" />
+          ) : isFollowing ? (
+            <Bell
+              key={ringKey}
+              className="animate-bell-ring size-4 fill-white/30 text-white transition-none"
+            />
+          ) : (
+            <BellPlus className="size-4" />
+          )}
+        </span>
 
-      {/* Follower count chip */}
+        {/* Label */}
+        <span className="relative flex-1 text-left text-sm">
+          {isFollowing ? t("watching") : t("watchEvent")}
+        </span>
+
+        {/* Follower count chip */}
         <Tooltip content={t("watchersTooltip", { count: displayCount })}>
           <span
             className={cn(
               "relative flex items-center gap-1 rounded-lg px-1.5 py-0.5 text-[10px] font-bold tabular-nums",
               isFollowing
-                ? "bg-white/10 text-white/70"
-                : "bg-gold-dim/20 text-gold/60",
+                ? "bg-black/20 text-white/75"
+                : "text-gold/55 bg-black/30",
             )}
           >
             <Users className="size-2.5" />

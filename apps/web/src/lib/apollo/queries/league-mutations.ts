@@ -20,6 +20,10 @@ export const CREATE_LEAGUE = gql`
         id
         name
         slug
+        game {
+          id
+          slug
+        }
         status
         visibility
         registrationsEnabled

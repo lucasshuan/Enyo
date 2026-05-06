@@ -18,7 +18,10 @@ import { TypeFieldset } from "./fieldsets/type-fieldset";
 import { FormatFieldset } from "./fieldsets/format-fieldset";
 import { GeneralFieldset } from "./fieldsets/general-fieldset";
 import { SettingsFieldset } from "./fieldsets/settings-fieldset";
-import { StaffFieldset, type EventStaffDraft } from "./fieldsets/staff-fieldset";
+import {
+  StaffFieldset,
+  type EventStaffDraft,
+} from "./fieldsets/staff-fieldset";
 import {
   ParticipantsFieldset,
   type ParticipantEntry,
@@ -33,7 +36,9 @@ function normalizeParticipantName(name: string): string {
   return name.trim().toLocaleLowerCase();
 }
 
-function areParticipantsValid(participants: ParticipantEntry[] | undefined): boolean {
+function areParticipantsValid(
+  participants: ParticipantEntry[] | undefined,
+): boolean {
   if (!participants || participants.length === 0) {
     return true;
   }
@@ -354,9 +359,7 @@ export function AddEventForm({
             onParticipationModeChange={setParticipationMode}
           />
         )}
-        {currentStep === 2 && (
-          <FormatFieldset />
-        )}
+        {currentStep === 2 && <FormatFieldset />}
         {currentStep === 3 && (
           <GeneralFieldset
             onSlugStatusChange={handleSlugStatusChange}

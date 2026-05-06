@@ -120,7 +120,7 @@ function AuthModalInner({
                 }}
               />
               <Image
-                src="/logo-full.png"
+                src="/logo-full.svg"
                 alt="Bellona"
                 width={120}
                 height={120}

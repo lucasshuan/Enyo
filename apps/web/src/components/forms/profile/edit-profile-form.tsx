@@ -70,7 +70,6 @@ export function EditProfileForm({
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors, isValid },
   } = useForm<EditProfileValues>({
     resolver: zodResolver(schema),

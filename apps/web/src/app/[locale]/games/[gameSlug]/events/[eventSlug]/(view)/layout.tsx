@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { GET_GAME_LAYOUT } from "@/lib/apollo/queries/games";
-import { GetGameLayoutQuery } from "@/lib/apollo/generated/graphql";
-import { safeServerQuery } from "@/lib/apollo/safe-server-query";
-import Image from "next/image";
-import { cdnUrl } from "@/lib/utils/cdn";
+
+import { getServerAuthSession } from "@/auth";
+import { EventHero } from "@/components/templates/events/event-hero";
+import { EventRouteTabs } from "@/components/templates/events/event-route-tabs";
+import { getCachedGame } from "@/lib/server/game-page-data";
+import {
+  getCachedEventEntries,
+  getCachedLeague,
+} from "@/lib/server/event-page-data";
+import { canManageLeagues } from "@/lib/server/permissions";
 
 interface EventViewLayoutProps {
   children: React.ReactNode;
@@ -14,43 +20,80 @@ interface EventViewLayoutProps {
   }>;
 }
 
+type EventMetadataProps = {
+  params: Promise<{
+    gameSlug: string;
+    eventSlug: string;
+  }>;
+};
+
+const EMPTY_ENTRIES = {
+  nodes: [],
+  totalCount: 0,
+  hasNextPage: false,
+};
+
+export async function generateMetadata({
+  params,
+}: EventMetadataProps): Promise<Metadata> {
+  const { gameSlug, eventSlug } = await params;
+  const data = await getCachedLeague(gameSlug, eventSlug);
+  const event = data?.league?.event;
+
+  if (!event) {
+    return {
+      title: eventSlug,
+    };
+  }
+
+  return {
+    title: event.name,
+    description: event.description ?? undefined,
+  };
+}
+
 export default async function EventViewLayout({
   children,
   params,
 }: EventViewLayoutProps) {
-  const { gameSlug } = await params;
-  const data = await safeServerQuery<GetGameLayoutQuery>({
-    query: GET_GAME_LAYOUT,
-    variables: { slug: gameSlug },
-  });
+  const { gameSlug, eventSlug } = await params;
+  const [session, gameData, leagueData] = await Promise.all([
+    getServerAuthSession(),
+    getCachedGame(gameSlug),
+    getCachedLeague(gameSlug, eventSlug),
+  ]);
 
-  if (!data?.game) {
+  if (!gameData?.game || !leagueData?.league?.event) {
     notFound();
   }
 
-  const { game } = data;
+  const { game } = gameData;
+  const { league } = leagueData;
+  const entriesData = await getCachedEventEntries(league.event.id);
+  const entries = entriesData?.eventEntries ?? EMPTY_ENTRIES;
+  const userId = session?.user?.id;
+  const isRegistered = userId
+    ? entries.nodes.some((entry) => entry.user?.id === userId)
+    : false;
 
   return (
-    <>
-      <section className="relative min-h-44 w-full overflow-hidden mask-[linear-gradient(to_bottom,black_40%,transparent_100%)]">
-        {game.backgroundImagePath ? (
-          <>
-            <Image
-              src={cdnUrl(game.backgroundImagePath)!}
-              alt=""
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-linear-to-b from-black/30 to-transparent" />
-          </>
-        ) : (
-          <div className="from-primary/20 to-background/94 absolute inset-0 bg-linear-to-br" />
-        )}
-        <div className="game-banner-sep" />
-      </section>
-      {children}
-    </>
+    <main>
+      <EventHero
+        game={game}
+        league={league}
+        entries={entries}
+        canEdit={canManageLeagues(session)}
+        isRegistered={isRegistered}
+        isLoggedIn={!!session}
+        userId={userId}
+        defaultDisplayName={session?.user?.name ?? session?.user?.username}
+      />
+      <EventRouteTabs
+        gameSlug={game.slug}
+        eventSlug={league.event.slug}
+        participantCount={entries.totalCount}
+      />
+      <div className="w-full">{children}</div>
+    </main>
   );
 }

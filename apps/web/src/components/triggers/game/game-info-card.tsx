@@ -230,7 +230,12 @@ export function GameInfoCard({
         )}
       </div>
 
-      <GameInfoModal isOpen={isModalOpen} onClose={closeModal} game={game} canEdit={canEdit} />
+      <GameInfoModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        game={game}
+        canEdit={canEdit}
+      />
     </>
   );
 }

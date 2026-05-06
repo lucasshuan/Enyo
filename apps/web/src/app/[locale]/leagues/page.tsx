@@ -3,7 +3,10 @@ import { getTranslations } from "next-intl/server";
 import { unstable_cache } from "next/cache";
 import { GET_LEAGUES } from "@/lib/apollo/queries/leagues";
 import { GET_GAMES_SIMPLE } from "@/lib/apollo/queries/games";
-import { type GetLeaguesQuery, type GetGamesSimpleQuery } from "@/lib/apollo/generated/graphql";
+import {
+  type GetLeaguesQuery,
+  type GetGamesSimpleQuery,
+} from "@/lib/apollo/generated/graphql";
 import { LeagueCard } from "@/components/cards/league-card";
 import { SectionHeader } from "@/components/ui/section-header";
 import { safeServerQuery } from "@/lib/apollo/safe-server-query";
@@ -115,7 +118,7 @@ export default async function LeaguesPage({ searchParams }: LeaguesPageProps) {
   };
 
   return (
-    <main className="mx-auto flex w-full flex-col gap-8 px-6 pt-20 pb-12 sm:px-10 lg:px-12">
+    <main className="mx-auto flex w-full flex-col gap-8 px-6 pt-20 pb-12">
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
         <div className="flex flex-col items-start gap-6">
           <SectionHeader title={t("title")} description={t("description")} />

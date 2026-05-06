@@ -8,7 +8,9 @@ interface FormatFieldsetProps {
   disableRatingSystemChange?: boolean;
 }
 
-export function FormatFieldset({ disableRatingSystemChange }: FormatFieldsetProps) {
+export function FormatFieldset({
+  disableRatingSystemChange,
+}: FormatFieldsetProps) {
   const t = useTranslations("Modals.AddEvent");
 
   return (
@@ -27,7 +29,9 @@ export function FormatFieldset({ disableRatingSystemChange }: FormatFieldsetProp
       </div>
 
       <div className="animate-in fade-in slide-in-from-top-3 space-y-10 duration-400">
-        <LeagueConfigFieldset disableRatingSystemChange={disableRatingSystemChange} />
+        <LeagueConfigFieldset
+          disableRatingSystemChange={disableRatingSystemChange}
+        />
       </div>
     </section>
   );

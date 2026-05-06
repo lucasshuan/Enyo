@@ -112,7 +112,10 @@ export function InfoModal({
 
           {/* Thumbnail — floats over background, top-left, above the title */}
           {heroThumbnailSrc && (
-            <div className="absolute top-4 left-6 z-10 w-52 overflow-hidden rounded-xl border border-white/10 shadow-2xl" style={{ aspectRatio: "368/178" }}>
+            <div
+              className="absolute top-4 left-6 z-10 w-52 overflow-hidden rounded-xl border border-white/10 shadow-2xl"
+              style={{ aspectRatio: "368/178" }}
+            >
               <Image
                 src={heroThumbnailSrc}
                 alt=""

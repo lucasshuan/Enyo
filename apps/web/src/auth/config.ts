@@ -11,7 +11,7 @@ const SESSION_REVALIDATION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 type BackendJwtPayload = {
   sub: string;
   username: string;
-  imagePath?: string | null;
+  imageUrl?: string | null;
   isAdmin: boolean;
   onboardingCompleted: boolean;
   permissions?: string[];
@@ -121,8 +121,8 @@ export const authOptions = {
           id: payload.sub,
           username: payload.username,
           name: payload.username,
-          image: payload.imagePath,
-          imagePath: payload.imagePath,
+          image: payload.imageUrl,
+          imagePath: payload.imageUrl,
           isAdmin: payload.isAdmin || false,
           onboardingCompleted: payload.onboardingCompleted ?? true,
           permissions: payload.permissions || [],

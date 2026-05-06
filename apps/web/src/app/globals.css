@@ -9,7 +9,9 @@
 
 :root {
   --transparent-scrollbar-image: url("/scrollbar-track.png");
-  --font-space-grotesk: var(--font-outfit), "Aptos", "Segoe UI Variable Display", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-space-grotesk:
+    var(--font-outfit), "Aptos", "Segoe UI Variable Display", "Trebuchet MS",
+    "Segoe UI", sans-serif;
   --font-ibm-plex-mono:
     "Cascadia Mono", "IBM Plex Mono", "Consolas", "Liberation Mono", monospace;
   --radius-xl: 11px;
@@ -20,8 +22,8 @@
   --background-soft: #1d1b1f;
   --foreground: #ffffff;
   --muted: #d4cecc;
-  --border: color-mix(in srgb, white 18%, transparent);
-  --card: rgb(18 16 20 / 0.90);
+  --border: color-mix(in srgb, var(--gold-dim) 35%, transparent);
+  --card: rgb(18 16 20 / 0.9);
   --card-strong: rgb(24 22 27 / 0.97);
   --primary: #a4141b;
   --primary-strong: #6d0d12;
@@ -29,7 +31,9 @@
   --gold: #da9d3b;
   --gold-dim: rgb(142, 89, 27);
   --success: #10b981;
+  --success-dark: #052e1a;
   --danger: #ff7b7b;
+  --destructive: #c94040;
   --warning: #f5c66a;
   --match-draw: #e05c6f;
   --match-near-draw: #f97316;
@@ -37,7 +41,7 @@
   --match-moderate: #84cc16;
   --match-dominant: #22c55e;
   --match-shutout: #06b6d4;
-  --discord: #5865F2;
+  --discord: #5865f2;
 }
 
 @theme inline {
@@ -54,7 +58,9 @@
   --color-gold: var(--gold);
   --color-gold-dim: var(--gold-dim);
   --color-success: var(--success);
+  --color-success-dark: var(--success-dark);
   --color-danger: var(--danger);
+  --color-destructive: var(--destructive);
   --color-warning: var(--warning);
   --color-match-draw: var(--match-draw);
   --color-match-near-draw: var(--match-near-draw);
@@ -168,8 +174,13 @@
   }
 
   @keyframes tagline-shimmer {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
   }
 
   @keyframes hero-float {
@@ -321,7 +332,7 @@ body {
 
 .app-scroll-shell::-webkit-scrollbar-thumb,
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--gold-dim);
+  background-color: var(--primary);
   border-radius: 999px;
   border: 1px solid transparent;
 }
@@ -391,8 +402,16 @@ button:disabled {
 }
 
 @keyframes trellis-drift {
-  from { background-position: 0 0, 0 0; }
-  to   { background-position: 70px 70px, 70px 70px; }
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      70px 70px,
+      70px 70px;
+  }
 }
 
 .grid-surface {
@@ -411,15 +430,15 @@ button:disabled {
     linear-gradient(
       45deg,
       transparent calc(50% - 0.5px),
-      color-mix(in srgb, var(--gold-dim) 12%, transparent) calc(50% - 0.5px),
-      color-mix(in srgb, var(--gold-dim) 12%, transparent) calc(50% + 0.5px),
+      color-mix(in srgb, var(--border) 15%, transparent) calc(50% - 0.5px),
+      color-mix(in srgb, var(--border) 15%, transparent) calc(50% + 0.5px),
       transparent calc(50% + 0.5px)
     ),
     linear-gradient(
       -45deg,
       transparent calc(50% - 0.5px),
-      color-mix(in srgb, var(--gold-dim) 12%, transparent) calc(50% - 0.5px),
-      color-mix(in srgb, var(--gold-dim) 12%, transparent) calc(50% + 0.5px),
+      color-mix(in srgb, var(--border) 15%, transparent) calc(50% - 0.5px),
+      color-mix(in srgb, var(--border) 15%, transparent) calc(50% + 0.5px),
       transparent calc(50% + 0.5px)
     );
   background-size: 70px 70px;
@@ -430,11 +449,13 @@ button:disabled {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 90% 80% at 58% 45%,
-    transparent 25%,
-    rgb(8 7 8 / 0.65) 100%
-  );
+  background:
+    linear-gradient(180deg, var(--background) 0%, transparent 14%),
+    radial-gradient(
+      ellipse 90% 80% at 58% 45%,
+      transparent 25%,
+      rgb(8 7 8 / 0.65) 100%
+    );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -454,7 +475,7 @@ button:disabled {
   content: "";
   position: absolute;
   inset: 0;
-  border: 1px solid var(--gold-dim);
+  border: 1px solid var(--border);
   border-radius: inherit;
   corner-shape: squircle;
   pointer-events: none;
@@ -467,7 +488,7 @@ button:disabled {
 }
 
 .glass-panel.no-hover:hover::after {
-  border-color: var(--gold-dim);
+  border-color: var(--border);
 }
 
 .glass-panel.corner-round,
@@ -547,19 +568,19 @@ button:disabled {
 
 @layer components {
   .field-base {
-    @apply w-full rounded-2xl border bg-card-strong/50 px-5 py-3 text-sm text-secondary transition-all outline-none placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-4 focus:ring-gold/10;
+    @apply bg-card-strong/50 text-secondary placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-gold/10 w-full rounded-2xl border px-5 py-3 text-sm transition-all outline-none focus:ring-4;
   }
 
   .field-with-icon {
-    @apply w-full rounded-2xl border bg-card-strong/50 px-5 py-3 pr-12 text-sm text-secondary transition-all outline-none placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-4 focus:ring-gold/10;
+    @apply bg-card-strong/50 text-secondary placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-gold/10 w-full rounded-2xl border px-5 py-3 pr-12 text-sm transition-all outline-none focus:ring-4;
   }
 
   .field-textarea {
-    @apply w-full resize-none rounded-2xl border bg-card-strong/50 px-5 py-3 text-sm text-secondary transition-all outline-none placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-4 focus:ring-gold/10;
+    @apply bg-card-strong/50 text-secondary placeholder:text-secondary/25 hover:border-gold-dim/55 focus:border-gold/45 focus:bg-card-strong/70 focus:ring-gold/10 w-full resize-none rounded-2xl border px-5 py-3 text-sm transition-all outline-none focus:ring-4;
   }
 
   .field-border-default {
-    @apply border-gold-dim/35;
+    @apply border-border;
   }
 
   .field-border-error {
@@ -679,13 +700,27 @@ button:disabled {
 }
 
 @keyframes bell-ring {
-  0%   { transform: rotate(0deg); }
-  15%  { transform: rotate(18deg); }
-  35%  { transform: rotate(-16deg); }
-  55%  { transform: rotate(12deg); }
-  70%  { transform: rotate(-8deg); }
-  85%  { transform: rotate(4deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(18deg);
+  }
+  35% {
+    transform: rotate(-16deg);
+  }
+  55% {
+    transform: rotate(12deg);
+  }
+  70% {
+    transform: rotate(-8deg);
+  }
+  85% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .animate-bell-ring {

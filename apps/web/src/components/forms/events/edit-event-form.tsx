@@ -1,6 +1,12 @@
 "use client";
 
-import { useTransition, useState, useEffect, useCallback, useMemo } from "react";
+import {
+  useTransition,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditLeagueSchema, type EditLeagueValues } from "@/schemas/league";
@@ -101,7 +107,10 @@ function normalizeComparableValue(value: unknown): unknown {
       Object.entries(value as Record<string, unknown>)
         .filter(([, entryValue]) => entryValue !== undefined)
         .sort(([a], [b]) => a.localeCompare(b))
-        .map(([key, entryValue]) => [key, normalizeComparableValue(entryValue)]),
+        .map(([key, entryValue]) => [
+          key,
+          normalizeComparableValue(entryValue),
+        ]),
     );
   }
   return value ?? null;
@@ -238,7 +247,10 @@ export function EditEventForm({
 
   useEffect(() => {
     onDirtyFieldCountChange?.(
-      countChangedFields(watchedValues as Partial<EditLeagueValues>, defaultValues),
+      countChangedFields(
+        watchedValues as Partial<EditLeagueValues>,
+        defaultValues,
+      ),
     );
   }, [defaultValues, onDirtyFieldCountChange, watchedValues]);
 

@@ -28,7 +28,7 @@ export function SidebarPageLayout({
   return (
     <div
       className={cn(
-        "relative mx-auto mt-4 flex w-full flex-col gap-8 px-6 pb-12 sm:px-10 lg:flex-row lg:gap-5 lg:px-12",
+        "relative mx-auto mt-4 flex w-full flex-col gap-8 px-6 pb-12 lg:flex-row lg:gap-5",
         className,
       )}
     >

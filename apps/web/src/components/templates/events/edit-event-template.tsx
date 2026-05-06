@@ -136,9 +136,9 @@ export function EditEventTemplate({
         !isSaveDisabled &&
           "hover:-translate-y-0.5 hover:before:left-full hover:before:opacity-100 active:translate-y-0",
         saveState === "dirty" &&
-          "border-gold/65 bg-linear-to-br from-primary via-primary/90 to-gold/45 text-white shadow-primary/30 hover:border-gold/85",
+          "border-gold/65 from-primary via-primary/90 to-gold/45 shadow-primary/30 hover:border-gold/85 bg-linear-to-br text-white",
         saveState === "saving" &&
-          "border-gold/65 bg-linear-to-br from-primary via-primary/90 to-gold/45 text-white shadow-primary/25",
+          "border-gold/65 from-primary via-primary/90 to-gold/45 shadow-primary/25 bg-linear-to-br text-white",
         saveState === "clean" &&
           "border-success/45 bg-success/10 text-success shadow-success/10",
         saveState === "invalid" &&
@@ -151,13 +151,14 @@ export function EditEventTemplate({
           className={cn(
             "size-4",
             saveState === "saving" && "animate-spin",
-            saveState === "dirty" && "transition-transform group-hover/save:-rotate-6",
+            saveState === "dirty" &&
+              "transition-transform group-hover/save:-rotate-6",
           )}
         />
         {saveLabel}
       </span>
       {saveState === "dirty" && (
-        <span className="absolute inset-x-3 bottom-1 h-px bg-linear-to-r from-transparent via-gold/70 to-transparent" />
+        <span className="via-gold/70 absolute inset-x-3 bottom-1 h-px bg-linear-to-r from-transparent to-transparent" />
       )}
     </Button>
   );

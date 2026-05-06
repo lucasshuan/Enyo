@@ -85,7 +85,7 @@ export default async function HomePage() {
 
               {/* Sub-label */}
               <div className="relative mt-3">
-                <p className="relative z-20 animate-[tagline-shimmer_4s_ease-in-out_infinite] bg-[linear-gradient(90deg,var(--primary),color-mix(in_srgb,var(--primary)_50%,var(--secondary)),var(--primary))] bg-size-[200%_auto] bg-clip-text font-sans text-[11px] font-semibold tracking-[0.32em] text-transparent uppercase antialiased md:text-[13px] md:tracking-[0.36em]">
+                <p className="relative z-20 animate-[tagline-shimmer_4s_ease-in-out_infinite] bg-[linear-gradient(90deg,var(--gold-dim),color-mix(in_srgb,var(--gold-dim)_50%,var(--secondary)),var(--gold-dim))] bg-size-[200%_auto] bg-clip-text font-sans text-[11px] font-semibold tracking-[0.32em] text-transparent uppercase antialiased md:text-[13px] md:tracking-[0.36em]">
                   {t("heroTagline")}
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default async function HomePage() {
           </div>
 
           {/* Styled box */}
-          <div className="communities-box border-gold-dim from-background-soft to-background relative z-20 rounded-t-[2.5rem] border border-b-0 bg-linear-to-b px-6 pt-10 pb-2 shadow-[0_-20px_80px_rgb(192_11_59/0.06),inset_0_1px_0_rgb(255_255_255/0.05)] sm:px-10 sm:pt-14 lg:px-12 lg:pt-16">
+          <div className="communities-box border-gold-dim/35 bg-background/80 relative z-20 rounded-t-[2.5rem] border border-b-0 px-6 pt-10 pb-2 shadow-[0_14px_36px_rgb(0_0_0/0.28)] backdrop-blur-xl sm:px-10 sm:pt-14 lg:px-12 lg:pt-16">
             {/* Top edge glow line */}
             <div className="via-primary/30 absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent to-transparent" />
 

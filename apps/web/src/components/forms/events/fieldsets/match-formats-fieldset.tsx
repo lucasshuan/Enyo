@@ -11,7 +11,11 @@ type MatchFormatsValues = {
   allowedFormats: string[];
 };
 
-export function MatchFormatsFieldset({ readonly = false }: { readonly?: boolean }) {
+export function MatchFormatsFieldset({
+  readonly = false,
+}: {
+  readonly?: boolean;
+}) {
   const t = useTranslations("Modals.AddEvent");
   const { control, setValue, getValues } = useFormContext<MatchFormatsValues>();
   const allowedFormats = useWatch({ control, name: "allowedFormats" }) ?? [];

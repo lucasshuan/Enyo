@@ -128,9 +128,9 @@ function AuthCallbackContent() {
           <Image
             src="/logo-full.svg"
             alt="Bellona"
-            width={40}
-            height={40}
-            className="relative size-10 object-contain"
+            width={100}
+            height={100}
+            className="relative size-25 object-contain"
           />
         </div>
 

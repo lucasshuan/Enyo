@@ -103,10 +103,7 @@ export const GET_LEAGUE = gql`
 
 export const GET_EVENT_ENTRIES = gql`
   query GetEventEntries($eventId: ID!, $take: Int, $skip: Int) {
-    eventEntries(
-      eventId: $eventId
-      pagination: { take: $take, skip: $skip }
-    ) {
+    eventEntries(eventId: $eventId, pagination: { take: $take, skip: $skip }) {
       nodes {
         id
         displayName

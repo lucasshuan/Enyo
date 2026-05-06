@@ -1,38 +1,78 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import type { Route } from "next";
-import { type LucideIcon, ShieldCheck, Table, Trophy } from "lucide-react";
+import { useMemo, useState, type ReactNode } from "react";
+import {
+  CheckCircle2,
+  ListFilter,
+  Search,
+  SlidersHorizontal,
+  Sparkles,
+  Table,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
-import { SegmentedTabs, type SegmentedTabItem } from "@/components/ui/tabs";
+
 import { LeagueCard } from "@/components/cards/league-card";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { type GetLeaguesQuery } from "@/lib/apollo/generated/graphql";
-import { cn } from "@/lib/utils/helpers";
 
 type LeagueNode = NonNullable<GetLeaguesQuery["leagues"]["nodes"][number]>;
+type StatusFilter =
+  | "ALL"
+  | "ACTIVE"
+  | "REGISTRATION"
+  | "DRAFT"
+  | "FINISHED"
+  | "CANCELLED";
+type SystemFilter = "ALL" | "ELO" | "POINTS";
+type HighlightFilter = "ALL" | "OFFICIAL" | "FEATURED";
+type SortOption = "recommended" | "participants" | "alphabetical";
 
 type GameEventsSectionProps = {
   leagues: LeagueNode[];
   gameSlug: string;
+  action?: ReactNode;
 };
 
-const MAIN_LEAGUE_COUNT = 3;
-const INITIAL_COMPACT_COUNT = 7;
-const COMPACT_INCREMENT = 5;
+const STATUS_FILTERS: {
+  value: StatusFilter;
+  labelKey: string;
+}[] = [
+  { value: "ALL", labelKey: "allStatuses" },
+  { value: "REGISTRATION", labelKey: "statusRegistration" },
+  { value: "ACTIVE", labelKey: "statusActive" },
+  { value: "DRAFT", labelKey: "statusDraft" },
+  { value: "FINISHED", labelKey: "statusFinished" },
+  { value: "CANCELLED", labelKey: "statusCancelled" },
+];
 
-const STATUS_STYLES: Record<string, string> = {
-  ACTIVE: "border-success/35 bg-success/10 text-success",
-  REGISTRATION: "border-primary/35 bg-primary/10 text-primary",
-  DRAFT: "border-warning/35 bg-warning/10 text-warning",
-  FINISHED: "border-primary/25 bg-primary/8 text-primary/80",
-  CANCELLED: "border-danger/35 bg-danger/10 text-danger",
-};
+const SYSTEM_FILTERS: {
+  value: SystemFilter;
+  labelKey: string;
+}[] = [
+  { value: "ALL", labelKey: "allSystems" },
+  { value: "ELO", labelKey: "systemElo" },
+  { value: "POINTS", labelKey: "systemPoints" },
+];
 
-const SYSTEM_STYLES: Record<string, string> = {
-  ELO: "text-gold",
-  POINTS: "text-primary",
-};
+const SORT_OPTIONS: {
+  value: SortOption;
+  labelKey: string;
+}[] = [
+  { value: "recommended", labelKey: "sortRecommended" },
+  { value: "participants", labelKey: "sortParticipants" },
+  { value: "alphabetical", labelKey: "sortAlphabetical" },
+];
+
+const HIGHLIGHT_FILTERS: {
+  value: HighlightFilter;
+  labelKey: string;
+}[] = [
+  { value: "ALL", labelKey: "allHighlights" },
+  { value: "OFFICIAL", labelKey: "filterOfficial" },
+  { value: "FEATURED", labelKey: "filterFeatured" },
+];
 
 function isFeaturedLeague(league: LeagueNode) {
   const config = league.config;
@@ -65,140 +105,279 @@ function compareLeagues(current: LeagueNode, next: LeagueNode) {
   return (current.event?.name ?? "").localeCompare(next.event?.name ?? "");
 }
 
-function getStatusLabel(
-  status: string | undefined,
-  t: ReturnType<typeof useTranslations>,
-) {
-  switch (status) {
-    case "ACTIVE":
-      return t("statusActive");
-    case "REGISTRATION":
-      return t("statusRegistration");
-    case "DRAFT":
-      return t("statusDraft");
-    case "FINISHED":
-      return t("statusFinished");
-    case "CANCELLED":
-      return t("statusCancelled");
-    default:
-      return status ?? t("statusUnknown");
+function sortLeagues(leagues: LeagueNode[], sortBy: SortOption) {
+  const sorted = [...leagues];
+
+  if (sortBy === "alphabetical") {
+    return sorted.sort((current, next) =>
+      (current.event?.name ?? "").localeCompare(next.event?.name ?? ""),
+    );
   }
+
+  if (sortBy === "participants") {
+    return sorted.sort((current, next) => {
+      const participantDelta =
+        getParticipantCount(next) - getParticipantCount(current);
+      if (participantDelta !== 0) return participantDelta;
+      return compareLeagues(current, next);
+    });
+  }
+
+  return sorted.sort(compareLeagues);
+}
+
+function getSearchText(league: LeagueNode) {
+  return [league.event?.name, league.event?.status, league.classificationSystem]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
 }
 
 export function GameEventsSection({
   leagues,
   gameSlug,
+  action,
 }: GameEventsSectionProps) {
   const t = useTranslations("GamePage");
-  const [compactCount, setCompactCount] = useState(INITIAL_COMPACT_COUNT);
-  const [activeTab, setActiveTab] = useState<"leagues" | "tournaments">(
-    "leagues",
-  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
+  const [systemFilter, setSystemFilter] = useState<SystemFilter>("ALL");
+  const [highlightFilter, setHighlightFilter] =
+    useState<HighlightFilter>("ALL");
+  const [sortBy, setSortBy] = useState<SortOption>("recommended");
 
   const sortedLeagues = useMemo(
     () => [...leagues].sort(compareLeagues),
     [leagues],
   );
-  const mainLeagues = sortedLeagues.slice(0, MAIN_LEAGUE_COUNT);
-  const compactLeagues = sortedLeagues.slice(MAIN_LEAGUE_COUNT);
-  const visibleCompactLeagues = compactLeagues.slice(0, compactCount);
-  const hasMoreCompactLeagues =
-    visibleCompactLeagues.length < compactLeagues.length;
-  const tabs: SegmentedTabItem<"leagues" | "tournaments">[] = [
-    {
-      id: "leagues",
-      label: t("leagueTab"),
-      count: sortedLeagues.length,
-      icon: Table,
-    },
-    {
-      id: "tournaments",
-      label: t("tournamentTab"),
-      count: 0,
-      icon: Trophy,
-    },
-  ];
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+
+  const filteredLeagues = useMemo(() => {
+    let visibleLeagues = sortedLeagues;
+
+    if (normalizedSearchTerm) {
+      visibleLeagues = visibleLeagues.filter((league) =>
+        getSearchText(league).includes(normalizedSearchTerm),
+      );
+    }
+
+    if (statusFilter !== "ALL") {
+      visibleLeagues = visibleLeagues.filter(
+        (league) => league.event?.status === statusFilter,
+      );
+    }
+
+    if (systemFilter !== "ALL") {
+      visibleLeagues = visibleLeagues.filter(
+        (league) => league.classificationSystem === systemFilter,
+      );
+    }
+
+    if (highlightFilter === "OFFICIAL") {
+      visibleLeagues = visibleLeagues.filter(
+        (league) => league.event?.isApproved ?? false,
+      );
+    }
+
+    if (highlightFilter === "FEATURED") {
+      visibleLeagues = visibleLeagues.filter(isFeaturedLeague);
+    }
+
+    return sortLeagues(visibleLeagues, sortBy);
+  }, [
+    highlightFilter,
+    normalizedSearchTerm,
+    sortedLeagues,
+    sortBy,
+    statusFilter,
+    systemFilter,
+  ]);
+
+  const hasActiveFilters =
+    normalizedSearchTerm.length > 0 ||
+    statusFilter !== "ALL" ||
+    systemFilter !== "ALL" ||
+    highlightFilter !== "ALL" ||
+    sortBy !== "recommended";
+
+  function resetFilters() {
+    setSearchTerm("");
+    setStatusFilter("ALL");
+    setSystemFilter("ALL");
+    setHighlightFilter("ALL");
+    setSortBy("recommended");
+  }
+
+  const emptyStateTitle =
+    hasActiveFilters && sortedLeagues.length > 0
+      ? t("noFilteredEvents")
+      : t("noLeagues");
+  const emptyStateDescription =
+    hasActiveFilters && sortedLeagues.length > 0
+      ? t("noFilteredEventsDescription")
+      : t("noLeaguesDescription");
 
   return (
-    <div className="space-y-5">
-      <SegmentedTabs
-        tabs={tabs}
-        activeTab={activeTab}
-        onChange={setActiveTab}
-        ariaLabel={t("eventsTitle")}
-        className="max-w-96 min-w-82"
-      />
+    <div className="grid gap-5 lg:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)] xl:grid-cols-[18rem_minmax(0,1fr)]">
+      <aside className="border-gold-dim/25 bg-card/70 rounded-2xl border p-3 shadow-[0_18px_70px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.03)] lg:sticky lg:top-24 lg:self-start">
+        <div className="space-y-3">
+          {action ? <div>{action}</div> : null}
 
-      {activeTab === "leagues" && (
-        <div
-          id="leagues-panel"
-          role="tabpanel"
-          aria-labelledby="leagues-tab"
-          className="animate-in fade-in slide-in-from-bottom-2 duration-300"
-        >
-          {sortedLeagues.length > 0 ? (
-            <div className="space-y-5">
-              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                {mainLeagues.map((league) => (
-                  <LeagueCard
-                    key={league.eventId}
-                    league={league}
-                    game={gameSlug}
-                  />
-                ))}
-              </div>
-
-              {visibleCompactLeagues.length > 0 && (
-                <div className="space-y-2">
-                  {visibleCompactLeagues.map((league) => (
-                    <CompactLeagueRow
-                      key={league.eventId}
-                      league={league}
-                      gameSlug={gameSlug}
-                      t={t}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {hasMoreCompactLeagues && (
-                <div className="flex justify-center pt-1">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setCompactCount((current) => current + COMPACT_INCREMENT)
-                    }
-                    className="border-gold-dim/35 bg-card-strong/50 text-secondary hover:border-gold-dim/55 hover:text-foreground h-10 rounded-xl border px-4 text-sm font-medium transition-all"
-                  >
-                    {t("showMoreLeagues")}
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <EmptyEventState
-              icon={Table}
-              title={t("noLeagues")}
-              description={t("noLeaguesDescription")}
+          <div className="relative">
+            <Search className="text-muted/50 pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+            <input
+              value={searchTerm}
+              aria-label={t("searchPlaceholder")}
+              placeholder={t("searchPlaceholder")}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className="focus:border-gold/45 focus:ring-gold/10 border-gold-dim/35 bg-card-strong/50 text-secondary placeholder:text-secondary/30 h-10 w-full rounded-xl border pr-9 pl-9 text-sm outline-hidden transition-all focus:ring-3"
             />
-          )}
-        </div>
-      )}
+            {searchTerm ? (
+              <button
+                type="button"
+                onClick={() => setSearchTerm("")}
+                className="text-muted/45 hover:text-secondary absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
+                aria-label={t("clearEventFilters")}
+              >
+                <X className="size-4" />
+              </button>
+            ) : null}
+          </div>
 
-      {activeTab === "tournaments" && (
-        <div
-          id="tournaments-panel"
-          role="tabpanel"
-          aria-labelledby="tournaments-tab"
-          className="animate-in fade-in slide-in-from-bottom-2 duration-300"
-        >
-          <EmptyEventState
-            icon={Trophy}
-            title={t("noTournaments")}
-            description={t("noTournamentsDescription")}
-          />
+          <div className="flex flex-col gap-1">
+            <CompactSelect
+              icon={SlidersHorizontal}
+              label={t("sortLabel")}
+              value={sortBy}
+              onChange={setSortBy}
+              options={SORT_OPTIONS.map((option) => ({
+                value: option.value,
+                label: t(option.labelKey),
+              }))}
+            />
+            <CompactSelect
+              icon={ListFilter}
+              label={t("statusLabel")}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              options={STATUS_FILTERS.map((option) => ({
+                value: option.value,
+                label: t(option.labelKey),
+              }))}
+            />
+            <CompactSelect
+              icon={CheckCircle2}
+              label={t("systemLabel")}
+              value={systemFilter}
+              onChange={setSystemFilter}
+              options={SYSTEM_FILTERS.map((option) => ({
+                value: option.value,
+                label: t(option.labelKey),
+              }))}
+            />
+            <CompactSelect
+              icon={Sparkles}
+              label={t("highlightsLabel")}
+              value={highlightFilter}
+              onChange={setHighlightFilter}
+              options={HIGHLIGHT_FILTERS.map((option) => ({
+                value: option.value,
+                label: t(option.labelKey),
+              }))}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={resetFilters}
+            disabled={!hasActiveFilters}
+            className="border-gold-dim/30 bg-card-strong/35 text-muted hover:border-gold-dim/55 hover:text-foreground disabled:text-muted/35 disabled:hover:border-gold-dim/30 disabled:hover:text-muted/35 flex h-9 w-full items-center justify-center gap-2 rounded-xl border text-xs font-semibold transition-all active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-55 disabled:active:scale-100"
+          >
+            <X className="size-3.5" />
+            {t("clearEventFilters")}
+          </button>
         </div>
-      )}
+      </aside>
+
+      <section className="min-w-0 space-y-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <h2 className="text-foreground text-xl font-semibold">
+              {t("leagueListTitle")}
+            </h2>
+            <p className="text-muted/55 mt-1 max-w-2xl text-sm leading-relaxed">
+              {t("leagueListDescription")}
+            </p>
+          </div>
+
+          <div className="border-gold-dim/25 bg-card-strong/35 text-secondary flex h-9 w-fit items-center rounded-full border px-3 text-xs font-semibold">
+            {t("eventListSummary", {
+              shown: filteredLeagues.length,
+              total: sortedLeagues.length,
+            })}
+          </div>
+        </div>
+
+        {filteredLeagues.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {filteredLeagues.map((league) => (
+              <LeagueCard
+                key={league.eventId}
+                league={league}
+                game={gameSlug}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyEventState
+            icon={Table}
+            title={emptyStateTitle}
+            description={emptyStateDescription}
+          />
+        )}
+      </section>
+    </div>
+  );
+}
+
+function CompactLabel({
+  icon: Icon,
+  label,
+}: {
+  icon: LucideIcon;
+  label: string;
+}) {
+  return (
+    <div className="text-muted/55 flex min-w-0 flex-1 items-center gap-1.5 text-[10px] font-semibold tracking-[0.12em] uppercase">
+      <Icon className="size-3" />
+      <span className="truncate">{label}</span>
+    </div>
+  );
+}
+
+function CompactSelect<T extends string>({
+  icon: Icon,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div className="bg-card-strong/10 hover:bg-card-strong/20 flex items-center gap-3 rounded-xl px-2.5 py-2 transition-colors">
+      <CompactLabel icon={Icon} label={label} />
+      <CustomSelect
+        value={value}
+        onChange={onChange}
+        options={options}
+        className="w-36 shrink-0"
+        triggerClassName="h-7 w-full rounded-lg border-0 bg-transparent px-1 py-0 text-xs text-secondary hover:bg-transparent hover:text-foreground"
+      />
     </div>
   );
 }
@@ -213,79 +392,12 @@ function EmptyEventState({
   description: string;
 }) {
   return (
-    <div className="glass-panel no-hover flex flex-col items-center justify-center rounded-3xl p-12 text-center">
-      <div className="border-border/40 bg-card-strong/60 mb-4 flex size-16 items-center justify-center rounded-2xl border">
-        <Icon className="text-muted size-8" />
-      </div>
-      <p className="text-base font-medium">{title}</p>
-      <p className="text-muted mt-2 max-w-sm text-sm leading-relaxed">
+    <div className="border-gold-dim/25 bg-card/55 flex min-h-80 flex-col items-center justify-center rounded-2xl border p-8 text-center shadow-[0_18px_70px_rgb(0_0_0/0.16),inset_0_1px_0_rgb(255_255_255/0.03)]">
+      <Icon className="text-secondary mb-4 size-10 opacity-40" />
+      <h3 className="text-foreground text-lg font-semibold">{title}</h3>
+      <p className="text-muted/45 mt-2 max-w-md text-sm leading-relaxed">
         {description}
       </p>
     </div>
-  );
-}
-
-function CompactLeagueRow({
-  league,
-  gameSlug,
-  t,
-}: {
-  league: LeagueNode;
-  gameSlug: string;
-  t: ReturnType<typeof useTranslations>;
-}) {
-  const event = league.event;
-  const status = event?.status ?? "DRAFT";
-  const isOfficial = event?.isApproved ?? false;
-  const isFeatured = isFeaturedLeague(league);
-
-  return (
-    <Link
-      href={`/games/${gameSlug}/events/${event?.slug ?? ""}` as Route}
-      className="border-border bg-card-strong/35 hover:border-gold-dim/45 hover:bg-card-strong/55 group grid min-h-12 grid-cols-[minmax(0,1fr)] items-center gap-2 rounded-xl border px-3 py-2 transition-all sm:grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
-    >
-      <div className="min-w-0">
-        <p className="group-hover:text-foreground truncate text-sm font-semibold text-white/85 transition-colors">
-          {event?.name ?? ""}
-        </p>
-      </div>
-
-      <div className="text-muted flex items-center gap-2 text-xs">
-        <span>
-          {t("eventParticipants", { count: getParticipantCount(league) })}
-        </span>
-        <span
-          className={cn(
-            "font-semibold",
-            SYSTEM_STYLES[league.classificationSystem] ?? "text-secondary",
-          )}
-        >
-          {league.classificationSystem}
-        </span>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-1.5">
-        {isFeatured && (
-          <span className="border-gold/35 bg-gold/10 text-gold inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold">
-            {t("featuredBadge")}
-          </span>
-        )}
-        {isOfficial && (
-          <span className="border-primary/35 bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold">
-            <ShieldCheck className="size-3" />
-            {t("officialBadge")}
-          </span>
-        )}
-      </div>
-
-      <span
-        className={cn(
-          "inline-flex w-fit items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold",
-          STATUS_STYLES[status] ?? "border-border bg-card-strong/60 text-muted",
-        )}
-      >
-        {getStatusLabel(status, t)}
-      </span>
-    </Link>
   );
 }

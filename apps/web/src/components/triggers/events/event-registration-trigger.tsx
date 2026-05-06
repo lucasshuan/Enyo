@@ -39,7 +39,7 @@ export function EventRegistrationTrigger({
 
   if (isRegistered) {
     return (
-      <div className="border-success/20 bg-success/5 flex items-center gap-3 rounded-2xl border px-5 py-4">
+      <div className="border-success/40 from-success-dark to-success-dark/60 flex items-center gap-3 rounded-2xl border bg-gradient-to-br px-5 py-4">
         <div className="bg-success/15 flex size-9 shrink-0 items-center justify-center rounded-xl">
           <CheckCircle2 className="text-success size-5" />
         </div>
@@ -55,9 +55,9 @@ export function EventRegistrationTrigger({
 
   if (!registrationsEnabled) {
     return (
-      <div className="border-border bg-card/40 flex items-center gap-3 rounded-2xl border px-5 py-4">
+      <div className="border-white/10 bg-card-strong flex items-center gap-3 rounded-2xl border px-5 py-4">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/5">
-          <Swords className="size-5 text-white/30" />
+          <Swords className="text-muted size-5" />
         </div>
         <p className="text-muted text-sm">{t("registrationsClosed")}</p>
       </div>

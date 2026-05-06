@@ -8,7 +8,6 @@ import { CalendarDays, ChevronRight, Users } from "lucide-react";
 import { cn } from "@/lib/utils/helpers";
 import { buttonVariants } from "@/components/ui/button";
 import { cdnUrl } from "@/lib/utils/cdn";
-import { FollowButton } from "@/components/ui/follow-button";
 
 export interface ShowcaseGame {
   id: string;
@@ -153,11 +152,6 @@ export function GameShowcase({ games, labels }: GameShowcaseProps) {
                 {labels.explore}
                 <ChevronRight className="size-4 transition-transform group-hover:-translate-x-0.5" />
               </Link>
-              <FollowButton
-                targetId={game.id}
-                targetType="GAME"
-                followCount={game.followCount}
-              />
             </div>
           </div>
         </div>

@@ -1,62 +1,50 @@
 import { redirect } from "next/navigation";
+
 import { getServerAuthSession } from "@/auth";
-import { safeServerQuery } from "@/lib/apollo/safe-server-query";
-import { GET_GAME } from "@/lib/apollo/queries/games";
-import { type GetGameQuery } from "@/lib/apollo/generated/graphql";
 import { CreateEventTemplate } from "@/components/templates/events/create-event-template";
+import type { SimpleGame } from "@/actions/game";
+import { getCachedGame } from "@/lib/server/game-page-data";
 
-interface CreateEventPageProps {
-  searchParams: Promise<{ game?: string }>;
-}
+type NewEventPageProps = {
+  searchParams: Promise<{
+    game?: string;
+  }>;
+};
 
-export default async function CreateEventPage({
+export default async function NewEventPage({
   searchParams,
-}: CreateEventPageProps) {
+}: NewEventPageProps) {
   const session = await getServerAuthSession();
   if (!session?.user) {
     redirect("/");
   }
 
   const { game: gameSlug } = await searchParams;
-
-  if (!gameSlug) {
-    return (
-      <main>
-        <CreateEventTemplate />
-      </main>
-    );
-  }
-
-  const data = await safeServerQuery<GetGameQuery>({
-    query: GET_GAME,
-    variables: { slug: gameSlug },
-  });
-
-  if (!data?.game) {
-    return (
-      <main>
-        <CreateEventTemplate />
-      </main>
-    );
-  }
-
-  const { game } = data;
-
-  const initialGame = {
-    id: game.id,
-    name: game.name,
-    slug: game.slug,
-    description: game.description ?? null,
-    thumbnailImagePath: game.thumbnailImagePath ?? null,
-  };
+  const initialGame = gameSlug ? await getInitialGame(gameSlug) : undefined;
 
   return (
     <main>
       <CreateEventTemplate
-        gameId={game.id}
+        gameId={initialGame?.id}
         initialGame={initialGame}
-        isGameFixed={true}
+        isGameFixed={!!initialGame}
       />
     </main>
   );
+}
+
+async function getInitialGame(slug: string): Promise<SimpleGame | undefined> {
+  const data = await getCachedGame(slug);
+
+  if (!data?.game) {
+    return undefined;
+  }
+
+  return {
+    id: data.game.id,
+    name: data.game.name,
+    slug: data.game.slug,
+    description: data.game.description,
+    thumbnailImagePath: data.game.thumbnailImagePath,
+  };
 }

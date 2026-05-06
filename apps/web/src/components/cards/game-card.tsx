@@ -35,21 +35,25 @@ export function GameCard({
   const [isFollowHovered, setIsFollowHovered] = useState(false);
 
   return (
-    <div className={cn(
-      "glass-panel group relative flex w-full flex-col overflow-hidden rounded-xl transition-all duration-300",
-      isFollowHovered
-        ? "no-hover"
-        : "hover:border-[color-mix(in_srgb,var(--gold)_45%,white)] hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)]",
-    )}>
+    <div
+      className={cn(
+        "glass-panel group relative flex w-full flex-col overflow-hidden rounded-xl transition-all duration-300",
+        isFollowHovered
+          ? "no-hover"
+          : "hover:border-[color-mix(in_srgb,var(--gold)_45%,white)] hover:bg-[color-mix(in_srgb,var(--gold)_10%,transparent)]",
+      )}
+    >
       <Link
         href={`/games/${game.slug}` as Route}
         className="absolute inset-0 z-0 rounded-xl"
         aria-label={game.name}
       />
-      <div className={cn(
-        "pointer-events-none relative z-0 aspect-368/178 w-full shrink-0 overflow-hidden bg-[#0b080f] brightness-75 transition-all duration-300 ease-out",
-        !isFollowHovered && "group-hover:brightness-100",
-      )}>
+      <div
+        className={cn(
+          "pointer-events-none relative z-0 aspect-368/178 w-full shrink-0 overflow-hidden bg-[#0b080f] brightness-75 transition-all duration-300 ease-out",
+          !isFollowHovered && "group-hover:brightness-100",
+        )}
+      >
         {game.thumbnailImagePath ? (
           <div className="absolute -inset-px transform-gpu transition-transform duration-300 ease-out">
             <Image
@@ -69,10 +73,13 @@ export function GameCard({
 
       <div className="pointer-events-none relative z-10 flex min-h-26 flex-col px-5 pt-5 pb-4">
         <div className="mb-2 flex items-start justify-between gap-2">
-          <h3 className={cn(
-            "line-clamp-2 flex-1 text-lg leading-tight font-semibold transition-colors duration-200",
-            !isFollowHovered && "group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
-          )}>
+          <h3
+            className={cn(
+              "line-clamp-2 flex-1 text-lg leading-tight font-semibold transition-colors duration-200",
+              !isFollowHovered &&
+                "group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
+            )}
+          >
             {game.name}
           </h3>
           {game.status === "PENDING" && pendingLabel && (
@@ -99,10 +106,13 @@ export function GameCard({
             targetType="GAME"
             followCount={game.followCount}
           />
-          <ChevronRight className={cn(
-            "text-gold/80 size-5 shrink-0 transition-all duration-200",
-            !isFollowHovered && "group-hover:translate-x-1 group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
-          )} />
+          <ChevronRight
+            className={cn(
+              "text-gold/80 size-5 shrink-0 transition-all duration-200",
+              !isFollowHovered &&
+                "group-hover:translate-x-1 group-hover:text-[color-mix(in_srgb,var(--gold)_78%,white)]",
+            )}
+          />
         </div>
       </div>
     </div>

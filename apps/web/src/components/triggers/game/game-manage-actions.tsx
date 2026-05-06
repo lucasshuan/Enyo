@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { DeleteGameModal } from "@/components/modals/game/delete-game-modal";
 
@@ -13,27 +14,41 @@ interface GameManageActionsProps {
 }
 
 export function GameManageActions({
-  gameId,
   gameSlug,
   gameName,
   eventCount,
 }: GameManageActionsProps) {
+  const t = useTranslations("GamePage");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2">
         <Link
           href={`/games/${gameSlug}/edit`}
-          className="flex size-8 items-center justify-center rounded-xl border border-white/10 bg-black/40 text-white/50 backdrop-blur-sm transition-all hover:bg-black/60 hover:text-white"
+          className="focus-visible:ring-gold/35 group hover:border-gold/35 hover:bg-gold/10 hover:text-gold relative flex h-8 items-center gap-2 overflow-hidden rounded-lg border border-white/12 bg-black/35 px-5 font-medium text-white/65 shadow-[inset_0_1px_0_rgb(255_255_255/0.06),0_6px_18px_-12px_rgb(0_0_0/0.9)] backdrop-blur-md transition-[color,border-color,background-color,box-shadow] duration-300 focus-visible:ring-2 focus-visible:outline-none"
         >
-          <Pencil className="size-3.5" />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-white/0 transition-colors duration-300 group-hover:bg-white/5"
+          />
+          <Pencil className="relative size-3.5" />
+          <span className="relative text-xs font-semibold tracking-wide">
+            {t("editGame")}
+          </span>
         </Link>
         <button
           onClick={() => setIsDeleteOpen(true)}
-          className="flex size-8 items-center justify-center rounded-xl border border-white/10 bg-black/40 text-white/50 backdrop-blur-sm transition-all hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400"
+          className="group focus-visible:ring-danger/40 relative flex h-8 items-center gap-2 overflow-hidden rounded-lg border border-white/12 bg-black/35 px-5 font-medium text-white/65 shadow-[inset_0_1px_0_rgb(255_255_255/0.06),0_6px_18px_-12px_rgb(0_0_0/0.9)] backdrop-blur-md transition-[color,border-color,background-color,box-shadow] duration-300 hover:border-red-500/40 hover:bg-red-500/12 hover:text-red-300 focus-visible:ring-2 focus-visible:outline-none"
         >
-          <Trash2 className="size-3.5" />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-white/0 transition-colors duration-300 group-hover:bg-white/5"
+          />
+          <Trash2 className="relative size-3.5" />
+          <span className="relative text-xs font-semibold tracking-wide">
+            {t("deleteGame")}
+          </span>
         </button>
       </div>
 

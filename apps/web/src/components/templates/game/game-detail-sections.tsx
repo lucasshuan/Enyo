@@ -12,7 +12,6 @@ import { useTranslations } from "next-intl";
 
 import { AddEventButton } from "@/components/triggers/game/add-event-button";
 import { GameEventsSection } from "@/components/ui/game-events-section";
-import { SectionHeader } from "@/components/ui/section-header";
 import { SectionTabs, type SectionTabItem } from "@/components/ui/tabs";
 import type {
   GetGameQuery,
@@ -65,7 +64,7 @@ export function GameDetailSections({
   ];
 
   return (
-    <div className="border-gold-dim/40 bg-card/90 overflow-hidden rounded-3xl border shadow-[0_18px_70px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.04)]">
+    <div>
       <SectionTabs
         tabs={tabs}
         activeTab={activeTab}
@@ -73,7 +72,7 @@ export function GameDetailSections({
         ariaLabel={t("sectionTabsAriaLabel")}
       />
 
-      <section className="space-y-6 p-5 sm:p-6">
+      <section className="mx-auto min-h-[24rem] w-full max-w-[1600px] px-5 pt-5 pb-12 sm:px-6 lg:px-8">
         {activeTab === "events" && (
           <div
             id="events-section-panel"
@@ -81,21 +80,17 @@ export function GameDetailSections({
             aria-labelledby="events-section-tab"
             className="animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
-            <div className="space-y-6">
-              <SectionHeader
-                title={t("eventsTitle")}
-                description={t("eventsDescription", { gameName: game.name })}
-                actions={
-                  <AddEventButton
-                    gameId={game.id}
-                    game={game as SimpleGame}
-                    variant="header"
-                  />
-                }
-              />
-
-              <GameEventsSection leagues={leagues} gameSlug={gameSlug} />
-            </div>
+            <GameEventsSection
+              leagues={leagues}
+              gameSlug={gameSlug}
+              action={
+                <AddEventButton
+                  gameId={game.id}
+                  game={game as SimpleGame}
+                  variant="sidebar"
+                />
+              }
+            />
           </div>
         )}
 
@@ -151,14 +146,12 @@ function GameEmptySection({
       id={id}
       role="tabpanel"
       aria-labelledby={tabId}
-      className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+      className="animate-in border-gold-dim/25 bg-card/70 fade-in slide-in-from-bottom-2 rounded-3xl border shadow-[0_18px_70px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.03)] duration-300"
     >
-      <div className="border-gold-dim/25 bg-card-strong/45 flex min-h-72 flex-col items-center justify-center rounded-2xl border p-8 text-center">
-        <div className="border-gold-dim/35 bg-gold-dim/10 text-secondary mb-4 flex size-16 items-center justify-center rounded-2xl border">
-          <Icon className="size-8" />
-        </div>
+      <div className="flex min-h-80 flex-col items-center justify-center p-8 text-center">
+        <Icon className="text-secondary mb-4 size-10 opacity-40" />
         <h3 className="text-foreground text-lg font-semibold">{title}</h3>
-        <p className="text-muted/55 mt-2 max-w-md text-sm leading-relaxed">
+        <p className="text-muted/45 mt-2 max-w-md text-sm leading-relaxed">
           {description}
         </p>
       </div>

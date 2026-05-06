@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useEffect, useState, useRef } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddGameSchema, type AddGameValues } from "@/schemas/game";
 import { useTranslations } from "next-intl";
@@ -41,7 +41,6 @@ export function AddGameForm({
     handleSubmit,
     control,
     setValue,
-    watch,
     formState: { errors, isValid },
   } = useForm<AddGameValues>({
     resolver: zodResolver(schema),
@@ -57,7 +56,7 @@ export function AddGameForm({
     mode: "onChange",
   });
 
-  const slug = watch("slug") ?? "";
+  const slug = useWatch({ control, name: "slug" }) ?? "";
   const canCheckSlug = slug.length >= 2;
   const isSlugChecking = canCheckSlug && slugAvailability.value !== slug;
   const hasSlugConflict =

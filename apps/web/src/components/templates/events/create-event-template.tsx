@@ -124,7 +124,7 @@ export function CreateEventTemplate({
             onClick={() => setIsConfirmOpen(true)}
             disabled={!isValid || isLoading}
             intent="primary"
-            className="rounded-2xl px-6 py-2.5 text-sm font-semibold shadow-lg shadow-primary/20"
+            className="shadow-primary/20 rounded-2xl px-6 py-2.5 text-sm font-semibold shadow-lg"
           >
             {isLoading ? (
               <LoaderCircle className="mr-2 size-4 animate-spin" />

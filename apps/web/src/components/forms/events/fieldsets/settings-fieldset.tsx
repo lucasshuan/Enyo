@@ -25,14 +25,12 @@ interface SettingsFieldsetProps {
   allowAllStatuses?: boolean;
 }
 
-export function SettingsFieldset({ allowAllStatuses = false }: SettingsFieldsetProps) {
+export function SettingsFieldset({
+  allowAllStatuses = false,
+}: SettingsFieldsetProps) {
   const t = useTranslations("Modals.AddEvent.settings");
-  const {
-    register,
-    control,
-    setValue,
-    formState: { errors },
-  } = useFormContext<EventSharedFormValues>();
+  const { register, control, setValue } =
+    useFormContext<EventSharedFormValues>();
 
   const visibility = useWatch({ control, name: "visibility" }) ?? "PUBLIC";
   const registrationsEnabled =
@@ -282,9 +280,7 @@ export function SettingsFieldset({ allowAllStatuses = false }: SettingsFieldsetP
                             ? format(field.value, "yyyy-MM-dd")
                             : ""
                         }
-                        onChange={(v) =>
-                          field.onChange(v ? new Date(v) : null)
-                        }
+                        onChange={(v) => field.onChange(v ? new Date(v) : null)}
                         placeholder={t("eventDates.placeholder")}
                       />
                     )}
@@ -303,16 +299,16 @@ export function SettingsFieldset({ allowAllStatuses = false }: SettingsFieldsetP
                             ? format(field.value, "yyyy-MM-dd")
                             : ""
                         }
-                        onChange={(v) =>
-                          field.onChange(v ? new Date(v) : null)
-                        }
+                        onChange={(v) => field.onChange(v ? new Date(v) : null)}
                         placeholder={t("eventDates.placeholder")}
                       />
                     )}
                   />
                 </div>
               </div>
-              <p className="text-secondary/35 text-xs">{t("openRegistrations.datesHint")}</p>
+              <p className="text-secondary/35 text-xs">
+                {t("openRegistrations.datesHint")}
+              </p>
             </div>
 
             {/* Requires approval toggle */}
@@ -402,16 +398,22 @@ export function SettingsFieldset({ allowAllStatuses = false }: SettingsFieldsetP
           label={t("status.label")}
           tooltip={
             <div className="flex flex-col gap-1.5">
-              <p className="text-secondary/60 mb-0.5">{t("status.tooltipIntro")}</p>
-              {([
-                [t("status.pending"), t("status.tooltipPending")],
-                [t("status.registration"), t("status.tooltipRegistration")],
-                [t("status.active"), t("status.tooltipActive")],
-                [t("status.finished"), t("status.tooltipFinished")],
-                [t("status.cancelled"), t("status.tooltipCancelled")],
-              ] as [string, string][]).map(([label, desc]) => (
+              <p className="text-secondary/60 mb-0.5">
+                {t("status.tooltipIntro")}
+              </p>
+              {(
+                [
+                  [t("status.pending"), t("status.tooltipPending")],
+                  [t("status.registration"), t("status.tooltipRegistration")],
+                  [t("status.active"), t("status.tooltipActive")],
+                  [t("status.finished"), t("status.tooltipFinished")],
+                  [t("status.cancelled"), t("status.tooltipCancelled")],
+                ] as [string, string][]
+              ).map(([label, desc]) => (
                 <div key={label} className="flex gap-1.5">
-                  <span className="text-secondary/90 font-semibold shrink-0">{label}</span>
+                  <span className="text-secondary/90 shrink-0 font-semibold">
+                    {label}
+                  </span>
                   <span className="text-secondary/50">— {desc}</span>
                 </div>
               ))}

@@ -30,11 +30,7 @@ interface GamesPageProps {
   searchParams: Promise<{ search?: string; sort?: string }>;
 }
 
-export default async function GamesPage({
-  params,
-  searchParams,
-}: GamesPageProps) {
-  const { locale } = await params;
+export default async function GamesPage({ searchParams }: GamesPageProps) {
   const { search, sort } = await searchParams;
   const t = await getTranslations("GamesPage");
   const gridT = {
@@ -50,7 +46,7 @@ export default async function GamesPage({
   const token = session?.user?.accessToken ?? null;
 
   return (
-    <main className="mx-auto flex w-full flex-col gap-8 px-6 pt-20 pb-12 sm:px-10 lg:px-12">
+    <main className="mx-auto flex w-full flex-col gap-8 px-6 pt-20 pb-12">
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
         <div className="flex flex-col gap-6">
           <SectionHeader title={t("title")} description={t("description")} />
@@ -104,12 +100,7 @@ export default async function GamesPage({
       <div className="border-b border-white/5" />
 
       <Suspense fallback={<GamesGridSkeleton />}>
-        <GamesGrid
-          search={search}
-          locale={locale}
-          translations={gridT}
-          token={token}
-        />
+        <GamesGrid search={search} translations={gridT} token={token} />
       </Suspense>
     </main>
   );
@@ -137,12 +128,10 @@ type GamesGridTranslations = {
 
 async function GamesGrid({
   search,
-  locale,
   translations,
   token,
 }: {
   search?: string;
-  locale: string;
   translations: GamesGridTranslations;
   token: string | null;
 }) {

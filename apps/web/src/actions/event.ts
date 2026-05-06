@@ -1,14 +1,12 @@
 "use server";
 
 import { getClient } from "@/lib/apollo/apollo-client";
-import { GET_GAME_ACTIONS } from "@/lib/apollo/queries/games";
 import { CHECK_EVENT_SLUG } from "@/lib/apollo/queries/leagues";
 import {
   CREATE_LEAGUE,
   UPDATE_LEAGUE,
   DELETE_LEAGUE,
 } from "@/lib/apollo/queries/league-mutations";
-import { GetGameActionsQuery } from "@/lib/apollo/generated/graphql";
 import { getServerAuthSession } from "@/auth";
 import { canManageLeagues } from "@/lib/server/permissions";
 import { revalidatePath, revalidateTag } from "next/cache";
@@ -16,19 +14,14 @@ import { createSafeAction } from "@/lib/utils/action-utils";
 
 // ─── Internal helpers ────────────────────────────────────────────────────────
 
-async function getGameBySlug(gameIdOrSlug: string) {
-  const { data } = await getClient().query<GetGameActionsQuery>({
-    query: GET_GAME_ACTIONS,
-    variables: { slug: gameIdOrSlug },
-  });
-  return data?.game;
-}
-
 function revalidateAfterEventMutation(gameSlug?: string) {
   revalidatePath("/");
   revalidateTag("events", {});
   revalidateTag("games", {});
-  if (gameSlug) revalidatePath(`/games/${gameSlug}`);
+  if (gameSlug) {
+    revalidatePath(`/games/${gameSlug}`);
+    revalidatePath(`/games/${gameSlug}/events`);
+  }
 }
 
 // ─── Events ───────────────────────────────────────────────────────────────────
@@ -70,9 +63,15 @@ export const createLeague = createSafeAction(
     const session = await getServerAuthSession();
     if (!session?.user?.id) throw new Error("Unauthorized");
 
-    const game = data.gameId ? await getGameBySlug(data.gameId) : null;
-
-    await getClient().mutate({
+    const result = await getClient().mutate<{
+      createLeague?: {
+        event?: {
+          game?: {
+            slug?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    }>({
       mutation: CREATE_LEAGUE,
       variables: {
         event: {
@@ -108,7 +107,9 @@ export const createLeague = createSafeAction(
       },
     });
 
-    revalidateAfterEventMutation(game?.slug);
+    revalidateAfterEventMutation(
+      result.data?.createLeague?.event?.game?.slug ?? undefined,
+    );
     return true;
   },
 );

@@ -220,7 +220,11 @@ export function EloMatchSimulator({
                   deltaColor,
                 )}
               >
-                {delta === null ? "—" : delta >= 0 ? `+${delta.toFixed(2)}` : delta.toFixed(2)}
+                {delta === null
+                  ? "—"
+                  : delta >= 0
+                    ? `+${delta.toFixed(2)}`
+                    : delta.toFixed(2)}
               </span>
               <span className="text-secondary/35 text-[9px]">{t("pts")}</span>
             </div>

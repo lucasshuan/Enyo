@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useEffect, useState, useRef } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@apollo/client/react";
 import { useEditGameSchema, type EditGameValues } from "@/schemas/game";
@@ -59,6 +59,7 @@ export function EditGameForm({
   // Hydrate staff state once the query resolves.
   useEffect(() => {
     if (!staffData?.gameStaff) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStaffMembers(
       staffData.gameStaff.map((s) => ({
         userId: s.userId,
@@ -82,7 +83,6 @@ export function EditGameForm({
     handleSubmit,
     control,
     setValue,
-    watch,
     formState: { errors, isValid },
   } = useForm<EditGameValues>({
     resolver: zodResolver(schema),
@@ -98,7 +98,7 @@ export function EditGameForm({
     mode: "onChange",
   });
 
-  const slug = watch("slug") ?? "";
+  const slug = useWatch({ control, name: "slug" }) ?? "";
   const canCheckSlug = slug.length >= 2 && slug !== game.slug;
   const isSlugChecking = canCheckSlug && slugAvailability.value !== slug;
   const hasSlugConflict =

@@ -97,7 +97,9 @@ export function FollowButton({
 
     const nextState = !isFollowing;
     setOptimisticFollowing(nextState);
-    setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? 1 : -1));
+    setLocalCount(
+      (prev) => (prev ?? serverCount ?? followCount) + (nextState ? 1 : -1),
+    );
 
     try {
       if (targetType === "GAME") {
@@ -108,7 +110,9 @@ export function FollowButton({
     } catch {
       // revert
       setOptimisticFollowing(!nextState);
-      setLocalCount((prev) => (prev ?? serverCount ?? followCount) + (nextState ? -1 : 1));
+      setLocalCount(
+        (prev) => (prev ?? serverCount ?? followCount) + (nextState ? -1 : 1),
+      );
     }
   };
 

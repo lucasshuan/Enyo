@@ -362,7 +362,7 @@ export const LEAGUE_DEFAULT_SETTINGS = {
   pointsPerDraw: 1,
   pointsPerLoss: 0,
   allowedFormats: ["ONE_V_ONE"] as const,
-  status: "PENDING" as const,
+  status: "DRAFT" as const,
   visibility: "PUBLIC" as const,
   registrationsEnabled: false,
   requiresApproval: false,
