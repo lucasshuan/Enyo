@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 
 import { LeagueCard } from "@/components/cards/league-card";
 import { CustomSelect } from "@/components/ui/custom-select";
+import { SectionHeader } from "@/components/ui/section-header";
 import { type GetLeaguesQuery } from "@/lib/apollo/generated/graphql";
 
 type LeagueNode = NonNullable<GetLeaguesQuery["leagues"]["nodes"][number]>;
@@ -300,23 +301,18 @@ export function GameEventsSection({
       </aside>
 
       <section className="min-w-0 space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0">
-            <h2 className="text-foreground text-xl font-semibold">
-              {t("leagueListTitle")}
-            </h2>
-            <p className="text-muted/55 mt-1 max-w-2xl text-sm leading-relaxed">
-              {t("leagueListDescription")}
-            </p>
-          </div>
-
-          <div className="border-gold-dim/25 bg-card-strong/35 text-secondary flex h-9 w-fit items-center rounded-full border px-3 text-xs font-semibold">
-            {t("eventListSummary", {
-              shown: filteredLeagues.length,
-              total: sortedLeagues.length,
-            })}
-          </div>
-        </div>
+        <SectionHeader
+          title={t("eventListTitle")}
+          description={t("eventListDescription")}
+          actions={
+            <div className="border-gold-dim/25 bg-card-strong/35 text-secondary flex h-9 w-fit items-center rounded-full border px-3 text-xs font-semibold">
+              {t("eventListSummary", {
+                shown: filteredLeagues.length,
+                total: sortedLeagues.length,
+              })}
+            </div>
+          }
+        />
 
         {filteredLeagues.length > 0 ? (
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">

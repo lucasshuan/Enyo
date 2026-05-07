@@ -27,7 +27,7 @@ export function SiteTopbar({
   return (
     <header
       className={cn(
-        "border-border fixed top-0 right-0 left-0 z-50 h-12 border-b shadow-[0_14px_36px_rgb(0_0_0/0.28)] backdrop-blur-xl transition-[background-color,opacity] duration-300",
+        "border-border sticky top-0 z-50 h-12 w-full shrink-0 border-b shadow-[0_14px_36px_rgb(0_0_0/0.28)] backdrop-blur-xl transition-[background-color,opacity] duration-300",
         dimmed ? "bg-black/70 opacity-60" : "bg-background/80 opacity-100",
       )}
     >

@@ -35,8 +35,8 @@ export default async function RootLayout({
       <ApolloWrapper>
         <Providers session={session}>
           <div className="relative flex h-screen overflow-hidden">
-            <SiteChrome />
             <div className="app-scroll-shell relative flex flex-1 flex-col">
+              <SiteChrome />
               <div className="flex-1">{children}</div>
               <SiteFooter />
             </div>

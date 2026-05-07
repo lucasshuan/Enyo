@@ -38,23 +38,46 @@ export function GameHero({
       <MediaHeroSection backgroundSrc={backgroundSrc}>
         <div className="relative">
           {/* Overlay topbar */}
-          <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 pt-14 pb-0 sm:px-6 lg:px-8">
+          <div className="mx-auto flex w-full max-w-400 items-center justify-between px-5 pt-3 pb-0 sm:px-6 lg:px-8">
             <Link
               href="/games"
-              className="group focus-visible:ring-gold/40 text-gold/70 hover:text-gold inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
+              className="group focus-visible:ring-gold/40 text-gold/70 hover:text-gold inline-flex items-center gap-1.5 text-xs font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
             >
-              <ChevronLeft className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <ChevronLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
               <span>{t("backToGames")}</span>
             </Link>
-            <GameActionBar
-              gameId={game.id}
-              followCount={game.followCount ?? 0}
-            />
+            <div className="flex items-center gap-2">
+              {canEdit && (
+                <div className="lg:hidden">
+                  <GameManageActions
+                    gameId={game.id}
+                    gameSlug={gameSlug}
+                    gameName={game.name}
+                    eventCount={eventCount}
+                  />
+                </div>
+              )}
+              <GameActionBar
+                gameId={game.id}
+                followCount={game.followCount ?? 0}
+              />
+            </div>
           </div>
 
-          <div className="mx-auto grid w-full max-w-[1600px] gap-6 px-5 py-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)] lg:items-center lg:px-8 xl:px-10">
-            <div className="grid gap-5 md:grid-cols-[minmax(0,368px)_minmax(0,1fr)]">
-              <div className="bg-background/75 relative aspect-92/43 w-full max-w-92 overflow-hidden rounded-2xl shadow-[0_22px_60px_rgb(0_0_0/0.38)]">
+          {canEdit && (
+            <div className="absolute right-5 bottom-3 z-10 hidden sm:right-6 lg:right-8 lg:flex xl:right-10">
+              <GameManageActions
+                gameId={game.id}
+                gameSlug={gameSlug}
+                gameName={game.name}
+                eventCount={eventCount}
+              />
+            </div>
+          )}
+
+          <div className="mx-auto grid w-full max-w-400 gap-4 px-5 py-2 sm:px-6 sm:py-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)] lg:items-center lg:px-8 xl:px-10">
+            <div className="grid gap-4 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
+              <div className="bg-background/75 relative aspect-92/43 w-full max-w-80 overflow-hidden rounded-xl shadow-[0_18px_48px_rgb(0_0_0/0.34)]">
                 {thumbnailSrc ? (
                   <Image
                     src={thumbnailSrc}
@@ -62,7 +85,7 @@ export function GameHero({
                     fill
                     priority
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 368px"
+                    sizes="(max-width: 768px) 100vw, 320px"
                   />
                 ) : (
                   <div className="from-primary/25 to-primary/5 absolute inset-0 bg-linear-to-br" />
@@ -74,33 +97,22 @@ export function GameHero({
                 />
               </div>
 
-              <div className="flex min-w-0 flex-col justify-center gap-5">
+              <div className="flex min-w-0 flex-col justify-center gap-3">
                 <div className="min-w-0">
                   {game.status === "PENDING" && (
-                    <div className="animate-pending-pulse border-warning/25 bg-warning/10 text-warning mb-3 inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold">
-                      <AlertCircle className="size-4 shrink-0" />
+                    <div className="animate-pending-pulse border-warning/25 bg-warning/10 text-warning mb-2 inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-semibold">
+                      <AlertCircle className="size-3.5 shrink-0" />
                       {t("pendingNotice")}
                     </div>
                   )}
 
-                  <h1 className="text-foreground inline-flex flex-wrap items-center gap-2 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
+                  <h1 className="text-foreground font-display text-xl leading-none font-semibold tracking-tight sm:text-2xl">
                     {game.name}
-                    {game.steamUrl && (
-                      <a
-                        href={game.steamUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={t("playOnSteam")}
-                        className="text-steam-muted hover:border-steam/40 hover:text-steam focus-visible:ring-steam/40 inline-flex shrink-0 items-center rounded-xl border border-white/10 bg-black/60 p-2 shadow-[0_2px_8px_rgb(0_0_0/0.5)] backdrop-blur-sm transition-all duration-200 hover:bg-black/80 hover:shadow-[0_0_12px_color-mix(in_srgb,var(--color-steam)_20%,transparent)] focus-visible:ring-2 focus-visible:outline-none"
-                      >
-                        <SteamIcon className="size-5" />
-                      </a>
-                    )}
                   </h1>
-                  <p className="text-muted mt-3 max-w-2xl text-sm leading-6">
+                  <p className="text-muted mt-2 line-clamp-3 max-w-xl text-xs leading-4">
                     {game.description
-                      ? game.description.length > 230
-                        ? game.description.slice(0, 230) + "…"
+                      ? game.description.length > 180
+                        ? game.description.slice(0, 180) + "…"
                         : game.description
                       : t("sidebarDescription")}
                   </p>
@@ -110,15 +122,15 @@ export function GameHero({
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(true)}
-                    className="border-gold-dim/35 bg-card-strong/70 text-secondary hover:border-gold/55 hover:text-foreground focus-visible:ring-gold/35 inline-flex h-10 items-center gap-2 rounded-xl border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                    className="border-gold-dim/35 bg-card-strong/70 text-secondary hover:border-gold/55 hover:text-foreground focus-visible:ring-gold/35 inline-flex h-9 items-center gap-2 rounded-lg border px-3.5 text-xs font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
                   >
-                    <Info className="size-4" />
+                    <Info className="size-3.5" />
                     {t("viewDetails")}
                   </button>
 
                   {game.websiteUrl && (
                     <HeroExternalLink href={game.websiteUrl}>
-                      <ExternalLink className="size-4" />
+                      <ExternalLink className="size-3.5" />
                       {t("visitWebsite")}
                     </HeroExternalLink>
                   )}
@@ -128,17 +140,6 @@ export function GameHero({
 
             <div className="hidden lg:block" aria-hidden="true" />
           </div>
-
-          {canEdit && (
-            <div className="relative flex justify-end px-5 pb-4 sm:px-6 lg:px-8 xl:px-10">
-              <GameManageActions
-                gameId={game.id}
-                gameSlug={gameSlug}
-                gameName={game.name}
-                eventCount={eventCount}
-              />
-            </div>
-          )}
         </div>
       </MediaHeroSection>
 
@@ -163,22 +164,9 @@ function HeroExternalLink({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="text-muted hover:border-gold-dim/45 hover:text-foreground focus-visible:ring-gold/35 inline-flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-semibold transition-colors hover:bg-white/8 focus-visible:ring-2 focus-visible:outline-none"
+      className="text-muted hover:border-gold-dim/45 hover:text-foreground focus-visible:ring-gold/35 inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3.5 text-xs font-semibold transition-colors hover:bg-white/8 focus-visible:ring-2 focus-visible:outline-none"
     >
       {children}
     </a>
-  );
-}
-
-function SteamIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M11.979 0C5.353 0 0 5.373 0 12c0 2.221.606 4.3 1.666 6.1L6.155 13.92c-.11-.421-.168-.86-.168-1.314 0-2.868 2.324-5.193 5.19-5.193 2.87 0 5.194 2.325 5.194 5.193 0 2.868-2.324 5.194-5.193 5.194-.852 0-1.656-.205-2.36-.566L4.793 23c2.164 1.344 4.7 2.128 7.397 2.128 6.577 0 11.905-5.328 11.905-11.905S18.556 0 11.979 0Zm-.791 10.158c-1.353 0-2.45 1.097-2.45 2.448s1.097 2.45 2.45 2.45c1.35 0 2.449-1.099 2.449-2.45s-1.099-2.448-2.449-2.448Zm0 1.258c.656 0 1.19.532 1.19 1.19 0 .656-.534 1.191-1.19 1.191-.659 0-1.192-.534-1.192-1.191 0-.66.533-1.19 1.192-1.19Z" />
-    </svg>
   );
 }

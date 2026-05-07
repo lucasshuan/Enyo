@@ -18,11 +18,11 @@ export function MediaHeroSection({
   return (
     <section
       className={cn(
-        "bg-card/25 relative isolate min-h-[420px] overflow-hidden",
+        "bg-card/25 relative isolate min-h-52.5 overflow-hidden",
         className,
       )}
     >
-      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]">
+      <div className="absolute inset-0 mask-[linear-gradient(to_bottom,black_50%,transparent_100%)]">
         {backgroundSrc ? (
           <Image
             src={backgroundSrc}
@@ -38,13 +38,13 @@ export function MediaHeroSection({
 
         <div
           aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_82%_42%,transparent_0%,rgb(13_12_14/0.18)_46%,rgb(13_12_14/0.92)_100%),linear-gradient(90deg,rgb(13_12_14/0.98)_0%,rgb(13_12_14/0.88)_31%,rgb(13_12_14/0.46)_58%,rgb(13_12_14/0.82)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_82%_42%,transparent_0%,transparent_24%,rgb(13_12_14/0.92)_100%),linear-gradient(90deg,rgb(13_12_14/0.98)_0%,rgb(13_12_14/0.88)_31%,rgb(13_12_14/0.46)_58%,rgb(13_12_14/0.82)_100%)]"
         />
       </div>
 
       {children}
 
-      <div className="h-4 sm:h-6" />
+      <div className="h-2 sm:h-3" />
     </section>
   );
 }

@@ -24,7 +24,7 @@ export default async function HomePage() {
   const user = session?.user;
 
   return (
-    <main className="relative -mt-12 overflow-hidden lg:mt-0">
+    <main className="relative overflow-hidden">
       {/* ── Hero background — Bellona ── */}
       <div
         className="pointer-events-none absolute top-0 hidden h-svh sm:-left-120 sm:block md:-left-90 lg:-left-60 xl:-left-30"
@@ -44,7 +44,7 @@ export default async function HomePage() {
 
       <div className="mx-auto flex w-full max-w-7xl flex-col px-6 sm:px-10 lg:px-12">
         {/* ── Hero ── */}
-        <section className="relative flex min-h-[calc(100svh)] flex-col items-center justify-center pb-24 text-center">
+        <section className="relative flex min-h-[calc(100svh-3rem)] flex-col items-center justify-center pb-24 text-center">
           {/* Ambient glow */}
           <div
             className="pointer-events-none absolute inset-0 overflow-hidden"

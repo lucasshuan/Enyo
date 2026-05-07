@@ -15,9 +15,9 @@ export default async function GlobalNotFoundPage() {
       <ApolloWrapper>
         <Providers>
           <div className="relative flex h-screen overflow-hidden">
-            <SiteChrome />
             <div className="app-scroll-shell flex flex-1 flex-col">
-              <div className="flex-1 pt-12">
+              <SiteChrome />
+              <div className="flex-1">
                 <NotFoundPage />
               </div>
               <SiteFooter />

@@ -78,35 +78,58 @@ export function EventHero({
   return (
     <MediaHeroSection backgroundSrc={backgroundSrc}>
       <div className="relative">
-        <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 pt-14 pb-0 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 pt-3 pb-0 sm:px-6 lg:px-8">
           <Link
             href={`/games/${game.slug}`}
-            className="group focus-visible:ring-gold/40 text-gold/70 hover:text-gold inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
+            className="group focus-visible:ring-gold/40 text-gold/70 hover:text-gold inline-flex items-center gap-1.5 text-xs font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
           >
-            <ChevronLeft className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            <ChevronLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
             {gameThumbnailSrc ? (
-              <span className="relative h-5 w-[41.2px] shrink-0 overflow-hidden rounded-md bg-black/45">
+              <span className="relative h-4 w-[33px] shrink-0 overflow-hidden rounded-sm bg-black/45">
                 <Image
                   src={gameThumbnailSrc}
                   alt={game.name}
                   fill
                   className="object-cover"
-                  sizes="42px"
+                  sizes="33px"
                 />
               </span>
             ) : null}
             <span>{t("backToGame", { gameName: game.name })}</span>
           </Link>
 
-          <EventActionBar
-            eventId={event.id}
-            followCount={event.followCount ?? 0}
-          />
+          <div className="flex items-center gap-2">
+            <EventActionBar
+              eventId={event.id}
+              followCount={event.followCount ?? 0}
+            />
+            {canEdit && (
+              <div className="lg:hidden">
+                <EventManageActions
+                  eventId={event.id}
+                  eventName={event.name}
+                  gameSlug={game.slug}
+                  eventSlug={event.slug}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="mx-auto grid w-full max-w-[1600px] gap-6 px-5 py-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)] lg:items-center lg:px-8 xl:px-10">
-          <div className="grid gap-5 md:grid-cols-[minmax(0,368px)_minmax(0,1fr)]">
-            <div className="bg-background/75 relative aspect-92/43 w-full max-w-92 overflow-hidden rounded-2xl shadow-[0_22px_60px_rgb(0_0_0/0.38)]">
+        {canEdit && (
+          <div className="absolute right-5 bottom-3 z-10 hidden sm:right-6 lg:right-8 lg:flex xl:right-10">
+            <EventManageActions
+              eventId={event.id}
+              eventName={event.name}
+              gameSlug={game.slug}
+              eventSlug={event.slug}
+            />
+          </div>
+        )}
+
+        <div className="mx-auto grid w-full max-w-[1600px] gap-4 px-5 py-2 sm:px-6 sm:py-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)] lg:items-center lg:px-8 xl:px-10">
+          <div className="grid gap-4 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
+            <div className="bg-background/75 relative aspect-92/43 w-full max-w-80 overflow-hidden rounded-xl shadow-[0_18px_48px_rgb(0_0_0/0.34)]">
               {eventThumbnailSrc ? (
                 <Image
                   src={eventThumbnailSrc}
@@ -114,7 +137,7 @@ export function EventHero({
                   fill
                   priority
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 368px"
+                  sizes="(max-width: 768px) 100vw, 320px"
                 />
               ) : (
                 <div className="from-primary via-primary/70 to-gold/60 absolute inset-0 bg-linear-to-br" />
@@ -126,35 +149,35 @@ export function EventHero({
               />
             </div>
 
-            <div className="flex min-w-0 flex-col justify-center gap-5">
+            <div className="flex min-w-0 flex-col justify-center gap-3">
               <div className="min-w-0">
-                <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="border-gold/25 text-secondary inline-flex items-center gap-1.5 rounded-xl border bg-black/45 px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] uppercase backdrop-blur-sm">
-                    <Trophy className="size-3.5" />
+                <div className="mb-2 flex flex-wrap items-center gap-1.5">
+                  <span className="border-gold/25 text-secondary inline-flex items-center gap-1.5 rounded-lg border bg-black/45 px-2 py-0.5 text-[9px] font-bold tracking-[0.12em] uppercase backdrop-blur-sm">
+                    <Trophy className="size-3" />
                     {typeLabel(event.type, t)}
                   </span>
                   <span
                     className={cn(
-                      "inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] uppercase backdrop-blur-sm",
+                      "inline-flex items-center gap-1.5 rounded-lg border px-2 py-0.5 text-[9px] font-bold tracking-[0.12em] uppercase backdrop-blur-sm",
                       STATUS_ACCENT[event.status] ??
                         "border-white/12 bg-black/45 text-white/55",
                     )}
                   >
-                    <CircleDot className="size-3.5" />
+                    <CircleDot className="size-3" />
                     {statusLabel(event.status, t)}
                   </span>
                 </div>
-                <p className="text-primary mt-3 text-sm font-semibold tracking-wide">
+                <p className="text-primary mt-2 text-xs leading-none font-semibold tracking-wide">
                   {event.name}
                 </p>
                 {event.description ? (
-                  <h1 className="text-foreground mt-2 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
-                    {event.description.length > 230
-                      ? `${event.description.slice(0, 230)}...`
+                  <h1 className="text-foreground font-display mt-1 line-clamp-3 text-xl leading-snug font-semibold tracking-tight sm:text-2xl">
+                    {event.description.length > 180
+                      ? `${event.description.slice(0, 180)}...`
                       : event.description}
                   </h1>
                 ) : (
-                  <h1 className="text-foreground mt-2 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
+                  <h1 className="text-foreground font-display mt-1 text-xl leading-snug font-semibold tracking-tight sm:text-2xl">
                     {event.name}
                   </h1>
                 )}
@@ -164,9 +187,9 @@ export function EventHero({
                 <button
                   type="button"
                   disabled
-                  className="border-gold-dim/35 bg-card-strong/70 text-secondary inline-flex h-10 cursor-not-allowed items-center gap-2 rounded-xl border px-4 text-sm font-semibold opacity-50"
+                  className="border-gold-dim/35 bg-card-strong/70 text-secondary inline-flex h-9 cursor-not-allowed items-center gap-2 rounded-lg border px-3.5 text-xs font-semibold opacity-50"
                 >
-                  <Info className="size-4" />
+                  <Info className="size-3.5" />
                   {t("viewDetails")}
                 </button>
               </div>
@@ -199,17 +222,6 @@ export function EventHero({
             />
           </div>
         </div>
-
-        {canEdit && (
-          <div className="relative flex justify-end px-5 pb-4 sm:px-6 lg:px-8 xl:px-10">
-            <EventManageActions
-              eventId={event.id}
-              eventName={event.name}
-              gameSlug={game.slug}
-              eventSlug={event.slug}
-            />
-          </div>
-        )}
       </div>
     </MediaHeroSection>
   );

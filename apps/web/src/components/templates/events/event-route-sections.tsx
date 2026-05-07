@@ -4,7 +4,6 @@ import {
   Construction,
   History,
   Home,
-  ListOrdered,
   MessageSquareText,
   Sparkles,
   UsersRound,
@@ -13,6 +12,7 @@ import {
 import { useTranslations } from "next-intl";
 
 import { LeagueLeaderboardFullTable } from "@/components/tables/league-leaderboard-full-table";
+import { SectionHeader } from "@/components/ui/section-header";
 import type {
   GetEventEntriesQuery,
   GetLeagueQuery,
@@ -38,24 +38,16 @@ export function EventLeaderboardSection({
   return (
     <section className="mx-auto min-h-[24rem] w-full max-w-[1600px] px-5 pt-5 pb-12 sm:px-6 lg:px-8">
       <div className="space-y-5">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="text-muted/55 mb-2 flex items-center gap-2 text-[10px] font-semibold tracking-[0.14em] uppercase">
-              <ListOrdered className="size-3.5" />
-              {t("sectionTabLeaderboard")}
+        <SectionHeader
+          eyebrow={t("sectionTabLeaderboard")}
+          title={t("leaderboardTitle")}
+          description={t("leaderboardDescription")}
+          actions={
+            <div className="border-gold-dim/25 bg-card-strong/35 text-secondary flex h-9 w-fit items-center rounded-full border px-3 text-xs font-semibold">
+              {event.name} · {league.classificationSystem}
             </div>
-            <h2 className="text-foreground text-2xl font-bold tracking-tight">
-              {t("leaderboardTitle")}
-            </h2>
-            <p className="text-muted/55 mt-1 max-w-2xl text-sm leading-6">
-              {t("leaderboardDescription")}
-            </p>
-          </div>
-
-          <div className="border-gold-dim/25 bg-card-strong/35 text-secondary flex h-9 w-fit items-center rounded-full border px-3 text-xs font-semibold">
-            {event.name} · {league.classificationSystem}
-          </div>
-        </div>
+          }
+        />
 
         <LeagueLeaderboardFullTable
           entries={entries.nodes}

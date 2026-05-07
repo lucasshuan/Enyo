@@ -4,9 +4,8 @@ import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import {
-  Bell,
   ChevronsRight,
-  Inbox,
+  Eye,
   LogIn,
   LogOut,
   Pencil,
@@ -17,7 +16,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { Link, useRouter } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils/helpers";
 import { buttonVariants } from "@/components/ui/button";
 import { AuthModal } from "@/components/modals/auth/auth-modal";
@@ -33,7 +32,7 @@ type SiteUserSidebarProps = {
   onClose: () => void;
 };
 
-type SidebarPanelTab = "notifications" | "friends";
+type SidebarPanelTab = "friends" | "groups";
 
 function AccountAvatar({
   user,
@@ -84,53 +83,82 @@ function AccountAvatar({
   );
 }
 
-function IconAction({
+function AccountAction({
   icon: Icon,
   label,
+  ariaLabel,
   href,
   onClose,
+  onClick,
   disabled = false,
+  variant = "default",
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
+  ariaLabel?: string;
   href?: string;
   onClose: () => void;
+  onClick?: () => void;
   disabled?: boolean;
+  variant?: "default" | "danger";
 }) {
   const className = cn(
-    "focus-visible:ring-gold/40 relative flex size-7 shrink-0 items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-none",
-    disabled
-      ? "cursor-default text-secondary opacity-35"
-      : "text-secondary/70 hover:bg-primary/15 hover:text-secondary",
+    "focus-visible:ring-gold/40 relative flex h-12 min-w-0 flex-col items-center justify-center gap-1 border border-transparent px-1 text-[10px] leading-none font-semibold transition-colors focus-visible:z-10 focus-visible:border-gold focus-visible:ring-2 focus-visible:outline-none first:rounded-bl-[7px] last:rounded-br-[7px]",
+    disabled &&
+      "cursor-default text-[color-mix(in_srgb,var(--secondary)_32%,var(--background))]",
+    !disabled &&
+      variant === "default" &&
+      "text-secondary/65 hover:z-10 hover:border-gold hover:bg-primary/12 hover:text-gold",
+    !disabled &&
+      variant === "danger" &&
+      "text-destructive/75 hover:z-10 hover:border-gold hover:bg-destructive/10 hover:text-destructive focus-visible:ring-destructive/40",
   );
-  const icon = <Icon className="size-4" />;
+  const content = (
+    <>
+      <Icon className="size-3.5 shrink-0" />
+      <span className="w-full truncate text-center">{label}</span>
+    </>
+  );
+  const accessibleLabel = ariaLabel ?? label;
 
-  if (disabled || !href) {
+  if (disabled || (!href && !onClick)) {
     return (
       <button
         type="button"
         disabled
-        aria-label={label}
-        title={label}
+        aria-label={accessibleLabel}
+        title={accessibleLabel}
         className={className}
       >
-        {icon}
-        <span className="sr-only">{label}</span>
+        {content}
       </button>
     );
   }
 
+  if (href) {
+    return (
+      <Link
+        href={href}
+        onClick={onClose}
+        aria-label={accessibleLabel}
+        title={accessibleLabel}
+        className={className}
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return (
-    <Link
-      href={href}
-      onClick={onClose}
-      aria-label={label}
-      title={label}
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={accessibleLabel}
+      title={accessibleLabel}
       className={className}
     >
-      {icon}
-      <span className="sr-only">{label}</span>
-    </Link>
+      {content}
+    </button>
   );
 }
 
@@ -258,10 +286,13 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
   const user = session?.user as SessionUser | undefined;
   const avatarSrc = getSessionAvatarSrc(user);
   const profileHandle = getSessionProfileHandle(user);
+  const profileHref = profileHandle ? `/profile/${profileHandle}` : undefined;
+  const editProfileHref = profileHandle
+    ? `/profile/${profileHandle}/edit`
+    : undefined;
   const t = useTranslations("Sidebar");
-  const router = useRouter();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<SidebarPanelTab>("notifications");
+  const [activeTab, setActiveTab] = useState<SidebarPanelTab>("friends");
 
   const openAuthModal = () => {
     onClose();
@@ -269,15 +300,15 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
   };
 
   const tabContent = {
-    notifications: {
-      icon: Inbox,
-      title: t("notificationsEmptyTitle"),
-      description: t("notificationsEmptyDescription"),
-    },
     friends: {
       icon: UserPlus,
       title: t("friendsEmptyTitle"),
       description: t("friendsEmptyDescription"),
+    },
+    groups: {
+      icon: Users,
+      title: t("groupsEmptyTitle"),
+      description: t("groupsEmptyDescription"),
     },
   } satisfies Record<
     SidebarPanelTab,
@@ -301,8 +332,13 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
           open ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="shrink-0 px-3 pt-3 pb-3">
+        <div className="shrink-0 px-3 pt-3 pb-2">
           <div className="flex h-7 items-center justify-between gap-2">
+            <span className="text-gold-dim inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold tracking-[0.18em] uppercase">
+              <span className="bg-gold-dim/50 h-px w-3 shrink-0" />
+              {t("accountTitle")}
+              <span className="bg-gold-dim/50 h-px w-3 shrink-0" />
+            </span>
             <button
               type="button"
               onClick={onClose}
@@ -312,28 +348,6 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
             >
               <ChevronsRight className="size-3.5" />
             </button>
-
-            <span className="min-w-0 flex-1" />
-
-            {user && (
-              <button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  void signOut();
-                }}
-                aria-label={t("userMenu.logout")}
-                title={t("userMenu.logout")}
-                className="focus-visible:ring-destructive/40 text-destructive/70 hover:text-destructive flex h-7 shrink-0 items-center gap-1.5 rounded-md px-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-              >
-                <LogOut className="size-3.5" />
-                <span className="text-xs font-medium">
-                  {t("userMenu.logout")}
-                </span>
-              </button>
-            )}
-
-            {!user && <span className="size-7 shrink-0" />}
           </div>
 
           {status === "loading" ? (
@@ -351,76 +365,64 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
               </div>
             </div>
           ) : user ? (
-            <div
-              className={cn(
-                "border-border/70 from-card-strong/90 to-card/70 mt-3 overflow-hidden rounded-lg border bg-linear-to-br px-2 py-1.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors",
-                profileHandle &&
-                  "[&:hover:not(:has(button:hover)):not(:has(a:hover))]:bg-primary/15 cursor-pointer",
-              )}
-              role={profileHandle ? "button" : undefined}
-              tabIndex={profileHandle ? 0 : undefined}
-              onClick={
-                profileHandle
-                  ? () => {
-                      router.push(`/profile/${profileHandle}`);
-                      onClose();
-                    }
-                  : undefined
-              }
-              onKeyDown={
-                profileHandle
-                  ? (e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        router.push(`/profile/${profileHandle}`);
-                        onClose();
-                      }
-                    }
-                  : undefined
-              }
-            >
-              <div className="flex items-center gap-2.5">
-                <AccountAvatar user={user} avatarSrc={avatarSrc} size="md" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex min-w-0 items-baseline gap-2">
-                    <span className="text-foreground truncate text-sm leading-snug font-semibold">
-                      {getSessionDisplayName(user, "User")}
-                    </span>
-                    {user.username && (
-                      <span className="text-muted/50 shrink-0 text-xs">
-                        @{user.username}
+            <div className="mt-3">
+              <div className="border-border/70 from-card-strong/90 to-card/70 overflow-hidden rounded-t-lg border border-b-0 bg-linear-to-br px-2 py-1.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)]">
+                <div className="flex items-center gap-2.5">
+                  <AccountAvatar user={user} avatarSrc={avatarSrc} size="md" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex min-w-0 items-baseline gap-2">
+                      <span className="text-foreground truncate text-sm leading-snug font-semibold">
+                        {getSessionDisplayName(user, "User")}
                       </span>
-                    )}
-                  </div>
-                  <div className="mt-1 flex min-w-0 items-center gap-1.5">
-                    <span className="bg-success size-1.5 shrink-0 rounded-full" />
-                    <span className="text-success shrink-0 text-[11px] leading-none font-medium">
-                      {t("online")}
-                    </span>
+                      {user.username && (
+                        <span className="text-muted/50 shrink-0 text-xs">
+                          @{user.username}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1 flex min-w-0 items-center gap-1.5">
+                      <span className="bg-success size-1.5 shrink-0 rounded-full" />
+                      <span className="text-success shrink-0 text-[11px] leading-none font-medium">
+                        {t("online")}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  className="flex shrink-0 gap-1 self-center"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <IconAction
-                    icon={Pencil}
-                    label={t("userMenu.editProfile")}
-                    href={
-                      profileHandle
-                        ? `/profile/${profileHandle}/edit`
-                        : undefined
-                    }
-                    onClose={onClose}
-                    disabled={!profileHandle}
-                  />
-                  <IconAction
-                    icon={Settings}
-                    label={`${t("userMenu.editAccount")} - ${t("soon")}`}
-                    onClose={onClose}
-                    disabled
-                  />
-                </div>
+              </div>
+
+              <div className="border-border/70 divide-border/45 grid grid-cols-4 divide-x overflow-hidden rounded-b-lg border bg-black/10">
+                <AccountAction
+                  icon={Eye}
+                  label={t("userMenu.viewProfile")}
+                  href={profileHref}
+                  onClose={onClose}
+                  disabled={!profileHref}
+                />
+                <AccountAction
+                  icon={Pencil}
+                  label={t("userMenu.editProfileShort")}
+                  ariaLabel={t("userMenu.editProfile")}
+                  href={editProfileHref}
+                  onClose={onClose}
+                  disabled={!editProfileHref}
+                />
+                <AccountAction
+                  icon={Settings}
+                  label={t("userMenu.configure")}
+                  ariaLabel={`${t("userMenu.editAccount")} - ${t("soon")}`}
+                  onClose={onClose}
+                  disabled
+                />
+                <AccountAction
+                  icon={LogOut}
+                  label={t("userMenu.logout")}
+                  onClose={onClose}
+                  onClick={() => {
+                    onClose();
+                    void signOut();
+                  }}
+                  variant="danger"
+                />
               </div>
             </div>
           ) : (
@@ -452,9 +454,7 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
           )}
         </div>
 
-        <div className="via-border mx-3 h-px bg-linear-to-r from-transparent to-transparent opacity-60" />
-
-        <section className="min-h-0 flex-1 p-3">
+        <section className="min-h-0 flex-1 px-3 pt-1.5 pb-3">
           <div className="border-border/70 flex h-full min-h-0 flex-col overflow-hidden rounded-lg border bg-[radial-gradient(ellipse_100%_48%_at_50%_0%,color-mix(in_srgb,var(--gold)_7%,transparent),transparent_62%),linear-gradient(180deg,color-mix(in_srgb,var(--card-strong)_72%,transparent),color-mix(in_srgb,var(--card)_80%,transparent))] shadow-[inset_0_1px_0_rgb(255_255_255/0.04)]">
             <div
               role="tablist"
@@ -462,18 +462,18 @@ export function SiteUserSidebar({ open, onClose }: SiteUserSidebarProps) {
               className="border-border/70 grid grid-cols-2 border-b"
             >
               <PanelTabButton
-                active={activeTab === "notifications"}
-                count={0}
-                icon={Bell}
-                label={t("notifications")}
-                onClick={() => setActiveTab("notifications")}
-              />
-              <PanelTabButton
                 active={activeTab === "friends"}
                 count={0}
-                icon={Users}
+                icon={UserPlus}
                 label={t("friends")}
                 onClick={() => setActiveTab("friends")}
+              />
+              <PanelTabButton
+                active={activeTab === "groups"}
+                count={0}
+                icon={Users}
+                label={t("groups")}
+                onClick={() => setActiveTab("groups")}
               />
             </div>
 
