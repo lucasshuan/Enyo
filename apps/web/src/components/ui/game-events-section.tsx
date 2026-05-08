@@ -1,6 +1,12 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   CheckCircle2,
   ListFilter,
@@ -240,13 +246,9 @@ export function GameEventsSection({
     systemFilter !== "ALL" ||
     highlightFilter !== "ALL";
 
-  const hasActiveFilters =
-    hasContextualFilters ||
-    eventTypeFilter !== "ALL" ||
-    sortBy !== "recommended";
+  const hasActiveFilters = hasContextualFilters || sortBy !== "recommended";
 
   function resetFilters() {
-    setEventTypeFilter("ALL");
     setSearchTerm("");
     setStatusFilter("ALL");
     setSystemFilter("ALL");
@@ -411,34 +413,63 @@ function EventTypeTabs({
   tabs: { value: EventTypeFilter; label: string; count: number }[];
   onChange: (value: EventTypeFilter) => void;
 }) {
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicator, setIndicator] = useState<{
+    left: number;
+    width: number;
+  } | null>(null);
+  const activeIndex = tabs.findIndex((tab) => tab.value === activeFilter);
+
+  useLayoutEffect(() => {
+    const el = tabRefs.current[activeIndex];
+    if (!el) return;
+    setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [activeIndex]);
+
   return (
     <div className="custom-scrollbar overflow-x-auto">
       <div
-        className="border-gold-dim/25 bg-card-strong/30 inline-flex min-w-full items-center gap-1 rounded-2xl border p-1 sm:min-w-0"
+        className="border-gold-dim/25 bg-card-strong/30 relative inline-flex min-w-full items-center gap-1 rounded-2xl border p-1 sm:min-w-0"
         role="tablist"
         aria-label={ariaLabel}
       >
-        {tabs.map((tab) => {
+        {indicator ? (
+          <span
+            aria-hidden
+            className="border-primary/35 from-primary/22 to-primary-strong/18 absolute rounded-xl border bg-linear-to-b shadow-[0_10px_30px_rgb(0_0_0/0.22)] transition-[left,width] duration-300 ease-in-out"
+            style={{
+              left: indicator.left,
+              width: indicator.width,
+              top: 4,
+              bottom: 4,
+            }}
+          />
+        ) : null}
+
+        {tabs.map((tab, index) => {
           const selected = tab.value === activeFilter;
 
           return (
             <button
               key={tab.value}
+              ref={(el) => {
+                tabRefs.current[index] = el;
+              }}
               type="button"
               role="tab"
               aria-selected={selected}
               onClick={() => onChange(tab.value)}
               className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold whitespace-nowrap transition-all duration-200 sm:flex-none",
+                "relative z-10 flex flex-1 items-center justify-center gap-2 rounded-xl border border-transparent px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors duration-200 sm:flex-none",
                 selected
-                  ? "border-primary/35 from-primary/22 to-primary-strong/18 text-foreground bg-linear-to-b shadow-[0_10px_30px_rgb(0_0_0/0.22)]"
-                  : "text-secondary/65 hover:border-gold-dim/25 hover:bg-gold-dim/10 hover:text-secondary border-transparent",
+                  ? "text-foreground"
+                  : "text-secondary/65 hover:text-secondary",
               )}
             >
               <span>{tab.label}</span>
               <span
                 className={cn(
-                  "rounded-full border px-2 py-0.5 text-[10px] font-bold tabular-nums",
+                  "rounded-full border px-2 py-0.5 text-[10px] font-bold tabular-nums transition-colors duration-200",
                   selected
                     ? "border-primary/30 bg-primary/15 text-primary"
                     : "border-gold-dim/20 bg-card/55 text-secondary/55",

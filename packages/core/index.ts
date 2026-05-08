@@ -79,7 +79,10 @@ export const EVENT_STAFF_CAPABILITIES = [
 export type EventStaffCapability = (typeof EVENT_STAFF_CAPABILITIES)[number];
 
 export function hasEventStaffCapability(
-  staff: { capabilities: readonly string[]; isFullAccess: boolean } | null | undefined,
+  staff:
+    | { capabilities: readonly string[]; isFullAccess: boolean }
+    | null
+    | undefined,
   capability: EventStaffCapability,
 ): boolean {
   if (!staff) return false;
@@ -104,7 +107,10 @@ export const GAME_STAFF_CAPABILITIES = [
 export type GameStaffCapability = (typeof GAME_STAFF_CAPABILITIES)[number];
 
 export function hasGameStaffCapability(
-  staff: { capabilities: readonly string[]; isFullAccess: boolean } | null | undefined,
+  staff:
+    | { capabilities: readonly string[]; isFullAccess: boolean }
+    | null
+    | undefined,
   capability: GameStaffCapability,
 ): boolean {
   if (!staff) return false;
